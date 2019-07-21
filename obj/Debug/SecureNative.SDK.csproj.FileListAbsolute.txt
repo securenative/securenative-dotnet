@@ -1,0 +1,9 @@
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\obj\Debug\SecureNative.SDK.csproj.CoreCompileInputs.cache
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\bin\Debug\SecureNative.SDK.dll
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\bin\Debug\SecureNative.SDK.pdb
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\obj\Debug\SecureNative.SDK.csproj.CopyComplete
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\obj\Debug\SecureNative.SDK.dll
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\obj\Debug\SecureNative.SDK.pdb
+C:\Users\Misha\Desktop\SecureNative\SecureNative.SDK\SecureNative.SDK\obj\Debug\SecureNative.SDK.csprojAssemblyReference.cache
