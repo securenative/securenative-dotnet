@@ -66,7 +66,8 @@ namespace SecureNative.SDK
                 if (_events.Count> 0)
                 {
                     var message = _events.Dequeue();
-                    _messageSender.Post(message.URL, message.Event);
+                   var response = _messageSender.Post(message.URL, message.Event);
+                    //check for failure and do backoff retry
                 }
                 Thread.Sleep(_options.Interval);
             }

@@ -29,6 +29,7 @@ namespace SecureNative.SDK
             var jsonMessage = JsonConvert.SerializeObject(messsage, serializerSettings);
 
             var httpWebRequest = (HttpWebRequest)WebRequest.Create(uri);
+            httpWebRequest.Timeout = 1500;
             httpWebRequest.Headers.Add(HttpRequestHeader.Authorization, _authorization);
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
