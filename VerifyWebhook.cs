@@ -77,11 +77,11 @@ namespace SecureNative.SDK
 
             IEvent e = ievet == null ? new SnEvent() : ievet;
 
-            ievet.RemoteIp = String.IsNullOrEmpty(ievet.RemoteIp) ? RemoteIpFromContext(context): ievet.RemoteIp;
-            ievet.User = ievet.User != null ? ievet.User : new User();
-            ievet.UserAgent = ievet.UserAgent != null ? ievet.UserAgent : GetHeader(context, "User-Agent");  
+            e.RemoteIp = String.IsNullOrEmpty(e.RemoteIp) ? RemoteIpFromContext(context): e.RemoteIp;
+            e.User = e.User != null ? e.User : new User();
+            e.UserAgent = e.UserAgent != null ? e.UserAgent : GetHeader(context, "User-Agent");  
            
-            return ievet;
+            return e;
         }
 
         public static bool ValidateIPv4(string ipString)
