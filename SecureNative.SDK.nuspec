@@ -7,7 +7,7 @@
     <authors>$author$</authors>
     <owners>$author$</owners>
     <projectUrl>https://github.com/securenative/securenative-dotnet/</projectUrl>
-    <projectUrl>https://github.com/securenative/securenative-dotnet/LICENSE.txt</projectUrl>
+    <license type="expression">MIT</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
     <releaseNotes>First test version</releaseNotes>
