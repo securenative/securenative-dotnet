@@ -14,7 +14,7 @@ namespace SecureNative.SDK.Interfaces
          string UserAgent { get; set; }
          User User { get; set; }
          long Ts { get; set; }
-         string Device { get; set; }
-         Dictionary<string, string> Params { get; set; }
+         Device Device { get; set; }
+         List<KeyValuePair<string, string>> Params { get; set; }
     }
 }

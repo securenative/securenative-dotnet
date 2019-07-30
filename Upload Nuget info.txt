@@ -1,4 +1,5 @@
 1. Update version in project -> properties -> AssemblyInfo.cs (bottom of the file AssemblyVersion & AssemblyFileVersion)
+1.1 or just run nuget pack -Version "1.0.1" modify the version
 2. Open CMD and cd to project location
 3. In cmd write nuget pack
 4. Once successful it will create a 'SecureNative.SDK.[Version].nupkg' file that yo need to upload to nuget.org

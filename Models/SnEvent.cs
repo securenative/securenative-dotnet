@@ -14,8 +14,8 @@ namespace SecureNative.SDK.Models
         public string UserAgent { get; set; }
         public User User{ get; set; }
         public long Ts { get; set; }
-        public string Device { get; set; }
-        public Dictionary<string, string> Params { get; set; }
+        public Device Device { get; set; }
+        public List<KeyValuePair<string, string>> Params { get; set; }
     }
 }
 

@@ -27,7 +27,7 @@ namespace SecureNative.SDK
             _events = new ConcurrentQueue<Message>();
             _options = options;
 
-            if (string.IsNullOrEmpty(apiKey) || options == null)
+            if (string.IsNullOrEmpty(apiKey))
             {
                 throw new EmptyAPIKeyException("You must pass a valid api key");
             }
@@ -41,21 +41,19 @@ namespace SecureNative.SDK
 
         public SnEvent BuildEvent(EventOptions eventOptions)
         {
-            var eventType =!string.IsNullOrEmpty(eventOptions.EventType)? eventOptions.EventType :  EventTypes.LOG_IN.ToDescriptionString();
-
             return new SnEvent()
             {
-                EventType = eventType,
-                Cid = eventOptions.CID,
+                EventType = eventOptions != null && !string.IsNullOrEmpty(eventOptions.EventType) ? eventOptions.EventType : EventTypes.LOG_IN.ToDescriptionString(),
+                Cid = eventOptions != null ? eventOptions.CID : null,
                 Vid = Guid.NewGuid().ToString(),
-                Fp = eventOptions.FP,
-                Ip = eventOptions.IP,
-                RemoteIp = eventOptions.RemoteIP,
-                UserAgent = eventOptions.UserAgent,
-                User =  eventOptions.User,
+                Fp = eventOptions != null ?  eventOptions.FP : null,
+                Ip = eventOptions != null ? eventOptions.IP : null,
+                RemoteIp = eventOptions != null ?  eventOptions.RemoteIP : null,
+                UserAgent = eventOptions != null ?  eventOptions.UserAgent  : null,
+                User = eventOptions != null ?  eventOptions.User : null,
                 Ts= DateTime.UtcNow.Millisecond,
-                Device = null,
-                Params = eventOptions.Params
+                Device = eventOptions != null ? eventOptions.Device : null,
+                Params = eventOptions != null ? eventOptions.Params : null
             };
         }
 
