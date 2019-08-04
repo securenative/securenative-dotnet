@@ -73,5 +73,18 @@ namespace SecureNative.SDK.Models
             }
         }
 
+        bool _isSdkEnabled = true;
+
+        public bool IsSdsEnabled
+        {
+            get
+            {
+                return _isSdkEnabled;
+            }
+            set
+            {
+                _isSdkEnabled = value;
+            }
+        }
     }
 }

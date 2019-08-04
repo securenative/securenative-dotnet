@@ -14,6 +14,7 @@ namespace SecureNative.SDK
         private const string USER_AGENT_VALUE = "SecureNative .NET";
         private const string SN_VERSION = "SN-Version";
         private const string AUTHORIZATION = "Authorization";
+        private  RiskResult defaultRiskResult = new RiskResult("low", 0.0, new string[0]);
 
         public string ApiKey { get; private set; }
         private ConcurrentQueue<Message> _events;
@@ -77,6 +78,10 @@ namespace SecureNative.SDK
 
         public RiskResult SendSync(IEvent snEvent, string requestUrl)
         {
+            if (!_options.IsSdsEnabled)
+            {
+                return defaultRiskResult;
+            }
             var result =_messageSender.Post(requestUrl, snEvent);
     
             var riskReult = JsonConvert.DeserializeObject<RiskResult>(result);
@@ -87,6 +92,12 @@ namespace SecureNative.SDK
 
         public void SendAsync(IEvent snEvent, string requestUrl)
         {
+
+            if (!_options.IsSdsEnabled)
+            {
+                return;
+            }
+
             if (_options != null && !_options.AutoSend)
             {
                 _messageSender.Post(requestUrl, snEvent);
