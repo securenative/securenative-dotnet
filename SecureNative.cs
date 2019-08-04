@@ -2,6 +2,7 @@ using System;
 using SecureNative.SDK.Exceptions;
 using SecureNative.SDK.Interfaces;
 using SecureNative.SDK.Models;
+using System.Configuration;
 
 namespace SecureNative.SDK
 {
@@ -14,7 +15,7 @@ namespace SecureNative.SDK
 
         public SecureNative(string apiKey, SecureNativeOptions snOptions)
         {
-            apiKey = !string.IsNullOrEmpty(apiKey) ? apiKey : Environment.GetEnvironmentVariable("snApiKey");
+            apiKey = !string.IsNullOrEmpty(apiKey) ? apiKey : ConfigurationManager.AppSettings["snApiKey"];
             if (string.IsNullOrEmpty(apiKey))
             {
                 throw new EmptyAPIKeyException("You must pass SecureNative API Key");
