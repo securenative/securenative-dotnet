@@ -14,6 +14,7 @@ namespace SecureNative.SDK
 
         public SecureNative(string apiKey, SecureNativeOptions snOptions)
         {
+            apiKey = !string.IsNullOrEmpty(apiKey) ? apiKey : Environment.GetEnvironmentVariable("snApiKey");
             if (string.IsNullOrEmpty(apiKey))
             {
                 throw new EmptyAPIKeyException("You must pass SecureNative API Key");
