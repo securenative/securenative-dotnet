@@ -34,9 +34,13 @@ namespace SecureNative.SDK
 
     
             _messageSender = new MessageSender<IEvent>(apiKey);
-            Thread thread = new Thread(SendEvent);
-            thread.IsBackground = true;
-            thread.Start();   
+            if (_options != null && _options.AutoSend)
+            {
+                Thread thread = new Thread(SendEvent);
+                thread.IsBackground = true;
+                thread.Start();
+            }
+
         }
 
         public SnEvent BuildEvent(EventOptions eventOptions)
@@ -83,6 +87,12 @@ namespace SecureNative.SDK
 
         public void SendAsync(IEvent snEvent, string requestUrl)
         {
+            if (_options != null && !_options.AutoSend)
+            {
+                _messageSender.Post(requestUrl, snEvent);
+                return;
+            }
+
             if (_events.Count >= this._options.MaxEvents)
             {
                 _events.Dequeue();
