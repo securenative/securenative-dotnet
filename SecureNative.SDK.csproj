@@ -53,6 +53,7 @@
     <Compile Include="Interfaces\IMessageSender.cs" />
     <Compile Include="Interfaces\ISecureNative.cs" />
     <Compile Include="MessageSender.cs" />
+    <Compile Include="Models\ClientFP.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\EventOptions.cs" />
     <Compile Include="Models\Message.cs" />

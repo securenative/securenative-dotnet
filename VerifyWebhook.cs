@@ -9,11 +9,14 @@ using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-
+using System.Security.Cryptography;
 namespace SecureNative.SDK
 {
     public class VerifyWebhook
     {
+        private static int AES_KEY_SIZE = 32;
+        private static int AES_BLOCK_SIZE = 16;
+
         private static string[] ipHeaders = { "X-Forwarded-For", "x-client-ip", "x-real-ip", "x-forwarded", "x-cluster-client-ip", "forwarded-for", "forwarded", "via" };
 
         public static bool IsRequestFromSecureNative(System.Web.HttpContext context, string apiKey)
@@ -38,13 +41,21 @@ namespace SecureNative.SDK
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="body"></param>
+        /// <param name="headerSignature"></param>
+        /// <param name="apiKey"></param>
+        /// <returns></returns>
         private static bool IsVerifiedSnRequest(string body, string headerSignature, string apiKey)
         {
             var signed = CalculateSignature(body, apiKey);
-            if (string.IsNullOrEmpty(signed) || string.IsNullOrEmpty(headerSignature))
-            {
-                return false;
-            }
+            //var signed = Encrypt(body, apiKey);
+            //if (string.IsNullOrEmpty(signed) || string.IsNullOrEmpty(headerSignature))
+            //{
+            //    return false;
+            //}
             return string.Compare(headerSignature, signed) == 0;
 
         }
@@ -169,55 +180,66 @@ namespace SecureNative.SDK
             }
             return "127.0.0.1";
         }
+
+
+
+        public static string Decrypt(string unEncrepted, string cipherKey)
+        {
+            var key = Encoding.ASCII.GetBytes(cipherKey).Take(32).ToArray();
+            var ba = Encoding.Default.GetBytes(unEncrepted);
+            var cipherText = HexadecimalStringToByteArray(unEncrepted);
+         
+            if (cipherText.Length < AES_BLOCK_SIZE)
+            {
+                throw new Exception("plain text has the wrong block size");
+            }
+            using (Aes aes = Aes.Create())
+            {
+                aes.Key = key;
+                var iv = cipherText.Take(AES_BLOCK_SIZE).ToArray();
+                cipherText = cipherText.Skip(AES_BLOCK_SIZE).Take(cipherText.Length).ToArray();
+                aes.IV = iv;
+                aes.Mode = CipherMode.CBC;
+                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                try
+                {
+                    using (MemoryStream msEncrypt = new MemoryStream())
+                    {
+                        using (var msDecrypt = new MemoryStream(cipherText))
+                        {
+                            using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
+                            {
+                                using (var srDecrypt = new StreamReader(csDecrypt))
+                                {
+
+                                    return srDecrypt.ReadToEnd();
+
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+
+                }
+            }
+
+            return string.Empty;
+        }
+
+        public static byte[] HexadecimalStringToByteArray(string input)
+        {
+            var outputLength = input.Length / 2;
+            var output = new byte[outputLength];
+            using (var sr = new StringReader(input))
+            {
+                for (var i = 0; i < outputLength; i++)
+                    output[i] = Convert.ToByte(new string(new char[2] { (char)sr.Read(), (char)sr.Read() }), 16);
+            }
+            return output;
+        }
     }
 }
-
-
-
-/**
- * public String remoteIpFromRequest(Function<String, String> headerExtractor) {
-       Optional<String> bestCandidate = Optional.empty();
-       String header = “”;
-       for (int i = 0; i < ipHeaders.length; i++) {
-           List<String> candidates = Arrays.asList();
-           header = headerExtractor.apply(ipHeaders[i]);
-           if (!this.isNullOrEmpty(header)) {
-               candidates = Arrays.stream(header.split(“,”)).map(s -> s.trim()).filter(s -> !this.isNullOrEmpty(s) &&
-                       (isValidInet4Address(s) || this.isIpV6Address(s)) &&
-                       !isPrivateIPAddress(s)).collect(Collectors.toList());
-               if (candidates.size() > 0) {
-                   return candidates.get(0);
-               }
-           }
-           if (!bestCandidate.isPresent()) {
-               bestCandidate = candidates.stream().filter(x -> isLoopBack(x)).findFirst();
-           }
-       }
-       return “127.0.0.1”;
-   }
-
-
-
-
-
-
-
-    public Event buildEventFromHttpServletRequest(HttpServletRequest request, Event event) {
-       String encodedCookie = getCookie(request, event != null && !this.utils.isNullOrEmpty(event.getCookieName()) ? event.getCookieName() : this.utils.COOKIE_NAME);
-       encodedCookie = utils.isNullOrEmpty(encodedCookie) && !utils.isNullOrEmpty(event.getCookieValue()) ? event.getCookieValue() : encodedCookie;
-       String eventype =  event == null || this.utils.isNullOrEmpty(event.getEventType()) ? EventTypes.LOG_IN.getType() : event.getEventType();
-       String ip = event != null && event.getIp() != null ? event.getIp() : remoteIpFromServletRequest(request);
-       String remoteIP = request.getRemoteAddr();
-       String userAgent = event != null && event.getUserAgent() != null ? event.getUserAgent() : request.getHeader(this.utils.USERAGENT_HEADER);
-       User user = event != null && event.getUser() != null ? event.getUser() : new User(null, null, “anonymous”);
-       Device device = event != null && event.getDevice() != null ? event.getDevice() : null;
-       return new SnEvent.EventBuilder(eventype).withCookieValue(this.utils.isNullOrEmpty(encodedCookie) ? request.getHeader(utils.SN_HEADER) : encodedCookie).withIp(ip).withRemoteIP(remoteIP).withUserAgent(userAgent).withUser(user).withDevice(device).build();
-   }
- 
-
-
-  }
-
-
-}
-    */

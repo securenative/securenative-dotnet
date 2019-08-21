@@ -23,7 +23,7 @@ namespace SecureNative.SDK
 
         public string Post(string uri, T messsage)
         {
-         
+
             var serializerSettings = new JsonSerializerSettings();
             serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             var jsonMessage = JsonConvert.SerializeObject(messsage, serializerSettings);
@@ -36,18 +36,26 @@ namespace SecureNative.SDK
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
-   
+
                 streamWriter.Write(jsonMessage);
             }
 
-            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
-            {
-                var result = streamReader.ReadToEnd();
-                return result;
-            }
 
- 
+            try
+            {
+                var httpResponse = httpWebRequest.GetResponse() as HttpWebResponse;
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                    return result;
+                }
+            }
+            catch (WebException e)
+            {
+
+                return "{}";
+
+            }
         }
 
     }

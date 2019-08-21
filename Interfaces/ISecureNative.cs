@@ -9,5 +9,7 @@ namespace SecureNative.SDK.Interfaces
         RiskResult Verify(EventOptions eventOptions);
         RiskResult Flow(long flowId, EventOptions eventOptions);
 
+        RiskResult Risk(EventOptions eventOptions);
+
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Web;
 using Newtonsoft.Json;
 using SecureNative.SDK.Enums;
 using SecureNative.SDK.Exceptions;
@@ -46,12 +47,15 @@ namespace SecureNative.SDK
 
         public SnEvent BuildEvent(EventOptions eventOptions)
         {
+
+            var cookie = HttpContext.Current.Request.Cookies["_sn"] != null ? VerifyWebhook.Decrypt(HttpContext.Current.Request.Cookies["_sn"].Value, this.ApiKey) : "{}";
+            var client = JsonConvert.DeserializeObject<ClientFP>(cookie) ?? new ClientFP ();
             return new SnEvent()
             {
                 EventType = eventOptions != null && !string.IsNullOrEmpty(eventOptions.EventType) ? eventOptions.EventType : EventTypes.LOG_IN.ToDescriptionString(),
-                Cid = eventOptions != null ? eventOptions.CID : null,
+                Cid = eventOptions != null ? eventOptions.CID : client.CID,
                 Vid = Guid.NewGuid().ToString(),
-                Fp = eventOptions != null ?  eventOptions.FP : null,
+                Fp = eventOptions != null && eventOptions.FP != null ?  eventOptions.FP : null,
                 Ip = eventOptions != null ? eventOptions.IP : null,
                 RemoteIp = eventOptions != null ?  eventOptions.RemoteIP : null,
                 UserAgent = eventOptions != null ?  eventOptions.UserAgent  : null,

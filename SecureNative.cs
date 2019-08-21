@@ -3,9 +3,11 @@ using SecureNative.SDK.Exceptions;
 using SecureNative.SDK.Interfaces;
 using SecureNative.SDK.Models;
 using System.Configuration;
+using System.Threading;
 
 namespace SecureNative.SDK
 {
+
     public class SecureNative : ISecureNative
     {
         private const int MAX_CUSTOM_PARAMS = 6;
@@ -22,6 +24,18 @@ namespace SecureNative.SDK
             }
 
             ApiKey = apiKey;
+            if (snOptions == null)
+            {
+                snOptions = new SecureNativeOptions()
+                {
+                    ApiUrl = "https://api.securenative.com/collector/api/v1",
+                    Interval = 1000,
+                    MaxEvents = 1000,
+                    Timeout = 1500,
+                    AutoSend = true,
+                    IsSdsEnabled = true
+                };
+            }
             Options = snOptions;
             _eventManager = new SnEventManager(apiKey, snOptions);
         }
@@ -50,6 +64,16 @@ namespace SecureNative.SDK
             var requestUrl = string.Format("{0}/flow/{1}", Options.ApiUrl, flowId);
             var snEvent = _eventManager.BuildEvent(eventOptions);
             return _eventManager.SendSync(snEvent, requestUrl);
-        } 
+        }
+
+        public RiskResult Risk(EventOptions eventOptions)
+        {
+            var requestUrl = string.Format("{0}/risk", Options.ApiUrl);
+            var snEvent = _eventManager.BuildEvent(eventOptions);
+            return _eventManager.SendSync(snEvent, requestUrl);
+            //VerifyWebhook.Decrypt(rr.ToString(), this.ApiKey);
+        }
+
+       
     }
 }
