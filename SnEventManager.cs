@@ -19,7 +19,7 @@ namespace SecureNative.SDK
 
         public string ApiKey { get; private set; }
         private ConcurrentQueue<Message> _events;
-        private IMessageSender<IEvent> _messageSender;
+        private IMessageSender<EventOptions> _messageSender;
         private SecureNativeOptions _options;
 
         public SnEventManager(string apiKey, SecureNativeOptions options)
@@ -35,7 +35,7 @@ namespace SecureNative.SDK
             }
 
     
-            _messageSender = new MessageSender<IEvent>(apiKey);
+            _messageSender = new MessageSender<EventOptions>(apiKey);
             if (_options != null && _options.AutoSend)
             {
                 Thread thread = new Thread(SendEvent);
@@ -45,22 +45,21 @@ namespace SecureNative.SDK
 
         }
 
-        public SnEvent BuildEvent(EventOptions eventOptions)
+        public EventOptions BuildEvent(EventOptions eventOptions)
         {
+            var eventType = eventOptions != null && !string.IsNullOrEmpty(eventOptions.EventType) ? eventOptions.EventType : EventTypes.LOG_IN.ToDescriptionString();
 
             var cookie = HttpContext.Current.Request.Cookies["_sn"] != null ? VerifyWebhook.Decrypt(HttpContext.Current.Request.Cookies["_sn"].Value, this.ApiKey) : "{}";
             var client = JsonConvert.DeserializeObject<ClientFP>(cookie) ?? new ClientFP ();
-            return new SnEvent()
+            return new EventOptions(eventType)
             {
-                EventType = eventOptions != null && !string.IsNullOrEmpty(eventOptions.EventType) ? eventOptions.EventType : EventTypes.LOG_IN.ToDescriptionString(),
-                Cid = eventOptions != null ? eventOptions.CID : client.CID,
-                Vid = Guid.NewGuid().ToString(),
-                Fp = eventOptions != null && eventOptions.FP != null ?  eventOptions.FP : null,
-                Ip = eventOptions != null ? eventOptions.IP : null,
-                RemoteIp = eventOptions != null ?  eventOptions.RemoteIP : null,
+                CID = eventOptions != null ? eventOptions.CID : client.CID,
+                VID = Guid.NewGuid().ToString(),
+                FP = eventOptions != null && eventOptions.FP != null ?  eventOptions.FP : null,
+                IP = eventOptions != null ? eventOptions.IP : null,
+                RemoteIP = eventOptions != null ?  eventOptions.RemoteIP : null,
                 UserAgent = eventOptions != null ?  eventOptions.UserAgent  : null,
                 User = eventOptions != null ?  eventOptions.User : null,
-                Ts= DateTime.UtcNow.Millisecond,
                 Device = eventOptions != null ? eventOptions.Device : null,
                 Params = eventOptions != null ? eventOptions.Params : null
             };
@@ -80,7 +79,7 @@ namespace SecureNative.SDK
             }
         }
 
-        public RiskResult SendSync(IEvent snEvent, string requestUrl)
+        public RiskResult SendSync(EventOptions snEvent, string requestUrl)
         {
             if (!_options.IsSdsEnabled)
             {
@@ -94,7 +93,7 @@ namespace SecureNative.SDK
         
         }
 
-        public void SendAsync(IEvent snEvent, string requestUrl)
+        public void SendAsync(EventOptions snEvent, string requestUrl)
         {
 
             if (!_options.IsSdsEnabled)

@@ -9,8 +9,8 @@ namespace SecureNative.SDK.Models
             Triggers = triggers;
         }
 
-        private string RiskLevel { get; set; }
-        private double Score { get; set; }
-        private string[] Triggers { get; set; }
+        public string RiskLevel { get; set; }
+        public double Score { get; set; }
+        public string[] Triggers { get; set; }
     }
 }

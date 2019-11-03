@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SecureNative.SDK.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,10 @@ namespace SecureNative.SDK.Models
         public EventOptions(string eventType)
         {
             EventType = eventType;
+        }
+        public EventOptions(EventTypes eventType): this(eventType.ToDescriptionString())
+        {
+          
         }
         //private List<KeyValuePair<string, string>> params;
 
@@ -29,7 +34,7 @@ namespace SecureNative.SDK.Models
             get { return _params; }
             set
             {
-                if (value.Count > maxCustomParams)
+                if (value != null && value.Count > maxCustomParams)
                 {
                     _params = value.GetRange(0, 6);
                 }

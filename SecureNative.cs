@@ -15,7 +15,9 @@ namespace SecureNative.SDK
         public SecureNativeOptions Options { get; private set; }
         public string ApiKey { get; private set; }
 
-        public SecureNative(string apiKey, SecureNativeOptions snOptions)
+        private static ISecureNative secureNative;
+
+        private SecureNative(string apiKey, SecureNativeOptions snOptions)
         {
             apiKey = !string.IsNullOrEmpty(apiKey) ? apiKey : ConfigurationManager.AppSettings["snApiKey"];
             if (string.IsNullOrEmpty(apiKey))
@@ -39,6 +41,27 @@ namespace SecureNative.SDK
             Options = snOptions;
             _eventManager = new SnEventManager(apiKey, snOptions);
         }
+
+        public static ISecureNative Init(string apiKey, SecureNativeOptions snOptions)
+        {
+            if (secureNative == null)
+            {
+                secureNative = new SecureNative(apiKey, snOptions);
+                return secureNative;
+            }
+            throw new SDKInitializatioExcetion("This SDK was already initialized");
+        }
+
+        public static ISecureNative GetInstance()
+        {
+            if (secureNative == null)
+            {
+                throw new SDKInitializatioExcetion("This SDK was NOT initialized");
+            }
+            return secureNative;
+        }
+
+
 
         public void Track(EventOptions eventOptions)
         {
@@ -71,7 +94,6 @@ namespace SecureNative.SDK
             var requestUrl = string.Format("{0}/risk", Options.ApiUrl);
             var snEvent = _eventManager.BuildEvent(eventOptions);
             return _eventManager.SendSync(snEvent, requestUrl);
-            //VerifyWebhook.Decrypt(rr.ToString(), this.ApiKey);
         }
 
        

@@ -1,15 +1,14 @@
+using Newtonsoft.Json;
+using SecureNative.SDK.Enums;
 using SecureNative.SDK.Interfaces;
 using SecureNative.SDK.Models;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
-using System.Security.Cryptography;
 namespace SecureNative.SDK
 {
     public class VerifyWebhook
@@ -82,16 +81,47 @@ namespace SecureNative.SDK
             return context.Request.ServerVariables["REMOTE_ADDR"];
         }
 
-        public static IEvent BuildEventFromContxt(System.Web.HttpContext context, IEvent ievet)
+        public static EventOptions BuildEventFromContxt(System.Web.HttpContext context, EventOptions ievet, string apiKey)
         {
-            var encodedCookie = HttpContext.Current.Response.Headers.Get("_sn");
+            var client = new ClientFP();
+            try
+            {
+                var header = HttpContext.Current.Response.Headers.Get("x-securenative");
+                var decryptedHeader = "";
+                if (header != null)
+                {
+                    decryptedHeader = VerifyWebhook.Decrypt(header, apiKey);
+                }
 
-            IEvent e = ievet == null ? new SnEvent() : ievet;
+                var cookie = HttpContext.Current.Request.Cookies["_sn"];
+                var decryptedCookie = "";
+                if (cookie != null)
+                {
+                    decryptedCookie = VerifyWebhook.Decrypt(cookie.Value, apiKey);
+                }
 
-            e.RemoteIp = String.IsNullOrEmpty(e.RemoteIp) ? RemoteIpFromContext(context): e.RemoteIp;
+                if (!string.IsNullOrEmpty(decryptedCookie))
+                {
+                    client = JsonConvert.DeserializeObject<ClientFP>(decryptedCookie);
+                }
+                else
+                {
+                    client = JsonConvert.DeserializeObject<ClientFP>(decryptedHeader);
+                }
+            }
+            catch(Exception ex)
+            {
+                client = new ClientFP();
+            }
+
+            EventOptions e = ievet == null ? new EventOptions(EventTypes.LOG_IN.ToDescriptionString()) : ievet;
+            e.RemoteIP = String.IsNullOrEmpty(e.RemoteIP) ? RemoteIpFromContext(context): e.RemoteIP;
+            e.IP = String.IsNullOrEmpty(e.IP) ? RemoteIpFromContext(context) : e.RemoteIP;
             e.User = e.User != null ? e.User : new User();
-            e.UserAgent = e.UserAgent != null ? e.UserAgent : GetHeader(context, "User-Agent");  
-           
+            e.UserAgent = e.UserAgent != null ? e.UserAgent : GetHeader(context, "User-Agent");
+            e.CID = client.CID;
+            e.FP = client.FP;
+            e.VID = System.Guid.NewGuid().ToString();
             return e;
         }
 
@@ -191,7 +221,7 @@ namespace SecureNative.SDK
          
             if (cipherText.Length < AES_BLOCK_SIZE)
             {
-                throw new Exception("plain text has the wrong block size");
+                return string.Empty;
             }
             using (Aes aes = Aes.Create())
             {
@@ -223,6 +253,7 @@ namespace SecureNative.SDK
                 }
                 catch (Exception e)
                 {
+                    return string.Empty;
 
                 }
             }

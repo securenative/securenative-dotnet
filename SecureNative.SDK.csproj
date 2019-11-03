@@ -46,9 +46,9 @@
     <Compile Include="ConcurrentQueue.cs" />
     <Compile Include="Enums\EventTypes.cs" />
     <Compile Include="Exceptions\EmptyAPIKeyException.cs" />
+    <Compile Include="Exceptions\SDKInitializatioExcetion.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="IEventManager.cs" />
-    <Compile Include="Interfaces\IEvent.cs" />
     <Compile Include="Interfaces\IEventManager.cs" />
     <Compile Include="Interfaces\IMessageSender.cs" />
     <Compile Include="Interfaces\ISecureNative.cs" />
@@ -59,7 +59,6 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\RiskResult.cs" />
     <Compile Include="Models\SecureNativeOptions.cs" />
-    <Compile Include="Models\SnEvent.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecureNative.cs" />

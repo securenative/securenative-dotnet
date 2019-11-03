@@ -7,8 +7,8 @@ namespace SecureNative.SDK
 {
     public interface IEventManager
     {
-        SnEvent BuildEvent(EventOptions eventOptions);
-        RiskResult SendSync(IEvent snEvent, string requestUrl);
-        void SendAsync(IEvent snEvent, string requestURL);
+        EventOptions BuildEvent(EventOptions eventOptions);
+        RiskResult SendSync(EventOptions snEvent, string requestUrl);
+        void SendAsync(EventOptions snEvent, string requestURL);
     }
 }

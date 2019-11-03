@@ -13,35 +13,21 @@ namespace SecureNative.SDK.Tests
     public class SecureNativeTest
     {
         public object Params { get; private set; }
+        ISecureNative secureNative;
+        readonly string apiKey = "1234";
 
-        [TestMethod]
-        [ExpectedException(typeof(EmptyAPIKeyException), "You must pass SecureNative API Key")]
-        public void TestInitializationOfSecureNativeWithEmptyApiKey()
+        [ClassInitialize]
+        public void Setup()
         {
-            var apiKey = "";
-            SecureNative sn = new SecureNative(apiKey, new Models.SecureNativeOptions());
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(EmptyAPIKeyException), "You must pass SecureNative API Key")]
-        public void TestInitializationOfSecureNativeWithNullApiKey()
-        {
-            SecureNative sn = new SecureNative(null, new Models.SecureNativeOptions());
-        }
-
-        [TestMethod]
-        public void TestSnOptionsNull()
-        {
-            var apiKey = "1234";
-            SecureNative sn = new SecureNative(apiKey, null);
-            Assert.AreEqual(sn.ApiKey, apiKey, "api key differences");
+            secureNative = 
+                SecureNative.Init(apiKey, new Models.SecureNativeOptions());
         }
 
         [TestMethod]
         public void TestEventOptionsWithMoreThanSixParams()
         {
             var apiKey = "1234";
-            SecureNative sn = new SecureNative(apiKey, new Models.SecureNativeOptions());
+            ISecureNative sn = SecureNative.GetInstance();
             EventOptions eventOtion = new EventOptions("test")
             {
                 IP = "",
