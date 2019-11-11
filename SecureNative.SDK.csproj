@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>1</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -43,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Agent.cs" />
     <Compile Include="ConcurrentQueue.cs" />
     <Compile Include="Enums\EventTypes.cs" />
     <Compile Include="Exceptions\EmptyAPIKeyException.cs" />
@@ -60,9 +62,11 @@
     <Compile Include="Models\RiskResult.cs" />
     <Compile Include="Models\SecureNativeOptions.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="HookManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecureNative.cs" />
     <Compile Include="SnEventManager.cs" />
+    <Compile Include="Tests\AgentTest.cs" />
     <Compile Include="Tests\SecureNativeTest.cs" />
     <Compile Include="VerifyWebhook.cs" />
   </ItemGroup>

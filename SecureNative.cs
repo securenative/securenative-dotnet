@@ -17,7 +17,7 @@ namespace SecureNative.SDK
 
         private static ISecureNative secureNative;
 
-        private SecureNative(string apiKey, SecureNativeOptions snOptions)
+        public SecureNative(string apiKey, SecureNativeOptions snOptions)
         {
             apiKey = !string.IsNullOrEmpty(apiKey) ? apiKey : ConfigurationManager.AppSettings["snApiKey"];
             if (string.IsNullOrEmpty(apiKey))
