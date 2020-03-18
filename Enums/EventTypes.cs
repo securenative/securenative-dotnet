@@ -18,11 +18,11 @@ namespace SecureNative.SDK.Enums
         LOG_OUT,
         [Description("sn.user.signup")]
         SIGN_UP,
-        [Description("sn.user.auth.challange")]
+        [Description("sn.user.auth.challenge")]
         AUTH_CHALLENGE,
-        [Description("sn.user.auth.challange.success")]
+        [Description("sn.user.auth.challenge.success")]
         AUTH_CHALLENGE_SUCCESS,
-        [Description("sn.user.auth.challange.failure")]
+        [Description("sn.user.auth.challenge.failure")]
         AUTH_CHALLENGE_FAILURE,
         [Description("sn.user.2fa.disable")]
         TWO_FACTOR_DISABLE,
