@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
@@ -44,35 +44,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agent.cs" />
-    <Compile Include="ConcurrentQueue.cs" />
-    <Compile Include="Enums\EventTypes.cs" />
-    <Compile Include="Exceptions\EmptyAPIKeyException.cs" />
-    <Compile Include="Exceptions\SDKInitializatioExcetion.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="IEventManager.cs" />
-    <Compile Include="Interfaces\IEventManager.cs" />
-    <Compile Include="Interfaces\IMessageSender.cs" />
-    <Compile Include="Interfaces\ISecureNative.cs" />
-    <Compile Include="MessageSender.cs" />
-    <Compile Include="Models\ClientFP.cs" />
-    <Compile Include="Models\Device.cs" />
-    <Compile Include="Models\EventOptions.cs" />
-    <Compile Include="Models\Message.cs" />
-    <Compile Include="Models\RiskResult.cs" />
-    <Compile Include="Models\SecureNativeOptions.cs" />
-    <Compile Include="Models\User.cs" />
-    <Compile Include="HookManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SecureNative.cs" />
-    <Compile Include="SnEventManager.cs" />
     <Compile Include="Tests\AgentTest.cs" />
     <Compile Include="Tests\SecureNativeTest.cs" />
-    <Compile Include="VerifyWebhook.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="Enums\EventTypes.cs" />
+    <Compile Include="Enums\FailOverStrategy.cs" />
+    <Compile Include="Enums\RiskLevel.cs" />
+    <Compile Include="Enums\ApiRoute.cs" />
+    <Compile Include="Models\ClientToken.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\RequestContext.cs" />
+    <Compile Include="Models\RequestOptions.cs" />
+    <Compile Include="Models\SDKEvent.cs" />
+    <Compile Include="Models\UserTraits.cs" />
+    <Compile Include="Models\VerifyResult.cs" />
+    <Compile Include="Models\EventOptions.cs" />
+    <Compile Include="Context\SecureNativeContext.cs" />
+    <Compile Include="Config\SecureNativeOptions.cs" />
+    <Compile Include="Exceptions\SecureNativeInvalidOptionsException.cs" />
+    <Compile Include="Exceptions\SecureNativeConfigException.cs" />
+    <Compile Include="Exceptions\SecureNativeHttpException.cs" />
+    <Compile Include="Exceptions\SecureNativeInvalidUriException.cs" />
+    <Compile Include="Exceptions\SecureNativeParseException.cs" />
+    <Compile Include="Exceptions\SecureNativeSDKException.cs" />
+    <Compile Include="Exceptions\SecureNativeSDKIllegalStateException.cs" />
+    <Compile Include="Config\ConfigurationManager.cs" />
+    <Compile Include="Config\SecureNativeConfigurationBuilder.cs" />
+    <Compile Include="Context\SecureNativeContextBuilder.cs" />
+    <Compile Include="Http\HttpClient.cs" />
+    <Compile Include="Http\HttpResponse.cs" />
+    <Compile Include="Http\SecureNativeHTTPClient.cs" />
+    <Compile Include="Utils\DateUtils.cs" />
+    <Compile Include="Utils\EncryptionUtils.cs" />
+    <Compile Include="Utils\IPUtils.cs" />
+    <Compile Include="Utils\RequestUtils.cs" />
+    <Compile Include="Utils\Utils.cs" />
+    <Compile Include="Utils\SignatureUtils.cs" />
+    <Compile Include="Utils\VersionUtils.cs" />
+    <Compile Include="Http\RequestContextBuilder.cs" />
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Enums\" />
+    <Folder Include="Config\" />
+    <Folder Include="Context\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Models\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Http\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
