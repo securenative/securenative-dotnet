@@ -10,13 +10,13 @@ namespace SecureNative.SDK.Models
 {
     public class SDKEvent : IEvent
     {
-        public string Rid;
-        public string EventType;
-        public string UserId;
-        public UserTraits UserTraits;
-        public RequestContext Request;
-        public string Timestamp;
-        public Dictionary<Object, Object> Properties;
+        private string Rid { get; set; }
+        private string EventType { get; set; }
+        private string UserId { get; set; }
+        private UserTraits UserTraits { get; set; }
+        private RequestContext Request { get; set; }
+        private string Timestamp { get; set; }
+        private Dictionary<Object, Object> Properties { get; set; }
 
         // TODO: add securenative logger!
         //public static final Logger logger = Logger.getLogger(SecureNative.class);

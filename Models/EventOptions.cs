@@ -6,12 +6,12 @@ namespace SecureNative.SDK.Models
 {
     public class EventOptions
     {
-        public string EventType { get; set; }
-        public string UserId { get; set; }
-        public UserTraits UserTraits { get; set; }
-        public SecureNativeContext Context { get; set; }
-        public Dictionary<Object, Object> Properties { get; set; }
-        public DateTime Timestamp { get; set; }
+        private string EventType { get; set; }
+        private string UserId { get; set; }
+        private UserTraits UserTraits { get; set; }
+        private SecureNativeContext Context { get; set; }
+        private Dictionary<Object, Object> Properties { get; set; }
+        private DateTime Timestamp { get; set; }
 
         public EventOptions(string eventType)
         {

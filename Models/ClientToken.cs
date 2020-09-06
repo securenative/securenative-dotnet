@@ -4,9 +4,9 @@ namespace SecureNative.SDK.Models
 {
     public class ClientToken
     {
-        public string Cid { get; set; }
-        public string Vid { get; set; }
-        public string Fp { get; set; }
+        private string Cid { get; set; }
+        private string Vid { get; set; }
+        private string Fp { get; set; }
 
         public ClientToken()
         {

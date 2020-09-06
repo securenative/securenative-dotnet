@@ -3,9 +3,9 @@ namespace SecureNative.SDK.Models
 {
     public class RequestOptions
     {
-        public string Url { get; set; }
-        public string Body { get; set; }
-        public Boolean Retry { get; set; }
+        private string Url { get; set; }
+        private string Body { get; set; }
+        private Boolean Retry { get; set; }
 
         public RequestOptions(string url, string body, Boolean retry)
         {

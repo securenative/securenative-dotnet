@@ -5,14 +5,14 @@ namespace SecureNative.SDK.Models
 {
     public class RequestContext
     {
-        public string Cid { get; set; }
-        public string Vid { get; set; }
-        public string Fp { get; set; }
-        public string Ip { get; set; }
-        public string RemoteIp { get; set; }
-        public Dictionary<string, string> Headers { get; set; }
-        public string Url { get; set; }
-        public string Method { get; set; }
+        private string Cid { get; set; }
+        private string Vid { get; set; }
+        private string Fp { get; set; }
+        private string Ip { get; set; }
+        private string RemoteIp { get; set; }
+        private Dictionary<string, string> Headers { get; set; }
+        private string Url { get; set; }
+        private string Method { get; set; }
 
         public RequestContext()
         {

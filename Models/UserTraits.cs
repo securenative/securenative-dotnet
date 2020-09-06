@@ -3,10 +3,10 @@ namespace SecureNative.SDK.Models
 {
     public class UserTraits
     {
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public DateTime CreatedAt { get; set; }
+        private string Name { get; set; }
+        private string Email { get; set; }
+        private string Phone { get; set; }
+        private DateTime CreatedAt { get; set; }
 
         public UserTraits(string name)
         {

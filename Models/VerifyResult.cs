@@ -5,9 +5,9 @@ namespace SecureNative.SDK.Models
 {
     public class VerifyResult
     {
-        public RiskLevel RiskLevel { get; set; }
-        public float Score { get; set; }
-        public string[] Triggers { get; set; }
+        private RiskLevel RiskLevel { get; set; }
+        private float Score { get; set; }
+        private string[] Triggers { get; set; }
 
         public VerifyResult()
         {
