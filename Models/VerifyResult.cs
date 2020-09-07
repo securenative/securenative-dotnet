@@ -19,5 +19,35 @@ namespace SecureNative.SDK.Models
             this.Score = score;
             this.Triggers = triggers;
         }
+
+        public RiskLevel GetRiskLevel()
+        {
+            return this.RiskLevel;
+        }
+
+        public void SetRiskLevel(RiskLevel value)
+        {
+            this.RiskLevel = value;
+        }
+
+        public float GetScore()
+        {
+            return this.Score;
+        }
+
+        public void SetScore(float value)
+        {
+            this.Score = value;
+        }
+
+        public string[] GetTriggers()
+        {
+            return this.Triggers;
+        }
+
+        public void SetTriggers(string[] value)
+        {
+            this.Triggers = value;
+        }
     }
 }

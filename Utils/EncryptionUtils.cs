@@ -7,7 +7,14 @@ namespace SecureNative.SDK.Utils
     {
         public static ClientToken Decrypt(string secret, string key)
         {
-            return new ClientToken();
+            // TODO: implement me
+            throw new NotImplementedException();
+        }
+
+        public static string Encrypt(string text, string key)
+        {
+            // TODO: implement me
+            throw new NotImplementedException();
         }
     }
 }

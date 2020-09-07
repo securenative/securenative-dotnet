@@ -10,5 +10,17 @@ namespace SecureNative.SDK.Config
         public ConfigurationManager()
         {
         }
+
+        public static SecureNativeOptions LoadConfig()
+        {
+            // TODO: implement me
+            throw new NotImplementedException();
+        }
+
+        public static SecureNativeOptions LoadConfig(string path)
+        {
+            // TODO: implement me
+            throw new NotImplementedException();
+        }
     }
 }

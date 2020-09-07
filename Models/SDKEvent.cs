@@ -23,44 +23,44 @@ namespace SecureNative.SDK.Models
 
         public SDKEvent(EventOptions eventOptions, SecureNativeOptions options)
         {
-            if (eventOptions.UserId == null || eventOptions.UserId.Length <= 0 || eventOptions.UserId.Equals(""))
+            if (eventOptions.GetUserId() == null || eventOptions.GetUserId().Length <= 0 || eventOptions.GetUserId().Equals(""))
             {
                 throw new SecureNativeInvalidOptionsException("Invalid event structure; User Id is missing");
             }
 
-            if (eventOptions.EventType == null || eventOptions.EventType.Length <= 0 || eventOptions.EventType.Equals(""))
+            if (eventOptions.GetEventType() == null || eventOptions.GetEventType().Length <= 0 || eventOptions.GetEventType().Equals(""))
             {
                 throw new SecureNativeInvalidOptionsException("Invalid event structure; Event Type is missing");
             }
 
             SecureNativeContext context;
-            if (eventOptions.Context != null)
+            if (eventOptions.GetContext() != null)
             {
-                context = eventOptions.Context;
+                context = eventOptions.GetContext();
             }
             else
             {
                 context = SecureNativeContextBuilder.DefaultContextBuilder().Build();
             }
 
-            ClientToken clientToken = EncryptionUtils.Decrypt(context.ClientToken, options.ApiKey);
+            ClientToken clientToken = EncryptionUtils.Decrypt(context.GetClientToken(), options.GetApiKey());
 
             this.Rid = Guid.NewGuid().ToString();
-            this.EventType = eventOptions.EventType;
-            this.UserId = eventOptions.UserId;
-            this.UserTraits = eventOptions.UserTraits;
+            this.EventType = eventOptions.GetEventType();
+            this.UserId = eventOptions.GetUserId();
+            this.UserTraits = eventOptions.GetUserTraits();
             this.Request = new RequestContextBuilder()
-                    .WithCid(clientToken.Cid)
-                    .WithVid(clientToken.Vid)
-                    .WithFp(clientToken.Fp)
-                    .WithIp(context.Ip)
-                    .WithRemoteIp(context.RemoteIp)
-                    .WithMethod(context.Method)
-                    .WithUrl(context.Url)
-                    .WitHeaders(context.Headers)
+                    .WithCid(clientToken.GetCid())
+                    .WithVid(clientToken.GetVid())
+                    .WithFp(clientToken.GetFp())
+                    .WithIp(context.GetIp())
+                    .WithRemoteIp(context.GetRemoteIp())
+                    .WithMethod(context.GetMethod())
+                    .WithUrl(context.GetUrl())
+                    .WitHeaders(context.GetHeaders())
                     .Build();
-            this.Timestamp = DateUtils.ToTimestamp(eventOptions.Timestamp);
-            this.Properties = eventOptions.Properties;
+            this.Timestamp = DateUtils.ToTimestamp(eventOptions.GetTimestamp());
+            this.Properties = eventOptions.GetProperties();
         }
 
         public string GetEventType()

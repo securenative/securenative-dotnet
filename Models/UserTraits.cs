@@ -33,5 +33,45 @@ namespace SecureNative.SDK.Models
             this.Phone = phone;
             this.CreatedAt = createdAt;
         }
+
+        public string GetName()
+        {
+            return this.Name;
+        }
+
+        public void SetName(string value)
+        {
+            this.Name = value;
+        }
+
+        public string GetEmail()
+        {
+            return this.Email;
+        }
+
+        public void SeEmail(string value)
+        {
+            this.Email = value;
+        }
+
+        public string GePhone()
+        {
+            return this.Phone;
+        }
+
+        public void SetPhone(string value)
+        {
+            this.Phone = value;
+        }
+
+        public DateTime GeCreatedAt()
+        {
+            return this.CreatedAt;
+        }
+
+        public void SetCreatedAt(DateTime value)
+        {
+            this.CreatedAt = value;
+        }
     }
 }

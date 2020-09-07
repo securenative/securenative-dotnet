@@ -18,5 +18,35 @@ namespace SecureNative.SDK.Models
             this.Fp = fp;
             this.Vid = vid;
         }
+
+        public string GetCid()
+        {
+            return this.Cid;
+        }
+
+        public void SetCid(string value)
+        {
+            this.Cid = value;
+        }
+
+        public string GetVid()
+        {
+            return this.Vid;
+        }
+
+        public void SetVid(string value)
+        {
+            this.Vid = value;
+        }
+
+        public string GetFp()
+        {
+            return this.Fp;
+        }
+
+        public void SetFp(string value)
+        {
+            this.Fp = value;
+        }
     }
 }

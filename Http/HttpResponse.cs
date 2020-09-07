@@ -13,5 +13,35 @@ namespace SecureNative.SDK.Http
             this.StatusCode = statusCode;
             this.Body = body;
         }
+
+        public Boolean GetOk()
+        {
+            return this.Ok;
+        }
+
+        public void SetOk(Boolean value)
+        {
+            this.Ok = value;
+        }
+
+        public int GetStatusCode()
+        {
+            return this.StatusCode;
+        }
+
+        public void SetStatusCode(int value)
+        {
+            this.StatusCode = value;
+        }
+
+        public string GetBody()
+        {
+            return this.Body;
+        }
+
+        public void SetBody(string value)
+        {
+            this.Body = value;
+        }
     }
 }

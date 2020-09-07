@@ -27,5 +27,95 @@ namespace SecureNative.SDK.Config
             this.LogLevel = logLevel;
             this.FailoverStrategy = failoverStrategy;
         }
+
+        public string GetApiKey()
+        {
+            return this.ApiKey;
+        }
+
+        public void SetApiKey(string value)
+        {
+            this.ApiKey = value;
+        }
+
+        public string GetApiUrl()
+        {
+            return this.ApiUrl;
+        }
+
+        public void SetApiUrl(string value)
+        {
+            this.ApiUrl = value;
+        }
+
+        public int GetInterval()
+        {
+            return this.Interval;
+        }
+
+        public void SetInterval(int value)
+        {
+            this.Interval = value;
+        }
+
+        public int GetMaxEvents()
+        {
+            return this.MaxEvents;
+        }
+
+        public void SetMaxEvents(int value)
+        {
+            this.MaxEvents = value;
+        }
+
+        public int GetTimeout()
+        {
+            return this.Timeout;
+        }
+
+        public void SetTimeout(int value)
+        {
+            this.Timeout = value;
+        }
+
+        public Boolean GetAutoSend()
+        {
+            return this.AutoSend;
+        }
+
+        public void SetAutoSend(Boolean value)
+        {
+            this.AutoSend = value;
+        }
+
+        public Boolean GetDisable()
+        {
+            return this.Disable;
+        }
+
+        public void SetDisable(Boolean value)
+        {
+            this.Disable = value;
+        }
+
+        public string GetLogLevel()
+        {
+            return this.LogLevel;
+        }
+
+        public void SetLogLevel(string value)
+        {
+            this.LogLevel = value;
+        }
+
+        public FailOverStrategy GetFailoverStrategy()
+        {
+            return this.FailoverStrategy;
+        }
+
+        public void SetFailoverStrategy(FailOverStrategy value)
+        {
+            this.FailoverStrategy = value;
+        }
     }
 }
