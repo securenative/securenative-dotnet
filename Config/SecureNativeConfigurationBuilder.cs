@@ -19,7 +19,7 @@ namespace SecureNative.SDK.Config
         {
         }
 
-        public static SecureNativeConfigurationBuilder defaultConfigBuilder()
+        public static SecureNativeConfigurationBuilder DefaultConfigBuilder()
         {
             return new SecureNativeConfigurationBuilder()
                     .WithApiKey(null)
