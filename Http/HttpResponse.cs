@@ -14,7 +14,7 @@ namespace SecureNative.SDK.Http
             this.Body = body;
         }
 
-        public Boolean GetOk()
+        public Boolean IsOk()
         {
             return this.Ok;
         }

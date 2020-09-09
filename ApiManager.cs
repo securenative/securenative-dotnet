@@ -1,5 +1,8 @@
 ﻿using System;
+using Newtonsoft.Json;
 using SecureNative.SDK.Config;
+using SecureNative.SDK.Enums;
+using SecureNative.SDK.Http;
 using SecureNative.SDK.Models;
 
 namespace SecureNative.SDK
@@ -20,14 +23,30 @@ namespace SecureNative.SDK
 
         public void Track(EventOptions eventOptions)
         {
-            // TODO: implement me
-            throw new NotImplementedException();
+            // TODO: imeplement me
+            //this.logger.info("Track event call");
+            SDKEvent e = new SDKEvent(eventOptions, this.Options);
+            this.EventManager.SendAsync(e, ApiRoute.TRACK.ToString(), true);
         }
 
         public VerifyResult Verify(EventOptions eventOptions)
         {
-            // TODO: implement me
-            throw new NotImplementedException();
+            // TODO: imeplement me
+            //this.logger.info("Verify event call");
+            SDKEvent e = new SDKEvent(eventOptions, this.Options);
+            try
+            {
+                HttpResponse res = this.EventManager.SendSync(e, ApiRoute.VERIFY.ToString());
+                return JsonConvert.DeserializeObject<VerifyResult>(res.GetBody());
+            }
+            catch (Exception ex)
+            {
+                // TODO: imeplement me
+                //this.logger.error("Failed to call verify", ex);
+                return this.Options.GetFailoverStrategy() == FailOverStrategy.FAIL_OPEN ?
+                        new VerifyResult(RiskLevel.LOW, 0, new String[0])
+                        : new VerifyResult(RiskLevel.HIGH, 1, new String[0]);
+            }
         }
     }
 }

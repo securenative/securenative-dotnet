@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using SecureNative.SDK.Utils;
 
 namespace SecureNative.SDK.Context
 {
@@ -49,10 +50,30 @@ namespace SecureNative.SDK.Context
             return this;
         }
 
+        public SecureNativeContextBuilder WithClientToken(string clientToken)
+        {
+            this.Context.SetClientToken(clientToken);
+            return this;
+        }
+
         public static SecureNativeContextBuilder FromHttpServletRequest(HttpRequestMessage request)
         {
-            // TODO: implement me
-            throw new NotImplementedException();
+            Dictionary<string, string> headers = RequestUtils.GetHeadersFromRequest(request);
+
+            String clientToken = RequestUtils.GetCookieValueFromRequest(request, RequestUtils.SECURENATIVE_COOKIE);
+            if (Utils.Utils.IsNullOrEmpty(clientToken))
+            {
+                clientToken = RequestUtils.GetSecureHeaderFromRequest(headers);
+            }
+
+            return new SecureNativeContextBuilder()
+                    .WithUrl(request.RequestUri.ToString())
+                    .WithMethod(request.Method.ToString())
+                    .WithHeaders(headers)
+                    .WithClientToken(clientToken)
+                    .WithIp(RequestUtils.GetClientIpFromRequest(request, headers))
+                    .WithRemoteIp(RequestUtils.GetRemoteIpFromRequest(request))
+                    .WithBody(null);
         }
 
         public static SecureNativeContextBuilder DefaultContextBuilder()

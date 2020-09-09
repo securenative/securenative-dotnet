@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Net.Http;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Context;
 using SecureNative.SDK.Exceptions;
 using SecureNative.SDK.Models;
+using SecureNative.SDK.Utils;
 
 namespace SecureNative.SDK
 {
@@ -47,7 +49,7 @@ namespace SecureNative.SDK
             {
                 throw new SecureNativeConfigException("You must pass your SecureNative api key");
             }
-            SecureNativeConfigurationBuilder builder = SecureNativeConfigurationBuilder.defaultConfigBuilder();
+            SecureNativeConfigurationBuilder builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
             SecureNativeOptions secureNativeOptions = builder.WithApiKey(apiKey).Build();
             return Init(secureNativeOptions);
         }
@@ -59,6 +61,7 @@ namespace SecureNative.SDK
             return Init(secureNativeOptions);
         }
 
+        // TODO: implement me
         //public static SecureNative Init(string path)
         //{
         //    SecureNativeOptions secureNativeOptions = ConfigurationManager.LoadConfig(path);
@@ -91,12 +94,24 @@ namespace SecureNative.SDK
 
         public void Track(EventOptions eventOptions)
         {
-            throw new NotImplementedException();
+            this.ApiManager.Track(eventOptions);
         }
 
         public VerifyResult Verify(EventOptions eventOptions)
         {
-            throw new NotImplementedException();
+            return this.ApiManager.Verify(eventOptions);
+        }
+
+        public Boolean VerifyRequestPayload(HttpRequestMessage request)
+        {
+            if (request.Headers.Contains(SignatureUtils.SIGNATURE_HEADER))
+            {
+                string requestSignature = request.Headers.GetValues(SignatureUtils.SIGNATURE_HEADER).ToString();
+                string body = request.Content.ToString();
+
+                return SignatureUtils.IsValidSignature(requestSignature, body, this.Options.GetApiKey());
+            }
+            return false;
         }
     }
 }
