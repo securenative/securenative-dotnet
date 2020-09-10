@@ -1,18 +1,21 @@
 ﻿using System;
+
 namespace SecureNative.SDK.Utils
 {
     public static class DateUtils
     {
         public static string ToTimestamp(DateTime dateTime)
         {
-            // TODO: implement me
-            throw new NotImplementedException();
+            if (dateTime == null)
+            {
+                dateTime = new DateTime();
+            }
+            return dateTime.ToUniversalTime().ToString("s") + "Z";
         }
 
         public static String GenerateTimestamp()
         {
-            // TODO: implement me
-            throw new NotImplementedException();
+            return DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
         }
     }
 }

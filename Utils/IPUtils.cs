@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
+
 namespace SecureNative.SDK.Utils
 {
     public static class IPUtils
@@ -8,20 +12,41 @@ namespace SecureNative.SDK.Utils
 
         public static Boolean IsIpAddress(string ipAddress)
         {
-            // TODO: implement me
-            throw new NotImplementedException();
+            var match = Regex.IsMatch(ipAddress, VALID_IPV4_PATTERN);
+            if (match)
+            {
+                return true;
+            }
+
+            match = Regex.IsMatch(ipAddress, VALID_IPV6_PATTERN);
+            if (match)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public static Boolean IsValidPublicIp(string ip)
+        public static Boolean IsValidPublicIp(string ipAddress)
         {
-            // TODO: implement me
-            throw new NotImplementedException();
+            var address = new IPAddress(Encoding.ASCII.GetBytes(ipAddress));
+            if (IPAddress.IsLoopback(address)) return true;
+            else if (address.ToString() == "::1") return false;
+
+            byte[] bytes = address.GetAddressBytes();
+            return (bytes[0]) switch
+            {
+                10 => true,
+                172 => bytes[1] < 32 && bytes[1] >= 16,
+                192 => bytes[1] == 168,
+                _ => false,
+            };
         }
 
-        public static Boolean IsLoopBack(string ip)
+        public static Boolean IsLoopBack(string ipAddress)
         {
-            // TODO: implement me
-            throw new NotImplementedException();
+            var address = new IPAddress(Encoding.ASCII.GetBytes(ipAddress));
+            return IPAddress.IsLoopback(address);
         }
     }
 }

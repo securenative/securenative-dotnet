@@ -12,9 +12,6 @@ namespace SecureNative.SDK
         private readonly int MAX_PROPERTIES_SIZE = 10;
         private readonly EventOptions EventOptions;
 
-        // TODO: implement logger
-        //private static readonly Logger logger = Logger.getLogger(EventOptionsBuilder.class);
-
         public static EventOptionsBuilder Builder(string eventType)
         {
             return new EventOptionsBuilder(eventType);

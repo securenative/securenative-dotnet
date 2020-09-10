@@ -11,9 +11,7 @@ namespace SecureNative.SDK
     {
         private readonly EventManager EventManager;
         private readonly SecureNativeOptions Options;
-
-        // TODO: imeplement logger
-        //public static readonly Logger logger = Logger.getLogger(SecureNative.class);
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public ApiManager(EventManager eventManager, SecureNativeOptions options)
         {
@@ -23,16 +21,14 @@ namespace SecureNative.SDK
 
         public void Track(EventOptions eventOptions)
         {
-            // TODO: imeplement me
-            //this.logger.info("Track event call");
+            Logger.Info("Track event call");
             SDKEvent e = new SDKEvent(eventOptions, this.Options);
             this.EventManager.SendAsync(e, ApiRoute.TRACK.ToString(), true);
         }
 
         public VerifyResult Verify(EventOptions eventOptions)
         {
-            // TODO: imeplement me
-            //this.logger.info("Verify event call");
+            Logger.Info("Verify event call");
             SDKEvent e = new SDKEvent(eventOptions, this.Options);
             try
             {
@@ -41,8 +37,7 @@ namespace SecureNative.SDK
             }
             catch (Exception ex)
             {
-                // TODO: imeplement me
-                //this.logger.error("Failed to call verify", ex);
+                Logger.Error(String.Format("Failed to call verify %s", ex));
                 return this.Options.GetFailoverStrategy() == FailOverStrategy.FAIL_OPEN ?
                         new VerifyResult(RiskLevel.LOW, 0, new String[0])
                         : new VerifyResult(RiskLevel.HIGH, 1, new String[0]);

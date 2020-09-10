@@ -1,10 +1,13 @@
 ﻿using System;
-using System.Net.Http;
+using System.IO;
+using System.Net;
+using NLog;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Context;
 using SecureNative.SDK.Exceptions;
 using SecureNative.SDK.Models;
 using SecureNative.SDK.Utils;
+using securenative_dotnet.Utils;
 
 namespace SecureNative.SDK
 {
@@ -29,8 +32,8 @@ namespace SecureNative.SDK
             }
             this.ApiManager = new ApiManager(eventManager, options);
 
-            // TODO: implement logger
-            //Logger.initLogger(options.getLogLevel());
+            LogLevel logLevel = SecureNativeLogger.GetLogLevel(options.GetLogLevel());
+            SecureNativeLogger.InitLogger(logLevel);
         }
 
         public static SecureNative Init(SecureNativeOptions options)
@@ -102,12 +105,17 @@ namespace SecureNative.SDK
             return this.ApiManager.Verify(eventOptions);
         }
 
-        public Boolean VerifyRequestPayload(HttpRequestMessage request)
+        public Boolean VerifyRequestPayload(HttpWebRequest request)
         {
-            if (request.Headers.Contains(SignatureUtils.SIGNATURE_HEADER))
+            if (request.Headers[SignatureUtils.SIGNATURE_HEADER] != null)
             {
                 string requestSignature = request.Headers.GetValues(SignatureUtils.SIGNATURE_HEADER).ToString();
-                string body = request.Content.ToString();
+
+                HttpWebResponse res = (HttpWebResponse)request.GetResponse();
+                StreamReader sr = new StreamReader(res.GetResponseStream(), System.Text.Encoding.Default);
+                string body = sr.ReadToEnd();
+                sr.Close();
+                res.Close();
 
                 return SignatureUtils.IsValidSignature(requestSignature, body, this.Options.GetApiKey());
             }

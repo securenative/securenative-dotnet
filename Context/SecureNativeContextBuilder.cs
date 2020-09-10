@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
+using System.Net;
 using SecureNative.SDK.Utils;
 
 namespace SecureNative.SDK.Context
@@ -56,7 +56,7 @@ namespace SecureNative.SDK.Context
             return this;
         }
 
-        public static SecureNativeContextBuilder FromHttpServletRequest(HttpRequestMessage request)
+        public static SecureNativeContextBuilder FromHttpServletRequest(HttpWebRequest request)
         {
             Dictionary<string, string> headers = RequestUtils.GetHeadersFromRequest(request);
 

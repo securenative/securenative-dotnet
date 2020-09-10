@@ -18,9 +18,6 @@ namespace SecureNative.SDK.Models
         private string Timestamp { get; set; }
         private Dictionary<Object, Object> Properties { get; set; }
 
-        // TODO: add securenative logger!
-        //public static final Logger logger = Logger.getLogger(SecureNative.class);
-
         public SDKEvent(EventOptions eventOptions, SecureNativeOptions options)
         {
             if (eventOptions.GetUserId() == null || eventOptions.GetUserId().Length <= 0 || eventOptions.GetUserId().Equals(""))

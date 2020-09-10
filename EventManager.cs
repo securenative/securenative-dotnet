@@ -18,9 +18,8 @@ namespace SecureNative.SDK
         private readonly SecureNativeHTTPClient HttpClient;
         private List<RequestOptions> Events;
         private readonly Thread Thread;
+        private readonly static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        // TODO: implement me
-        //private static readonly Logger logger = Logger.getLogger(SecureNativeEventManager.class);
 
         public EventManager(SecureNativeOptions options)
         {
@@ -46,19 +45,16 @@ namespace SecureNative.SDK
         {
             if (this.Options.GetDisable())
             {
-                // TODO: implement me
-                //this.logger.warn("SDK is disabled, no operation will be performed");
+                Logger.Warn("SDK is disabled, no operation will be performed");
                 return null;
             }
 
             string body = JsonConvert.SerializeObject(e);
-            // TODO: implement me
-            //this.logger.debug("Attempting to send event", body);
+            Logger.Debug("Attempting to send event", body);
             HttpResponse response = this.HttpClient.Post(url, body);
             if (!response.IsOk())
             {
-                // TODO: implement me
-                //this.logger.info(String.format("SecureNative http call failed to end point: %s  with event type %s. adding back to queue.", url, event.getEventType()));
+                Logger.Info(String.Format("SecureNative http call failed to end point: %s  with event type %s. adding back to queue.", url, e.GetEventType()));
                 throw new IOException(response.GetStatusCode().ToString());
             }
 
@@ -67,12 +63,10 @@ namespace SecureNative.SDK
 
         public void StartEventsPersist()
         {
-            // TODO: implement me
-            //this.logger.debug("Starting automatic event persistence");
+            Logger.Debug("Starting automatic event persistence");
             if (!this.Options.GetAutoSend() || this.SendEnabled)
             {
-                // TODO: implement me
-                //this.logger.debug("Automatic event persistence disabled, you should manually persist events");
+                Logger.Debug("Automatic event persistence disabled, you should manually persist events");
                 return;
             }
 
@@ -83,8 +77,7 @@ namespace SecureNative.SDK
         {
             if (this.SendEnabled)
             {
-                // TODO: implement me
-                //this.Logger.debug("Attempting to stop automatic event persistence")
+                Logger.Debug("Attempting to stop automatic event persistence");
             }
 
             try
@@ -98,12 +91,9 @@ namespace SecureNative.SDK
             }
             catch (Exception e)
             {
-                // TODO: implement me
-                //this.Logger.error("Could not stop event scheduler; {}".format(e))
+                Logger.Error(String.Format("Could not stop event scheduler; %s", e));
             }
-
-            // TODO: implement me
-            //this.Logger.debug("Stopped event persistence");
+            Logger.Debug("Stopped event persistence");
         }
 
         private void Flush()
@@ -135,14 +125,11 @@ namespace SecureNative.SDK
                             }
 
                             this.Events.Remove(item);
-
-                            // TODO: imeplement me
-                            //this.Logger.debug("Event successfully sent; {}".format(item.body))
+                            Logger.Debug(String.Format("Event successfully sent; %s", item.GetBody()));
                         }
                         catch (Exception e)
                         {
-                            // TODO: imeplement me
-                            //this.Logger.error("Failed to send event; {}".format(e))
+                            Logger.Error(String.Format("Failed to send event; %s", e));
                             if (item.GetRetry())
                             {
                                 if (this.Coefficients.Length == this.Attempt + 1)
@@ -151,8 +138,7 @@ namespace SecureNative.SDK
                                 }
 
                                 var backOff = this.Coefficients[this.Attempt] * this.Options.GetInterval();
-                                // TODO: imeplement me
-                                //Logger.debug("Automatic back-off of {}".format(back_off))
+                                Logger.Debug(String.Format("Automatic back-off of %s", backOff));
                                 this.SendEnabled = false;
                                 Thread.Sleep(backOff);
                                 this.SendEnabled = true;
