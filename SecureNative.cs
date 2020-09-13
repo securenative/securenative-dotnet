@@ -26,7 +26,7 @@ namespace SecureNative.SDK
             this.Options = options;
 
             EventManager eventManager = new EventManager(options);
-            if (options.GetAutoSend())
+            if (options.IsAutoSend())
             {
                 eventManager.StartEventsPersist();
             }

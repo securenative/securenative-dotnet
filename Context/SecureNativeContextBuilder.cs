@@ -56,7 +56,7 @@ namespace SecureNative.SDK.Context
             return this;
         }
 
-        public static SecureNativeContextBuilder FromHttpServletRequest(HttpWebRequest request)
+        public static SecureNativeContextBuilder FromHttpRequest(HttpWebRequest request)
         {
             Dictionary<string, string> headers = RequestUtils.GetHeadersFromRequest(request);
 
@@ -71,7 +71,7 @@ namespace SecureNative.SDK.Context
                     .WithMethod(request.Method.ToString())
                     .WithHeaders(headers)
                     .WithClientToken(clientToken)
-                    .WithIp(RequestUtils.GetClientIpFromRequest(request, headers))
+                    .WithIp(RequestUtils.GetClientIpFromRequest(request))
                     .WithRemoteIp(RequestUtils.GetRemoteIpFromRequest(request))
                     .WithBody(null);
         }

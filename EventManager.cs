@@ -32,7 +32,7 @@ namespace SecureNative.SDK
 
         public void SendAsync(IEvent e, string url, bool retry)
         {
-            if (this.Options.GetDisable())
+            if (this.Options.IsDisabled())
             {
                 return;
             }
@@ -43,7 +43,7 @@ namespace SecureNative.SDK
 
         public HttpResponse SendSync(IEvent e, string url)
         {
-            if (this.Options.GetDisable())
+            if (this.Options.IsDisabled())
             {
                 Logger.Warn("SDK is disabled, no operation will be performed");
                 return null;
@@ -64,7 +64,7 @@ namespace SecureNative.SDK
         public void StartEventsPersist()
         {
             Logger.Debug("Starting automatic event persistence");
-            if (!this.Options.GetAutoSend() || this.SendEnabled)
+            if (!this.Options.IsAutoSend() || this.SendEnabled)
             {
                 Logger.Debug("Automatic event persistence disabled, you should manually persist events");
                 return;

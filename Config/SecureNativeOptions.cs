@@ -78,7 +78,7 @@ namespace SecureNative.SDK.Config
             this.Timeout = value;
         }
 
-        public Boolean GetAutoSend()
+        public Boolean IsAutoSend()
         {
             return this.AutoSend;
         }
@@ -88,12 +88,12 @@ namespace SecureNative.SDK.Config
             this.AutoSend = value;
         }
 
-        public Boolean GetDisable()
+        public Boolean IsDisabled()
         {
             return this.Disable;
         }
 
-        public void SetDisable(Boolean value)
+        public void SetDisabled(Boolean value)
         {
             this.Disable = value;
         }

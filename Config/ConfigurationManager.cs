@@ -36,6 +36,11 @@ namespace SecureNative.SDK.Config
             return (JObject)JToken.ReadFrom(reader);
         }
 
+        public static SecureNativeConfigurationBuilder ConfigBuilder()
+        {
+            return SecureNativeConfigurationBuilder.DefaultConfigBuilder();
+        }
+
         private static Object GetPropertyOrEnvOrDefault(JObject properties, string key, Object defaultValue)
         {
             string defaultStrValue = defaultValue?.ToString();
@@ -58,8 +63,8 @@ namespace SecureNative.SDK.Config
                     .WithInterval((int)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_INTERVAL", defaultOptions.GetInterval()))
                     .WithMaxEvents((int)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_MAX_EVENTS", defaultOptions.GetMaxEvents()))
                     .WithTimeout((int)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_TIMEOUT", defaultOptions.GetTimeout()))
-                    .WithAutoSend((Boolean)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_AUTO_SEND", defaultOptions.GetAutoSend()))
-                    .WithDisable((Boolean)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_DISABLE", defaultOptions.GetDisable()))
+                    .WithAutoSend((Boolean)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_AUTO_SEND", defaultOptions.IsAutoSend()))
+                    .WithDisable((Boolean)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_DISABLE", defaultOptions.IsDisabled()))
                     .WithLogLevel((string)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_LOG_LEVEL", defaultOptions.GetLogLevel()))
                     .WithFailoverStrategy((FailOverStrategy)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_FAILOVER_STRATEGY", defaultOptions.GetFailoverStrategy()));
 
