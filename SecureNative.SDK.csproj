@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>securenative_dotnet</RootNamespace>
+    <RootNamespace>SecureNative</RootNamespace>
     <ReleaseVersion>2.0.0</ReleaseVersion>
   </PropertyGroup>
 
@@ -12,10 +12,10 @@
     <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="NLog" Version="4.7.4" />
-    <PackageReference Include="Microsoft.VisualStudio.UnitTesting" Version="11.0.50727.1" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.UnitTesting" Version="11.0.50727.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Tests\" />
+    <Compile Remove="SecureNative.Tests\obj\Debug\netcoreapp3.1\.NETCoreApp,Version=v3.1.AssemblyAttributes.cs" />
   </ItemGroup>
 </Project>

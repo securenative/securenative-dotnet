@@ -1,7 +1,7 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "securenative-dotnet", "securenative-dotnet.csproj", "{59444610-9103-4EFB-B480-CC6BC39A9F86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureNative.SDK", "SecureNative.SDK.csproj", "{59444610-9103-4EFB-B480-CC6BC39A9F86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
