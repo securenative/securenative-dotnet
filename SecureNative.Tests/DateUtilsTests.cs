@@ -10,11 +10,11 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void ToTimestampTest()
         {
-            String iso8601Date = "2000-01-01T00:00:00.000Z";
+            String iso8601Date = "2000-01-01T00:00:00Z";
             DateTime date = DateTime.Parse(iso8601Date);
             String result = DateUtils.ToTimestamp(date);
 
-            Assert.AreEqual(result, iso8601Date);
+            Assert.AreEqual(iso8601Date, result);
         }
 
         [TestMethod]

@@ -58,7 +58,7 @@ namespace SecureNative.SDK.Tests
                 .WithUserTraits("USER_NAME", "USER_EMAIL")
                 .Build();
 
-            VerifyResult verifyResult = new VerifyResult(RiskLevel.LOW, 0, new string[0]);
+            VerifyResult verifyResult = new VerifyResult(RiskLevel.LOW, 0, null);
 
             var eventManager = new EventManager(options);
             eventManager.StartEventsPersist();
@@ -70,7 +70,7 @@ namespace SecureNative.SDK.Tests
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(verifyResult.GetScore(), result.GetScore());
-                Assert.AreEqual(verifyResult.GetTriggers().Length, result.GetTriggers().Length);
+                Assert.AreEqual(verifyResult.GetTriggers(), result.GetTriggers());
                 Assert.AreEqual(verifyResult.GetRiskLevel(), result.GetRiskLevel());
             }
             catch (SecureNativeInvalidOptionsException)

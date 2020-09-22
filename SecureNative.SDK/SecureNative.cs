@@ -114,5 +114,10 @@ namespace SecureNative.SDK
             }
             return false;
         }
+
+        public static void Flush()
+        {
+            Securenative = null;
+        }
     }
 }

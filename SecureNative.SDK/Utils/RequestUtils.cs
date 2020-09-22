@@ -13,9 +13,14 @@ namespace SecureNative.SDK.Utils
         public static Dictionary<string, string> GetHeadersFromRequest(HttpWebRequest request)
         {
             Dictionary<string, string> headers = new Dictionary<string, string>();
-            foreach (var key in request.Headers.AllKeys)
+            try
             {
-                headers.Add(key, request.Headers[key]);
+                foreach (var key in request.Headers.AllKeys)
+                {
+                    headers.Add(key, request.Headers[key]);
+                }
+            } catch (Exception)
+            {
             }
 
             return headers;
@@ -23,12 +28,30 @@ namespace SecureNative.SDK.Utils
 
         public static string GetSecureHeaderFromRequest(Dictionary<string, string> headers)
         {
-            return headers.GetValueOrDefault(SECURENATIVE_HEADER, "");
+            string header = "";
+            try
+            {
+                header = headers.GetValueOrDefault(SECURENATIVE_HEADER, "");
+            } catch (Exception)
+            {
+
+            }
+
+            return header;
         }
 
         public static string GetCookieValueFromRequest(HttpWebRequest request, string cookieName)
         {
-            return request.Headers.GetValues(cookieName).ToString();
+            string cookie = "";
+            try
+            {
+                cookie = request.Headers.GetValues(cookieName)[0];
+            } catch (Exception)
+            {
+
+            }
+
+            return cookie;
         }
 
         public static string GetClientIpFromRequest(HttpWebRequest request)
@@ -49,9 +72,24 @@ namespace SecureNative.SDK.Utils
             }
             return "";
         }
+
         public static string GetRemoteIpFromRequest(HttpWebRequest request)
         {
-            return request.Host;
+            try
+            {
+                foreach (var header in IpHeaders)
+                {
+                    if (request.Headers.Get(header) != null)
+                    {
+                        return request.Headers.Get(header);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return "";
+            }
+            return "";
         }
     }
 }

@@ -28,7 +28,7 @@ namespace SecureNative.SDK.Tests
         {
             string validIPv4 = "172.16.2541";
 
-            Assert.IsTrue(IPUtils.IsIpAddress(validIPv4));
+            Assert.IsFalse(IPUtils.IsIpAddress(validIPv4));
         }
 
         [TestMethod]
@@ -36,7 +36,7 @@ namespace SecureNative.SDK.Tests
         {
             string validIPv6 = "2001:db8:1234:0000";
 
-            Assert.IsTrue(IPUtils.IsIpAddress(validIPv6));
+            Assert.IsFalse(IPUtils.IsIpAddress(validIPv6));
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace SecureNative.SDK.Tests
         {
             string ip = "10.0.0.0";
 
-            Assert.IsTrue(IPUtils.IsValidPublicIp(ip));
+            Assert.IsFalse(IPUtils.IsValidPublicIp(ip));
         }
 
         [TestMethod]

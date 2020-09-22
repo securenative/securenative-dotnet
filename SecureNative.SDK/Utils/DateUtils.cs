@@ -15,7 +15,7 @@ namespace SecureNative.SDK.Utils
 
         public static String GenerateTimestamp()
         {
-            return DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            return DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
         }
     }
 }

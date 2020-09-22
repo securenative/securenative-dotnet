@@ -13,18 +13,18 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void ShouldMakeSimplePostCallTest()
         {
-            var options = ConfigurationManager.ConfigBuilder().WithApiKey("YOUR_API_KEY").Build();
+            var options = ConfigurationManager.ConfigBuilder().WithApiKey("YOUR_API_KEY").WithApiUrl("http://localhost/api").Build();
             string payload = "{\"event\":\"SOME_EVENT_NAME\"}";
 
             var mockHttp = new MockHttpMessageHandler();
 
-            mockHttp.When("http://localost/api/user/*").Respond(HttpStatusCode.OK, "application/json", "{'SOME_BODY': 'BODY'}");
+            mockHttp.When("http://localhost/api/*").Respond(HttpStatusCode.OK, "application/json", "{'SOME_BODY': 'BODY'}");
             SecureNativeHTTPClient client = new SecureNativeHTTPClient(options);
             HttpResponse response = client.Post("track", payload);
 
-            Assert.Equals(response.IsOk(), true);
-            Assert.Equals(response.GetStatusCode(), 200);
-            Assert.Equals(response.GetBody(), "{'SOME_BODY': 'BODY'}");
+            Assert.AreEqual(true, response.IsOk());
+            Assert.AreEqual(200, response.GetStatusCode());
+            Assert.AreEqual("{'SOME_BODY': 'BODY'}", response.GetBody());
         }
     }
 }

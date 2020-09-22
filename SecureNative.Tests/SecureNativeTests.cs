@@ -13,46 +13,42 @@ namespace SecureNative.SDK.Tests
         [ExpectedException(typeof(SecureNativeSDKIllegalStateException), "Get SDK instance without Initialization")]
         public void GetSDKInstanceWithoutInitThrowsTest()
         {
+            SecureNative.Flush();
             SecureNative.GetInstance();
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(SecureNativeSDKException), "Initialize SDK without api key")]
-        public void InitSDKWithoutApiKeyShouldThrowTest()
-        {
-            SecureNative _ = SecureNative.Init();
-
         }
 
         [TestMethod]
         [ExpectedException(typeof(SecureNativeConfigException), "Initialize SDK with empty api key")]
         public void InitSDKWithEmptyApiKeyShouldThrowTest()
         {
+            SecureNative.Flush();
             SecureNative.Init("");
         }
 
         [TestMethod]
         public void InitSDKWithApiKeyAndDefaultsTest()
         {
+            SecureNative.Flush();
             string apiKey = "API_KEY";
             SecureNative secureNative = SecureNative.Init(apiKey);
             SecureNativeOptions options = secureNative.GetOptions();
 
-            Assert.Equals(options.GetApiKey(), apiKey);
-            Assert.Equals(options.GetApiUrl(), "https://api.securenative.com/collector/api/v1");
-            Assert.Equals(options.GetInterval(), 1000);
-            Assert.Equals(options.GetTimeout(), 1500);
-            Assert.Equals(options.GetMaxEvents(), 1000);
-            Assert.Equals(options.IsAutoSend(), true);
-            Assert.Equals(options.IsDisabled(), false);
-            Assert.Equals(options.GetLogLevel(), "fatal");
-            Assert.Equals(options.GetFailoverStrategy(), FailOverStrategy.FAIL_OPEN);
+            Assert.AreEqual(apiKey, options.GetApiKey());
+            Assert.AreEqual("https://api.securenative.com/collector/api/v1", options.GetApiUrl());
+            Assert.AreEqual(1000, options.GetInterval());
+            Assert.AreEqual(1500, options.GetTimeout());
+            Assert.AreEqual(1000, options.GetMaxEvents());
+            Assert.AreEqual(true, options.IsAutoSend());
+            Assert.AreEqual(false, options.IsDisabled());
+            Assert.AreEqual("fatal", options.GetLogLevel());
+            Assert.AreEqual(FailOverStrategy.FAIL_OPEN, options.GetFailoverStrategy());
         }
 
         [TestMethod]
         [ExpectedException(typeof(SecureNativeSDKException), "Initialize SDK twice")]
         public void InitSDKTwiceWillThrowTest()
         {
+            SecureNative.Flush();
             SecureNative.Init();
             SecureNative.Init();
         }
@@ -60,15 +56,17 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void InitSDKWithApiKeyAndGetInstanceShouldMatchTest()
         {
+            SecureNative.Flush();
             string apiKey = "API_KEY";
             SecureNative secureNative = SecureNative.Init(apiKey);
 
-            Assert.Equals(secureNative, SecureNative.GetInstance());
+            Assert.AreEqual(secureNative, SecureNative.GetInstance());
         }
 
         [TestMethod]
         public void InitSDKWithBuilderTest()
         {
+            SecureNative.Flush();
             SecureNative secureNative = SecureNative.Init(SecureNative.ConfigBuilder()
                     .WithApiKey("API_KEY")
                     .WithMaxEvents(10)
@@ -77,9 +75,9 @@ namespace SecureNative.SDK.Tests
 
             SecureNativeOptions options = secureNative.GetOptions();
 
-            Assert.Equals(options.GetApiKey(), "API_KEY");
-            Assert.Equals(options.GetMaxEvents(), 10);
-            Assert.Equals(options.GetLogLevel(), "error");
+            Assert.AreEqual("API_KEY", options.GetApiKey());
+            Assert.AreEqual(10, options.GetMaxEvents());
+            Assert.AreEqual("error", options.GetLogLevel());
         }
     }
 }

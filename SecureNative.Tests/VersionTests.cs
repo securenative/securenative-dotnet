@@ -10,7 +10,7 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void TestVersionExtraction()
         {
-            Assert.AreNotEqual(VersionUtils.GetVersion(), "unknown");
+            Assert.AreNotEqual("unknown", VersionUtils.GetVersion());
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿using System;
+using NLog;
 
 namespace securenative_dotnet.Utils
 {
@@ -10,12 +11,18 @@ namespace securenative_dotnet.Utils
 
         public static void InitLogger(LogLevel logLevel)
         {
-            foreach (var rule in LogManager.Configuration.LoggingRules)
+            try
             {
-                rule.SetLoggingLevels(logLevel, LogLevel.Fatal);
-            }
+                foreach (var rule in LogManager.Configuration.LoggingRules)
+                {
+                    rule.SetLoggingLevels(logLevel, LogLevel.Fatal);
+                }
 
-            LogManager.ReconfigExistingLoggers();
+                LogManager.ReconfigExistingLoggers();
+            } catch (Exception)
+            {
+                Console.WriteLine("Could not init logger, falling to default");
+            }
         }
 
         public static LogLevel GetLogLevel(string logLevel)
