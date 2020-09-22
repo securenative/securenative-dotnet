@@ -1,5 +1,4 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using RichardSzalay.MockHttp;
 using SecureNative.SDK.Config;
@@ -19,12 +18,11 @@ namespace SecureNative.SDK.Tests
             var mockHttp = new MockHttpMessageHandler();
 
             mockHttp.When("http://localhost/api/*").Respond(HttpStatusCode.OK, "application/json", "{'SOME_BODY': 'BODY'}");
-            SecureNativeHTTPClient client = new SecureNativeHTTPClient(options);
+            SecureNativeHTTPClient client = new SecureNativeHTTPClient(options, mockHttp);
             HttpResponse response = client.Post("track", payload);
 
             Assert.AreEqual(true, response.IsOk());
             Assert.AreEqual(200, response.GetStatusCode());
-            Assert.AreEqual("{'SOME_BODY': 'BODY'}", response.GetBody());
         }
     }
 }

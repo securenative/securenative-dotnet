@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Threading;
 using Newtonsoft.Json;
 using SecureNative.SDK.Config;
@@ -21,10 +22,10 @@ namespace SecureNative.SDK
         private readonly static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
 
-        public EventManager(SecureNativeOptions options)
+        public EventManager(SecureNativeOptions options, HttpMessageHandler handler = null)
         {
             this.Options = options;
-            this.HttpClient = new SecureNativeHTTPClient(this.Options);
+            this.HttpClient = new SecureNativeHTTPClient(this.Options, handler);
             this.Events = new List<RequestOptions>();
             this.Thread = new Thread(new ThreadStart(SendEvents));
             this.Thread.Start();

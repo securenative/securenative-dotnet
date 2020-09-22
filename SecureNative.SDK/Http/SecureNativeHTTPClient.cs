@@ -12,15 +12,22 @@ namespace SecureNative.SDK.Http
         private readonly string VERSION_HEADER = "SN-Version";
         private readonly string USER_AGENT_HEADER = "User-Agent";
         private readonly string USER_AGENT_HEADER_VALUE = "SecureNative-dotnet";
-        private static readonly HttpClient Client = new HttpClient();
+        private readonly HttpClient Client = new HttpClient();
         private SecureNativeOptions Options;
         private static string JSON_MEDIA_TYPE = "application/json";
         private readonly static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        public SecureNativeHTTPClient(SecureNativeOptions options)
+        public SecureNativeHTTPClient(SecureNativeOptions options, HttpMessageHandler handler = null)
         {
             this.Options = options;
-        }
+            if (handler != null)
+            {
+                this.Client = new HttpClient(handler);
+            } else
+            {
+                this.Client = new HttpClient();
+            }
+    }
 
         public HttpResponse Post(string path, string body)
         {

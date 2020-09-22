@@ -1,7 +1,7 @@
-﻿using System;
+﻿using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RichardSzalay.MockHttp;
 using SecureNative.SDK.Config;
-using SecureNative.SDK.Exceptions;
 using SecureNative.SDK.Models;
 using SecureNative.SDK.Utils;
 
@@ -33,141 +33,70 @@ namespace SecureNative.SDK.Tests
                     .WithAutoSend(true)
                     .WithInterval(10).Build();
 
-        [TestMethod]
-        public void SendAsyncEventWithStatusCode200Test()
-        {
-            var eventManager = new EventManager(options);
-            eventManager.StartEventsPersist();
-
-            eventManager.SendAsync(e, "some-path/to-api", true);
-
-            try
-            {
-            }
-            finally
-            {
-                eventManager.StopEventsPersist();
-            }
-        }
-
-        [TestMethod]
-        public void ShouldHandleInvalidJsonResponseWithStatus200Test()
-        {
-            var eventManager = new EventManager(options);
-            eventManager.StartEventsPersist();
-
-            try
-            {
-                eventManager.SendAsync(e, "some-path/to-api", true);
-            }
-            finally
-            {
-                eventManager.StopEventsPersist();
-            }
-        }
-
-        [TestMethod]
-        public void ShouldNotRetrySendingAsyncEventWhenStatusCode200Test()
-        {
-            var eventManager = new EventManager(options);
-            eventManager.StartEventsPersist();
-
-            try
-            {
-                eventManager.SendAsync(e, "some-path/to-api", true);
-            }
-            finally
-            {
-                eventManager.StopEventsPersist();
-            }
-        }
-
-        [TestMethod]
-        public void ShouldNotRetrySendingAsyncEventWhenStatusCode401Test()
-        {
-            var eventManager = new EventManager(options);
-            eventManager.StartEventsPersist();
-
-            try
-            {
-                eventManager.SendAsync(e, "some-path/to-api", true);
-            }
-            finally
-            {
-                eventManager.StopEventsPersist();
-            }
-        }
-
-        [TestMethod]
-        public void ShouldRetrySendingAsyncEventWhenStatusCode500Test()
-        {
-            var eventManager = new EventManager(options);
-            eventManager.StartEventsPersist();
-
-            try
-            {
-                eventManager.SendAsync(e, "some-path/to-api", true);
-            }
-            finally
-            {
-                eventManager.StopEventsPersist();
-            }
-        }
 
         [TestMethod]
         public void ShouldSuccessfullySendSyncEventWithStatusCode200Test()
-        {
-            string resBody = "{ \"data\": true }";
-            var eventManager = new EventManager(options);
+        {   
+            var mockHttp = new MockHttpMessageHandler();
+            mockHttp.When("https://api.securenative.com/collector/api/v1/*").Respond(HttpStatusCode.OK, "application/json", "");
+            
+            var eventManager = new EventManager(options, mockHttp);
             try
             {
-                var data = eventManager.SendSync(e, "some-path/to-api");
+                eventManager.StartEventsPersist();
+                var result = eventManager.SendSync(e, "track");
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(200, result.GetStatusCode());
             }
-            catch (Exception)
+            finally
             {
+                eventManager.StopEventsPersist();
             }
         }
 
-        [TestMethod]
-        public void ShouldSendSyncEventAndHandleInvalidJsonResponseTest()
-        {
-            var eventManager = new EventManager(options);
-
-            try
-            {
-                var resp = eventManager.SendSync(e, "some-path/to-api");
-            }
-            catch (Exception)
-            {
-            }
-        }
 
         [TestMethod]
         public void ShouldSendSyncEventAndFailWhenStatusCode401Test()
         {
-            var eventManager = new EventManager(options);
+            var mockHttp = new MockHttpMessageHandler();
+            mockHttp.When("https://api.securenative.com/collector/api/v1/*").Respond(HttpStatusCode.Unauthorized, "application/json", "");
+
+            var eventManager = new EventManager(options, mockHttp);
 
             try
             {
-                eventManager.SendSync(e, "some-path/to-api");
-            }
-            catch (SecureNativeParseException)
-            {
+                eventManager.StartEventsPersist();
+                var result = eventManager.SendSync(e, "track");
 
+                Assert.IsNotNull(result);
+                Assert.AreEqual(401, result.GetStatusCode());
+            }
+            finally
+            {
+                eventManager.StopEventsPersist();
             }
         }
 
         [TestMethod]
         public void ShouldSendSyncEventAndFailWhenStatusCode500Test()
         {
-            var eventManager = new EventManager(options);
+            var mockHttp = new MockHttpMessageHandler();
+            mockHttp.When("https://api.securenative.com/collector/api/v1/*").Respond(HttpStatusCode.InternalServerError, "application/json", "");
+
+            var eventManager = new EventManager(options, mockHttp);
 
             try
             {
-                eventManager.SendSync(e, "some-path/to-api");
+                eventManager.StartEventsPersist();
+                var result = eventManager.SendSync(e, "track");
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(500, result.GetStatusCode());
             }
-            catch (Exception)
+            finally
             {
+                eventManager.StopEventsPersist();
             }
         }
     }
