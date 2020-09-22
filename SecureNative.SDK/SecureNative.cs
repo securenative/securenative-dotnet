@@ -64,13 +64,6 @@ namespace SecureNative.SDK
             return Init(secureNativeOptions);
         }
 
-        // TODO: implement me
-        //public static SecureNative Init(string path)
-        //{
-        //    SecureNativeOptions secureNativeOptions = ConfigurationManager.LoadConfig(path);
-        //    return Init(secureNativeOptions);
-        //}
-
         public static SecureNative GetInstance()
         {
             if (Securenative == null)

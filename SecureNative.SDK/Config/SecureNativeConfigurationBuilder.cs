@@ -22,7 +22,7 @@ namespace SecureNative.SDK.Config
         public static SecureNativeConfigurationBuilder DefaultConfigBuilder()
         {
             return new SecureNativeConfigurationBuilder()
-                    .WithApiKey(null)
+                    .WithApiKey("")
                     .WithApiUrl("https://api.securenative.com/collector/api/v1")
                     .WithInterval(1000)
                     .WithTimeout(1500)

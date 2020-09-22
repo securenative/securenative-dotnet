@@ -24,42 +24,14 @@ namespace SecureNative.SDK.Tests
             .Build();
 
         [TestMethod]
-        public void ShouldCallTrackEventTest()
-        {
-            var eventOptions = EventOptionsBuilder.Builder(EventTypes.LOG_IN)
-                .WithUserId("USER_ID")
-                .WithUserTraits("USER_NAME", "USER_EMAIL")
-                .WithContext(context)
-                .WithProperties(new Dictionary<Object, Object>() { { "prop1", "CUSTOM_PARAM_VALUE" }, { "prop2", true }, { "prop3", 3 } })
-                .WithTimestamp(new DateTime())
-                .Build();
-
-            var eventManager = new EventManager(options);
-            eventManager.StartEventsPersist();
-            ApiManager apiManager = new ApiManager(eventManager, options);
-
-            try
-            {
-                apiManager.Track(eventOptions);
-            }
-            catch (SecureNativeInvalidOptionsException)
-            {
-            }
-            finally
-            {
-                eventManager.StopEventsPersist();
-            }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException), "Sending more than 10 custome properties")]
+        [ExpectedException(typeof(SecureNativeInvalidOptionsException), "Sending more than 10 custome properties")]
         public void ShouldThrowWhenSendingMoreThan10CustomPropertiesToTrackEventTest()
         {
             var eventOptions = EventOptionsBuilder.Builder(EventTypes.LOG_IN)
                 .WithUserId("USER_ID")
                 .WithUserTraits("USER_NAME", "USER_EMAIL")
                 .WithContext(context)
-                .WithProperties(new Dictionary<Object, Object>() { { "prop1", "CUSTOM_PARAM_VALUE" }, { "prop2", true }, { "prop3", 3 }, { "prop1", "CUSTOM_PARAM_VALUE" }, { "prop2", true }, { "prop3", 3 }, { "prop1", "CUSTOM_PARAM_VALUE" }, { "prop2", true }, { "prop3", 3 }, { "prop1", "CUSTOM_PARAM_VALUE" }, { "prop2", true }, { "prop3", 3 }, { "prop1", "CUSTOM_PARAM_VALUE" }, { "prop2", true }, { "prop3", 3 } })
+                .WithProperties(new Dictionary<Object, Object>() { { "prop1", "CUSTOM_PARAM_VALUE" }, { "prop2", true }, { "prop3", 3 }, { "prop4", "CUSTOM_PARAM_VALUE" }, { "prop5", true }, { "prop6", 3 }, { "prop7", "CUSTOM_PARAM_VALUE" }, { "prop8", true }, { "prop9", 3 }, { "prop10", "CUSTOM_PARAM_VALUE" }, { "prop11", true }, { "prop12", 3 }, { "prop13", "CUSTOM_PARAM_VALUE" } })
                 .WithTimestamp(new DateTime())
                 .Build();
 
@@ -77,51 +49,6 @@ namespace SecureNative.SDK.Tests
             }
         }
 
-        [TestMethod]
-        public void ShouldNotCallTrackEventWhenAutomaticPersistenceDisabledTest()
-        {
-            var eventOptions = EventOptionsBuilder.Builder(EventTypes.LOG_IN)
-                .WithUserId("USER_ID")
-                .WithUserTraits("USER_NAME", "USER_EMAIL")
-                .WithContext(context)
-                .Build();
-
-            var eventManager = new EventManager(options);
-            ApiManager apiManager = new ApiManager(eventManager, options);
-
-            try
-            {
-                apiManager.Track(eventOptions);
-            }
-            catch (SecureNativeInvalidOptionsException)
-            {
-            }
-        }
-
-        [TestMethod]
-        public void ShouldNotRetryUnauthorizedTrackEventCallTest()
-        {
-            var eventOptions = EventOptionsBuilder.Builder(EventTypes.LOG_IN)
-                .WithUserId("USER_ID")
-                .WithUserTraits("USER_NAME", "USER_EMAIL")
-                .Build();
-            var eventManager = new EventManager(options);
-
-            eventManager.StartEventsPersist();
-            ApiManager apiManager = new ApiManager(eventManager, options);
-
-            try
-            {
-                apiManager.Track(eventOptions);
-            }
-            catch (SecureNativeInvalidOptionsException)
-            {
-            }
-            finally
-            {
-                eventManager.StopEventsPersist();
-            }
-        }
 
         [TestMethod]
         public void ShouldCallVerifyEventTest()
@@ -131,16 +58,20 @@ namespace SecureNative.SDK.Tests
                 .WithUserTraits("USER_NAME", "USER_EMAIL")
                 .Build();
 
-            VerifyResult verifyResult = new VerifyResult(RiskLevel.LOW, 0, new String[0]);
+            VerifyResult verifyResult = new VerifyResult(RiskLevel.LOW, 0, new string[0]);
 
             var eventManager = new EventManager(options);
             eventManager.StartEventsPersist();
             ApiManager apiManager = new ApiManager(eventManager, options);
 
-            VerifyResult result = null;
             try
             {
-                result = apiManager.Verify(eventOptions);
+                VerifyResult result = apiManager.Verify(eventOptions);
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(verifyResult.GetScore(), result.GetScore());
+                Assert.AreEqual(verifyResult.GetTriggers().Length, result.GetTriggers().Length);
+                Assert.AreEqual(verifyResult.GetRiskLevel(), result.GetRiskLevel());
             }
             catch (SecureNativeInvalidOptionsException)
             {
@@ -163,10 +94,11 @@ namespace SecureNative.SDK.Tests
             eventManager.StartEventsPersist();
             ApiManager apiManager = new ApiManager(eventManager, options);
 
-            VerifyResult verifyResult = null;
             try
             {
-                verifyResult = apiManager.Verify(eventOptions);
+                VerifyResult verifyResult = apiManager.Verify(eventOptions);
+
+                Assert.IsNotNull(verifyResult);
             }
             catch (SecureNativeInvalidOptionsException)
             {

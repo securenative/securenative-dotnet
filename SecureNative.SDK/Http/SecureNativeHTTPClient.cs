@@ -14,7 +14,7 @@ namespace SecureNative.SDK.Http
         private readonly string USER_AGENT_HEADER_VALUE = "SecureNative-java";
         private static readonly HttpClient Client = new HttpClient();
         private SecureNativeOptions Options;
-        private static string JSON_MEDIA_TYPE = "application/json; charset=utf-8";
+        private static string JSON_MEDIA_TYPE = "application/json";
 
         public SecureNativeHTTPClient(SecureNativeOptions options)
         {

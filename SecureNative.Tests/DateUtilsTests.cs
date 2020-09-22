@@ -14,7 +14,7 @@ namespace SecureNative.SDK.Tests
             DateTime date = DateTime.Parse(iso8601Date);
             String result = DateUtils.ToTimestamp(date);
 
-            Assert.Equals(result, iso8601Date);
+            Assert.AreEqual(result, iso8601Date);
         }
 
         [TestMethod]
