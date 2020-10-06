@@ -1,7 +1,7 @@
 ﻿using System;
 using NLog;
 
-namespace securenative_dotnet.Utils
+namespace SecureNative.SDK.Utils
 {
     public class SecureNativeLogger
     {

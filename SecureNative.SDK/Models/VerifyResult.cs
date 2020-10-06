@@ -49,5 +49,10 @@ namespace SecureNative.SDK.Models
         {
             this.Triggers = value;
         }
+
+        public override string ToString()
+        {
+            return "Risk Level: " + this.RiskLevel.ToString() + "Score: " + this.Score.ToString() + "Trigger: " + this.Triggers.ToString();
+        }
     }
 }

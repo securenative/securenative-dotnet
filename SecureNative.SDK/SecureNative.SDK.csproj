@@ -2,8 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <RootNamespace>SecureNative</RootNamespace>
+    <RootNamespace>SecureNative.SDK</RootNamespace>
     <ReleaseVersion>2.0.0</ReleaseVersion>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageVersion>2.0.0</PackageVersion>
+    <Authors>SecureNative</Authors>
+    <Owners>SecureNative</Owners>
+    <PackageProjectUrl>https://github.com/securenative/securenative-dotnet</PackageProjectUrl>
+    <Summary>SecureNative.SDK</Summary>
+    <Description>SecureNative.SDK</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,7 +18,7 @@
     <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
     <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="NLog" Version="4.7.4" />
+    <PackageReference Include="NLog" Version="4.7.5" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>

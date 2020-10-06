@@ -7,7 +7,6 @@ using SecureNative.SDK.Context;
 using SecureNative.SDK.Exceptions;
 using SecureNative.SDK.Models;
 using SecureNative.SDK.Utils;
-using securenative_dotnet.Utils;
 
 namespace SecureNative.SDK
 {
@@ -32,8 +31,8 @@ namespace SecureNative.SDK
             }
             this.ApiManager = new ApiManager(eventManager, options);
 
-            LogLevel logLevel = SecureNativeLogger.GetLogLevel(options.GetLogLevel());
-            SecureNativeLogger.InitLogger(logLevel);
+            LogLevel logLevel = Utils.SecureNativeLogger.GetLogLevel(options.GetLogLevel());
+            Utils.SecureNativeLogger.InitLogger(logLevel);
         }
 
         public static SecureNative Init(SecureNativeOptions options)
