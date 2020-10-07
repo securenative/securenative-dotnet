@@ -11,6 +11,11 @@
     <PackageProjectUrl>https://github.com/securenative/securenative-dotnet</PackageProjectUrl>
     <Summary>SecureNative.SDK</Summary>
     <Description>SecureNative.SDK</Description>
+    <Copyright>SecureNative</Copyright>
+    <PackageIconUrl>https://docs.securenative.com/img/logo/sn_white.png</PackageIconUrl>
+    <PackageTags>SecureNative, SDK</PackageTags>
+    <Title>SecureNative .Net SDK</Title>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <ItemGroup>
