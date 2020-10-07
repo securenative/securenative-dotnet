@@ -22,6 +22,9 @@ namespace SecureNative.SDK.Http
         {
             _options = options;
             _client = handler != null ? new HttpClient(handler) : new HttpClient();
+            _client.DefaultRequestHeaders.Add(UserAgentHeader, UserAgentHeaderValue);
+            _client.DefaultRequestHeaders.Add(VersionHeader, Utils.VersionUtils.GetVersion());
+            _client.DefaultRequestHeaders.Add(AuthorizationHeader, options.GetApiKey());
         }
 
         public HttpResponse Post(string path, string body)

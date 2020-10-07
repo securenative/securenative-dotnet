@@ -13,25 +13,25 @@ namespace SecureNative.SDK.Tests
         [ExpectedException(typeof(SecureNativeSdkIllegalStateException), "Get SDK instance without Initialization")]
         public void GetSDKInstanceWithoutInitThrowsTest()
         {
-            SecureNative.Flush();
-            SecureNative.GetInstance();
+            Client.Flush();
+            Client.GetInstance();
         }
 
         [TestMethod]
         [ExpectedException(typeof(SecureNativeConfigException), "Initialize SDK with empty api key")]
         public void InitSDKWithEmptyApiKeyShouldThrowTest()
         {
-            SecureNative.Flush();
-            SecureNative.Init("");
+            Client.Flush();
+            Client.Init("");
         }
 
         [TestMethod]
         public void InitSDKWithApiKeyAndDefaultsTest()
         {
-            SecureNative.Flush();
+            Client.Flush();
             string apiKey = "API_KEY";
-            SecureNative secureNative = SecureNative.Init(apiKey);
-            SecureNativeOptions options = secureNative.GetOptions();
+            Client client = Client.Init(apiKey);
+            SecureNativeOptions options = client.GetOptions();
 
             Assert.AreEqual(apiKey, options.GetApiKey());
             Assert.AreEqual("https://api.securenative.com/collector/api/v1", options.GetApiUrl());
@@ -48,32 +48,32 @@ namespace SecureNative.SDK.Tests
         [ExpectedException(typeof(SecureNativeSdkException), "Initialize SDK twice")]
         public void InitSDKTwiceWillThrowTest()
         {
-            SecureNative.Flush();
-            SecureNative.Init();
-            SecureNative.Init();
+            Client.Flush();
+            Client.Init();
+            Client.Init();
         }
 
         [TestMethod]
         public void InitSDKWithApiKeyAndGetInstanceShouldMatchTest()
         {
-            SecureNative.Flush();
+            Client.Flush();
             string apiKey = "API_KEY";
-            SecureNative secureNative = SecureNative.Init(apiKey);
+            Client client = Client.Init(apiKey);
 
-            Assert.AreEqual(secureNative, SecureNative.GetInstance());
+            Assert.AreEqual(client, Client.GetInstance());
         }
 
         [TestMethod]
         public void InitSDKWithBuilderTest()
         {
-            SecureNative.Flush();
-            SecureNative secureNative = SecureNative.Init(SecureNative.ConfigBuilder()
+            Client.Flush();
+            Client client = Client.Init(Client.ConfigBuilder()
                     .WithApiKey("API_KEY")
                     .WithMaxEvents(10)
                     .WithLogLevel("error")
                     .Build());
 
-            SecureNativeOptions options = secureNative.GetOptions();
+            SecureNativeOptions options = client.GetOptions();
 
             Assert.AreEqual("API_KEY", options.GetApiKey());
             Assert.AreEqual(10, options.GetMaxEvents());
