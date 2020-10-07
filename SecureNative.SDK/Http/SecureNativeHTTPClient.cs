@@ -2,41 +2,36 @@
 using System.Net.Http;
 using System.Text;
 using Newtonsoft.Json;
+using NLog;
 using SecureNative.SDK.Config;
 
 namespace SecureNative.SDK.Http
 {
-    public class SecureNativeHTTPClient : IHttpClient
+    public class SecureNativeHttpClient : IHttpClient
     {
-        private readonly string AUTHORIZATION_HEADER = "Authorization";
-        private readonly string VERSION_HEADER = "SN-Version";
-        private readonly string USER_AGENT_HEADER = "User-Agent";
-        private readonly string USER_AGENT_HEADER_VALUE = "SecureNative-dotnet";
-        private readonly HttpClient Client = new HttpClient();
-        private SecureNativeOptions Options;
-        private static string JSON_MEDIA_TYPE = "application/json";
-        private readonly static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private const string AuthorizationHeader = "Authorization";
+        private const string VersionHeader = "SN-Version";
+        private const string UserAgentHeader = "User-Agent";
+        private const string UserAgentHeaderValue = "SecureNative-dotnet";
+        private const string JsonMediaType = "application/json";
+        private readonly HttpClient _client;
+        private readonly SecureNativeOptions _options;
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public SecureNativeHTTPClient(SecureNativeOptions options, HttpMessageHandler handler = null)
+        public SecureNativeHttpClient(SecureNativeOptions options, HttpMessageHandler handler = null)
         {
-            this.Options = options;
-            if (handler != null)
-            {
-                this.Client = new HttpClient(handler);
-            } else
-            {
-                this.Client = new HttpClient();
-            }
-    }
+            _options = options;
+            _client = handler != null ? new HttpClient(handler) : new HttpClient();
+        }
 
         public HttpResponse Post(string path, string body)
         {
-            string url = this.Options.GetApiUrl() + "/"  + path;
-            var data = new StringContent(body, Encoding.UTF8, JSON_MEDIA_TYPE);
-
+            var url = _options.GetApiUrl() + "/"  + path;
+            
             try
             {
-                var response = Client.PostAsync(url, data).Result;
+                var data = new StringContent(body, Encoding.UTF8, JsonMediaType);
+                var response = _client.PostAsync(url, data).Result;
 
                 if (response != null)
                 {
@@ -47,13 +42,13 @@ namespace SecureNative.SDK.Http
                     }
                     catch (Exception e)
                     {
-                        Logger.Warn("Failed to parse response body: " + e.ToString());
+                        Logger.Warn("Failed to parse response body: " + e);
                         return new HttpResponse(false, (int)response.StatusCode, null);
                     }
                 }
             } catch (Exception e)
             {
-                Logger.Warn("Could not post request: " + e.ToString());
+                Logger.Warn("Could not post request: " + e);
             }
 
             return new HttpResponse(false, 500, null);

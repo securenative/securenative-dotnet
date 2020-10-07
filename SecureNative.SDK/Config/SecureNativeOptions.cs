@@ -1,5 +1,4 @@
-﻿using System;
-using SecureNative.SDK.Enums;
+﻿using SecureNative.SDK.Enums;
 
 namespace SecureNative.SDK.Config
 {
@@ -10,112 +9,112 @@ namespace SecureNative.SDK.Config
         private int Interval { get; set; }
         private int MaxEvents { get; set; }
         private int Timeout { get; set; }
-        private Boolean AutoSend { get; set; }
-        private Boolean Disable { get; set; }
+        private bool AutoSend { get; set; }
+        private bool Disable { get; set; }
         private string LogLevel { get; set; }
         private FailOverStrategy FailoverStrategy { get; set; }
 
-        public SecureNativeOptions(string apiKey, string apiUrl, int interval, int maxEvents, int timeout, Boolean autoSend, Boolean disable, string logLevel, FailOverStrategy failoverStrategy)
+        public SecureNativeOptions(string apiKey, string apiUrl, int interval, int maxEvents, int timeout, bool autoSend, bool disable, string logLevel, FailOverStrategy failoverStrategy)
         {
-            this.ApiKey = apiKey;
-            this.ApiUrl = apiUrl;
-            this.Interval = interval;
-            this.MaxEvents = maxEvents;
-            this.Timeout = timeout;
-            this.AutoSend = autoSend;
-            this.Disable = disable;
-            this.LogLevel = logLevel;
-            this.FailoverStrategy = failoverStrategy;
+            ApiKey = apiKey;
+            ApiUrl = apiUrl;
+            Interval = interval;
+            MaxEvents = maxEvents;
+            Timeout = timeout;
+            AutoSend = autoSend;
+            Disable = disable;
+            LogLevel = logLevel;
+            FailoverStrategy = failoverStrategy;
         }
 
         public string GetApiKey()
         {
-            return this.ApiKey;
+            return ApiKey;
         }
 
         public void SetApiKey(string value)
         {
-            this.ApiKey = value;
+            ApiKey = value;
         }
 
         public string GetApiUrl()
         {
-            return this.ApiUrl;
+            return ApiUrl;
         }
 
         public void SetApiUrl(string value)
         {
-            this.ApiUrl = value;
+            ApiUrl = value;
         }
 
         public int GetInterval()
         {
-            return this.Interval;
+            return Interval;
         }
 
         public void SetInterval(int value)
         {
-            this.Interval = value;
+            Interval = value;
         }
 
         public int GetMaxEvents()
         {
-            return this.MaxEvents;
+            return MaxEvents;
         }
 
         public void SetMaxEvents(int value)
         {
-            this.MaxEvents = value;
+            MaxEvents = value;
         }
 
         public int GetTimeout()
         {
-            return this.Timeout;
+            return Timeout;
         }
 
         public void SetTimeout(int value)
         {
-            this.Timeout = value;
+            Timeout = value;
         }
 
-        public Boolean IsAutoSend()
+        public bool IsAutoSend()
         {
-            return this.AutoSend;
+            return AutoSend;
         }
 
-        public void SetAutoSend(Boolean value)
+        public void SetAutoSend(bool value)
         {
-            this.AutoSend = value;
+            AutoSend = value;
         }
 
-        public Boolean IsDisabled()
+        public bool IsDisabled()
         {
-            return this.Disable;
+            return Disable;
         }
 
-        public void SetDisabled(Boolean value)
+        public void SetDisabled(bool value)
         {
-            this.Disable = value;
+            Disable = value;
         }
 
         public string GetLogLevel()
         {
-            return this.LogLevel;
+            return LogLevel;
         }
 
         public void SetLogLevel(string value)
         {
-            this.LogLevel = value;
+            LogLevel = value;
         }
 
         public FailOverStrategy GetFailoverStrategy()
         {
-            return this.FailoverStrategy;
+            return FailoverStrategy;
         }
 
         public void SetFailoverStrategy(FailOverStrategy value)
         {
-            this.FailoverStrategy = value;
+            FailoverStrategy = value;
         }
     }
 }

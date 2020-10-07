@@ -9,8 +9,8 @@ namespace SecureNative.SDK
 {
     public class EventOptionsBuilder
     {
-        private readonly int MAX_PROPERTIES_SIZE = 10;
-        private readonly EventOptions EventOptions;
+        private const int MaxPropertiesSize = 10;
+        private readonly EventOptions _eventOptions;
 
         public static EventOptionsBuilder Builder(string eventType)
         {
@@ -24,64 +24,65 @@ namespace SecureNative.SDK
 
         private EventOptionsBuilder(string eventType)
         {
-            this.EventOptions = new EventOptions(eventType);
+            _eventOptions = new EventOptions(eventType);
         }
 
         public EventOptionsBuilder WithUserId(string userId)
         {
-            this.EventOptions.SetUserId(userId);
+            _eventOptions.SetUserId(userId);
             return this;
         }
 
         public EventOptionsBuilder WithUserTraits(string name)
         {
-            this.EventOptions.SetUserTraits(new UserTraits(name));
+            _eventOptions.SetUserTraits(new UserTraits(name));
             return this;
         }
 
         public EventOptionsBuilder WithUserTraits(string name, string email)
         {
-            this.EventOptions.SetUserTraits(new UserTraits(name, email));
+            _eventOptions.SetUserTraits(new UserTraits(name, email));
             return this;
         }
 
         public EventOptionsBuilder WithUserTraits(string name, string email, string phone, DateTime createdAt)
         {
-            this.EventOptions.SetUserTraits(new UserTraits(name, email, phone, createdAt));
+            _eventOptions.SetUserTraits(new UserTraits(name, email, phone, createdAt));
             return this;
         }
 
         public EventOptionsBuilder WithUserTraits(string name, string email, string phone)
         {
-            this.EventOptions.SetUserTraits(new UserTraits(name, email, phone));
+            _eventOptions.SetUserTraits(new UserTraits(name, email, phone));
             return this;
         }
 
         public EventOptionsBuilder WithContext(SecureNativeContext context)
         {
-            this.EventOptions.SetContext(context);
+            _eventOptions.SetContext(context);
             return this;
         }
 
         public EventOptionsBuilder WithProperties(Dictionary<Object, Object> properties)
         {
-            this.EventOptions.SetProperties(properties);
+            _eventOptions.SetProperties(properties);
             return this;
         }
 
         public EventOptionsBuilder WithTimestamp(DateTime timestamp)
         {
-            this.EventOptions.SetTimestamp(timestamp);
+            _eventOptions.SetTimestamp(timestamp);
             return this;
         }
 
         public EventOptions Build()
         {
-            if (this.EventOptions.GetProperties() != null && this.EventOptions.GetProperties().Count > MAX_PROPERTIES_SIZE)
+            if (_eventOptions.GetProperties() != null && _eventOptions.GetProperties().Count > MaxPropertiesSize)
             {
-                throw new SecureNativeInvalidOptionsException(String.Format("You can have only up to %d custom properties", MAX_PROPERTIES_SIZE));
+                throw new SecureNativeInvalidOptionsException(
+                    $"You can have only up to {MaxPropertiesSize} custom properties");
             }
-            return this.EventOptions;
+            return _eventOptions;
         }
     }
 }

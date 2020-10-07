@@ -1,6 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Net;
+using System.Text;
 using NLog;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Context;
@@ -12,42 +12,39 @@ namespace SecureNative.SDK
 {
     public class SecureNative : IApiManager
     {
-        private static SecureNative Securenative = null;
-        private readonly ApiManager ApiManager;
-        private readonly SecureNativeOptions Options;
+        private static SecureNative _securenative;
+        private readonly ApiManager _apiManager;
+        private readonly SecureNativeOptions _options;
 
         public SecureNative(SecureNativeOptions options)
         {
-            if (Utils.Utils.IsNullOrEmpty(options.GetApiKey()))
+            if (string.IsNullOrEmpty(options.GetApiKey()))
             {
-                throw new SecureNativeSDKException("You must pass your SecureNative api key");
+                throw new SecureNativeSdkException("You must pass your SecureNative api key");
             }
-            this.Options = options;
+            _options = options;
 
-            EventManager eventManager = new EventManager(options);
+            var eventManager = new EventManager(options);
             if (options.IsAutoSend())
             {
                 eventManager.StartEventsPersist();
             }
-            this.ApiManager = new ApiManager(eventManager, options);
+            _apiManager = new ApiManager(eventManager, options);
 
-            LogLevel logLevel = Utils.SecureNativeLogger.GetLogLevel(options.GetLogLevel());
-            Utils.SecureNativeLogger.InitLogger(logLevel);
+            LogLevel logLevel = SecureNativeLogger.GetLogLevel(options.GetLogLevel());
+            SecureNativeLogger.InitLogger(logLevel);
         }
 
         public static SecureNative Init(SecureNativeOptions options)
         {
-            if (Securenative == null)
-            {
-                Securenative = new SecureNative(options);
-                return Securenative;
-            }
-            throw new SecureNativeSDKException("This SDK was already initialized");
+            if (_securenative != null) throw new SecureNativeSdkException("This SDK was already initialized");
+            _securenative = new SecureNative(options);
+            return _securenative;
         }
 
         public static SecureNative Init(string apiKey)
         {
-            if (Utils.Utils.IsNullOrEmpty(apiKey))
+            if (string.IsNullOrEmpty(apiKey))
             {
                 throw new SecureNativeConfigException("You must pass your SecureNative api key");
             }
@@ -65,16 +62,16 @@ namespace SecureNative.SDK
 
         public static SecureNative GetInstance()
         {
-            if (Securenative == null)
+            if (_securenative == null)
             {
-                throw new SecureNativeSDKIllegalStateException();
+                throw new SecureNativeSdkIllegalStateException();
             }
-            return Securenative;
+            return _securenative;
         }
 
         public SecureNativeOptions GetOptions()
         {
-            return this.Options;
+            return _options;
         }
 
         public static SecureNativeConfigurationBuilder ConfigBuilder()
@@ -89,34 +86,31 @@ namespace SecureNative.SDK
 
         public void Track(EventOptions eventOptions)
         {
-            this.ApiManager.Track(eventOptions);
+            _apiManager.Track(eventOptions);
         }
 
         public VerifyResult Verify(EventOptions eventOptions)
         {
-            return this.ApiManager.Verify(eventOptions);
+            return _apiManager.Verify(eventOptions);
         }
 
-        public Boolean VerifyRequestPayload(HttpWebRequest request)
+        public bool VerifyRequestPayload(HttpWebRequest request)
         {
-            if (request.Headers[SignatureUtils.SIGNATURE_HEADER] != null)
-            {
-                string requestSignature = request.Headers.GetValues(SignatureUtils.SIGNATURE_HEADER).ToString();
+            if (request.Headers[SignatureUtils.SignatureHeader] == null) return false;
+            var requestSignature = request.Headers.GetValues(SignatureUtils.SignatureHeader)?.ToString();
 
-                HttpWebResponse res = (HttpWebResponse)request.GetResponse();
-                StreamReader sr = new StreamReader(res.GetResponseStream(), System.Text.Encoding.Default);
-                string body = sr.ReadToEnd();
-                sr.Close();
-                res.Close();
+            var res = (HttpWebResponse)request.GetResponse();
+            var sr = new StreamReader(res.GetResponseStream()!, Encoding.Default);
+            var body = sr.ReadToEnd();
+            sr.Close();
+            res.Close();
 
-                return SignatureUtils.IsValidSignature(requestSignature, body, this.Options.GetApiKey());
-            }
-            return false;
+            return SignatureUtils.IsValidSignature(requestSignature, body, _options.GetApiKey());
         }
 
         public static void Flush()
         {
-            Securenative = null;
+            _securenative = null;
         }
     }
 }

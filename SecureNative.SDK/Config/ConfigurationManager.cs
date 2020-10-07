@@ -6,23 +6,19 @@ using SecureNative.SDK.Enums;
 
 namespace SecureNative.SDK.Config
 {
-    public class ConfigurationManager
+    public static class ConfigurationManager
     {
-        private static string rootDir = Directory.GetParent(Environment.CurrentDirectory).Parent.FullName.Replace("/bin", "");
-        private readonly static string DEFAULT_CONFIG_FILE = rootDir + @"/securenative.json";
-        private readonly static string CUSTOM_CONFIG_FILE_ENV_NAME = "SECURENATIVE_CONFIG_FILE";
-        private readonly static NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
-
-        public ConfigurationManager()
-        {
-        }
+        private static readonly string RootDir = Directory.GetParent(Environment.CurrentDirectory).Parent?.FullName.Replace("/bin", "");
+        private static readonly string DefaultConfigFile = RootDir + @"/securenative.json";
+        private const string CustomConfigFileEnvName = "SECURENATIVE_CONFIG_FILE";
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         public static SecureNativeOptions LoadConfig()
         {
             var properties = new JObject();
             try
             {
-                string resourceFilePath = (string)GetEnvOrDefault(CUSTOM_CONFIG_FILE_ENV_NAME, DEFAULT_CONFIG_FILE);
+                var resourceFilePath = (string)GetEnvOrDefault(CustomConfigFileEnvName, DefaultConfigFile);
                 properties = ReadResourceFile(resourceFilePath);
             }
             catch (Exception)
@@ -59,21 +55,16 @@ namespace SecureNative.SDK.Config
             return SecureNativeConfigurationBuilder.DefaultConfigBuilder();
         }
 
-        private static string GetPropertyOrEnvOrDefault(JObject properties, string key, Object defaultValue)
+        private static string GetPropertyOrEnvOrDefault(JObject properties, string key, object defaultValue)
         {
-            Object res = properties.GetValue(key);
-
-            if (res == null)
-            {
-                return GetEnvOrDefault(key, defaultValue).ToString();
-            }
-            return res.ToString();
+            object res = properties.GetValue(key);
+            return res == null ? GetEnvOrDefault(key, defaultValue).ToString() : res.ToString();
         }
 
         private static SecureNativeOptions GetOptions(JObject properties)
         {
-            SecureNativeConfigurationBuilder builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
-            SecureNativeOptions defaultOptions = builder.Build();
+            var builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
+            var defaultOptions = builder.Build();
 
             var failStretagey = GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_FAILOVER_STRATEGY", defaultOptions.GetFailoverStrategy());
             var strategy = failStretagey switch
@@ -84,9 +75,9 @@ namespace SecureNative.SDK.Config
             };
             builder.WithApiKey(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_API_KEY", defaultOptions.GetApiKey()))
                     .WithApiUrl(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_API_URL", defaultOptions.GetApiUrl()))
-                    .WithInterval(Int32.Parse((string)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_INTERVAL", defaultOptions.GetInterval())))
-                    .WithMaxEvents(Int32.Parse((string)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_MAX_EVENTS", defaultOptions.GetMaxEvents())))
-                    .WithTimeout(Int32.Parse((string)GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_TIMEOUT", defaultOptions.GetTimeout())))
+                    .WithInterval(int.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_INTERVAL", defaultOptions.GetInterval())))
+                    .WithMaxEvents(int.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_MAX_EVENTS", defaultOptions.GetMaxEvents())))
+                    .WithTimeout(int.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_TIMEOUT", defaultOptions.GetTimeout())))
                     .WithAutoSend(bool.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_AUTO_SEND", defaultOptions.IsAutoSend())))
                     .WithDisable(bool.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_DISABLE", defaultOptions.IsDisabled())))
                     .WithLogLevel(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_LOG_LEVEL", defaultOptions.GetLogLevel()))
@@ -95,15 +86,10 @@ namespace SecureNative.SDK.Config
             return builder.Build();
         }
 
-        private static Object GetEnvOrDefault(string envName, Object defaultValue)
+        private static object GetEnvOrDefault(string envName, object defaultValue)
         {
             var envValue = Environment.GetEnvironmentVariable(envName);
-            if (envValue != null)
-            {
-                return envValue;
-            }
-
-            return defaultValue;
+            return envValue ?? defaultValue;
         }
     }
 }

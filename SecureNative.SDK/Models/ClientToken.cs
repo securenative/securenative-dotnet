@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SecureNative.SDK.Models
+﻿namespace SecureNative.SDK.Models
 {
     public class ClientToken
     {
@@ -8,45 +6,41 @@ namespace SecureNative.SDK.Models
         private string Vid { get; set; }
         private string Fp { get; set; }
 
-        public ClientToken()
-        {
-        }
-
         public ClientToken(string cid, string vid, string fp)
         {
-            this.Cid = cid;
-            this.Fp = fp;
-            this.Vid = vid;
+            Cid = cid;
+            Fp = fp;
+            Vid = vid;
         }
 
         public string GetCid()
         {
-            return this.Cid;
+            return Cid;
         }
 
         public void SetCid(string value)
         {
-            this.Cid = value;
+            Cid = value;
         }
 
         public string GetVid()
         {
-            return this.Vid;
+            return Vid;
         }
 
         public void SetVid(string value)
         {
-            this.Vid = value;
+            Vid = value;
         }
 
         public string GetFp()
         {
-            return this.Fp;
+            return Fp;
         }
 
         public void SetFp(string value)
         {
-            this.Fp = value;
+            Fp = value;
         }
     }
 }

@@ -6,14 +6,10 @@ namespace SecureNative.SDK.Utils
     {
         public static string ToTimestamp(DateTime dateTime)
         {
-            if (dateTime == null)
-            {
-                dateTime = new DateTime();
-            }
             return dateTime.ToUniversalTime().ToString("s") + "Z";
         }
 
-        public static String GenerateTimestamp()
+        public static string GenerateTimestamp()
         {
             return DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
         }

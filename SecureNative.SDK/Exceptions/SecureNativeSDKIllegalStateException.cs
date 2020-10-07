@@ -2,14 +2,17 @@
 
 namespace SecureNative.SDK.Exceptions
 {
-    public class SecureNativeSDKIllegalStateException : Exception
+    public class SecureNativeSdkIllegalStateException : Exception
     {
-        public SecureNativeSDKIllegalStateException()
+        private readonly string _message;
+
+        public SecureNativeSdkIllegalStateException()
         {
         }
 
-        public SecureNativeSDKIllegalStateException(string message)
+        public SecureNativeSdkIllegalStateException(string message)
         {
+            _message = message;
         }
     }
 }

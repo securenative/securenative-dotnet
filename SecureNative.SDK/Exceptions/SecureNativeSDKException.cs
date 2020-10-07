@@ -2,10 +2,13 @@
 
 namespace SecureNative.SDK.Exceptions
 {
-    public class SecureNativeSDKException : Exception
+    public class SecureNativeSdkException : Exception
     {
-        public SecureNativeSDKException(string message)
+        private readonly string _message;
+
+        public SecureNativeSdkException(string message)
         {
+            _message = message;
         }
     }
 }

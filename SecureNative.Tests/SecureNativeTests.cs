@@ -10,7 +10,7 @@ namespace SecureNative.SDK.Tests
     public class SecureNativeTests
     {
         [TestMethod]
-        [ExpectedException(typeof(SecureNativeSDKIllegalStateException), "Get SDK instance without Initialization")]
+        [ExpectedException(typeof(SecureNativeSdkIllegalStateException), "Get SDK instance without Initialization")]
         public void GetSDKInstanceWithoutInitThrowsTest()
         {
             SecureNative.Flush();
@@ -45,7 +45,7 @@ namespace SecureNative.SDK.Tests
         }
 
         [TestMethod]
-        [ExpectedException(typeof(SecureNativeSDKException), "Initialize SDK twice")]
+        [ExpectedException(typeof(SecureNativeSdkException), "Initialize SDK twice")]
         public void InitSDKTwiceWillThrowTest()
         {
             SecureNative.Flush();

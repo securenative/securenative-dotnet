@@ -5,10 +5,6 @@ namespace SecureNative.SDK.Utils
 {
     public class SecureNativeLogger
     {
-        public SecureNativeLogger()
-        {
-        }
-
         public static void InitLogger(LogLevel logLevel)
         {
             try

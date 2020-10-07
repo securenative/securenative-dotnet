@@ -1,26 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 
 namespace SecureNative.SDK.Utils
 {
     public static class RequestUtils
     {
-        public readonly static string SECURENATIVE_COOKIE = "_sn";
-        public readonly static string SECURENATIVE_HEADER = "x-securenative";
-        private readonly static List<String> IpHeaders = new List<string> { "x-forwarded-for", "x-client-ip", "x-real-ip", "x-forwarded", "x-cluster-client-ip", "forwarded-for", "forwarded", "via" };
+        public const string SecurenativeCookie = "_sn";
+        private const string SecurenativeHeader = "x-securenative";
+        private static readonly List<string> IpHeaders = new List<string> { "x-forwarded-for", "x-client-ip", "x-real-ip", "x-forwarded", "x-cluster-client-ip", "forwarded-for", "forwarded", "via" };
 
         public static Dictionary<string, string> GetHeadersFromRequest(HttpWebRequest request)
         {
-            Dictionary<string, string> headers = new Dictionary<string, string>();
+            var headers = new Dictionary<string, string>();
             try
             {
                 foreach (var key in request.Headers.AllKeys)
                 {
                     headers.Add(key, request.Headers[key]);
                 }
-            } catch (Exception)
+            }
+            catch (Exception)
             {
+                // ignored
             }
 
             return headers;
@@ -28,13 +31,14 @@ namespace SecureNative.SDK.Utils
 
         public static string GetSecureHeaderFromRequest(Dictionary<string, string> headers)
         {
-            string header = "";
+            var header = "";
             try
             {
-                header = headers.GetValueOrDefault(SECURENATIVE_HEADER, "");
-            } catch (Exception)
+                header = headers.GetValueOrDefault(SecurenativeHeader, "");
+            }
+            catch (Exception)
             {
-
+                // ignored
             }
 
             return header;
@@ -42,13 +46,14 @@ namespace SecureNative.SDK.Utils
 
         public static string GetCookieValueFromRequest(HttpWebRequest request, string cookieName)
         {
-            string cookie = "";
+            var cookie = "";
             try
             {
-                cookie = request.Headers.GetValues(cookieName)[0];
-            } catch (Exception)
+                cookie = request.Headers.GetValues(cookieName)?[0];
+            }
+            catch (Exception)
             {
-
+                // ignored
             }
 
             return cookie;
@@ -58,12 +63,9 @@ namespace SecureNative.SDK.Utils
         {
             try
             {
-                foreach (var header in IpHeaders)
+                foreach (var header in IpHeaders.Where(header => request.Headers.Get(header) != null))
                 {
-                    if (request.Headers.Get(header) != null)
-                    {
-                        return request.Headers.Get(header);
-                    }
+                    return request.Headers.Get(header);
                 }
             }
             catch (Exception)
@@ -77,12 +79,9 @@ namespace SecureNative.SDK.Utils
         {
             try
             {
-                foreach (var header in IpHeaders)
+                foreach (var header in IpHeaders.Where(header => request.Headers.Get(header) != null))
                 {
-                    if (request.Headers.Get(header) != null)
-                    {
-                        return request.Headers.Get(header);
-                    }
+                    return request.Headers.Get(header);
                 }
             }
             catch (Exception)

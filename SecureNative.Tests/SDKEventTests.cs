@@ -18,7 +18,7 @@ namespace SecureNative.SDK.Tests
             EventOptions e = new EventOptions(EventTypes.LOG_IN.ToString());
             e.SetUserId("");
 
-            SDKEvent _ = new SDKEvent(e, options);
+            SdkEvent _ = new SdkEvent(e, options);
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace SecureNative.SDK.Tests
             SecureNativeOptions options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
             EventOptions e = new EventOptions(EventTypes.LOG_IN.ToString());
 
-            SDKEvent _ = new SDKEvent(e, options);
+            SdkEvent _ = new SdkEvent(e, options);
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace SecureNative.SDK.Tests
             SecureNativeOptions options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
             EventOptions e = new EventOptions("");
 
-            SDKEvent _ = new SDKEvent(e, options);
+            SdkEvent _ = new SdkEvent(e, options);
         }
     }
 }

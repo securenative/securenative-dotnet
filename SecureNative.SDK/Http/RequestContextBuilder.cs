@@ -1,71 +1,70 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using SecureNative.SDK.Models;
 
 namespace SecureNative.SDK.Http
 {
     public class RequestContextBuilder
     {
-        private string Cid;
-        private string Vid;
-        private string Fp;
-        private string Ip;
-        private string RemoteIp;
-        private Dictionary<string, string> Headers;
-        private string Url;
-        private string Method;
+        private string _cid;
+        private string _vid;
+        private string _fp;
+        private string _ip;
+        private string _remoteIp;
+        private Dictionary<string, string> _headers;
+        private string _url;
+        private string _method;
 
         public RequestContextBuilder WithCid(string cid)
         {
-            this.Cid = cid;
+            _cid = cid;
             return this;
         }
 
         public RequestContextBuilder WithVid(string vid)
         {
-            this.Vid = vid;
+            _vid = vid;
             return this;
         }
 
         public RequestContextBuilder WithFp(string fp)
         {
-            this.Fp = fp;
+            _fp = fp;
             return this;
         }
 
         public RequestContextBuilder WithIp(string ip)
         {
-            this.Ip = ip;
+            _ip = ip;
             return this;
         }
 
         public RequestContextBuilder WithRemoteIp(string remoteIp)
         {
-            this.RemoteIp = remoteIp;
+            _remoteIp = remoteIp;
             return this;
         }
 
         public RequestContextBuilder WitHeaders(Dictionary<string, string> headers)
         {
-            this.Headers = headers;
+            _headers = headers;
             return this;
         }
 
         public RequestContextBuilder WithUrl(string url)
         {
-            this.Url = url;
+            _url = url;
             return this;
         }
 
         public RequestContextBuilder WithMethod(string method)
         {
-            this.Method = method;
+            _method = method;
             return this;
         }
 
         public RequestContext Build()
         {
-            return new RequestContext(Cid, Vid, Fp, Ip, RemoteIp, Headers, Url, Method);
+            return new RequestContext(_cid, _vid, _fp, _ip, _remoteIp, _headers, _url, _method);
         }
     }
 }

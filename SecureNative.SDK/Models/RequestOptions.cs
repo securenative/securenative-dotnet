@@ -1,47 +1,46 @@
-﻿using System;
-namespace SecureNative.SDK.Models
+﻿namespace SecureNative.SDK.Models
 {
     public class RequestOptions
     {
         private string Url { get; set; }
         private string Body { get; set; }
-        private Boolean Retry { get; set; }
+        private bool Retry { get; set; }
 
-        public RequestOptions(string url, string body, Boolean retry)
+        public RequestOptions(string url, string body, bool retry)
         {
-            this.Url = url;
-            this.Body = body;
-            this.Retry = retry;
+            Url = url;
+            Body = body;
+            Retry = retry;
         }
 
         public string GetUrl()
         {
-            return this.Url;
+            return Url;
         }
 
         public void SetUrl(string value)
         {
-            this.Url = value;
+            Url = value;
         }
 
         public string GetBody()
         {
-            return this.Body;
+            return Body;
         }
 
         public void SetBody(string value)
         {
-            this.Body = value;
+            Body = value;
         }
 
-        public Boolean GetRetry()
+        public bool GetRetry()
         {
-            return this.Retry;
+            return Retry;
         }
 
-        public void SetRetry(Boolean value)
+        public void SetRetry(bool value)
         {
-            this.Retry = value;
+            Retry = value;
         }
     }
 }

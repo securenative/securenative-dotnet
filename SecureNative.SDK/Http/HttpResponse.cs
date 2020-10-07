@@ -1,47 +1,46 @@
-﻿using System;
-namespace SecureNative.SDK.Http
+﻿namespace SecureNative.SDK.Http
 {
     public class HttpResponse
     {
-        private Boolean Ok { get; set; }
+        private bool Ok { get; set; }
         private int StatusCode { get; set; }
         private string Body { get; set; }
 
-        public HttpResponse(Boolean ok, int statusCode, string body)
+        public HttpResponse(bool ok, int statusCode, string body)
         {
-            this.Ok = ok;
-            this.StatusCode = statusCode;
-            this.Body = body;
+            Ok = ok;
+            StatusCode = statusCode;
+            Body = body;
         }
 
-        public Boolean IsOk()
+        public bool IsOk()
         {
-            return this.Ok;
+            return Ok;
         }
 
-        public void SetOk(Boolean value)
+        public void SetOk(bool value)
         {
-            this.Ok = value;
+            Ok = value;
         }
 
         public int GetStatusCode()
         {
-            return this.StatusCode;
+            return StatusCode;
         }
 
         public void SetStatusCode(int value)
         {
-            this.StatusCode = value;
+            StatusCode = value;
         }
 
         public string GetBody()
         {
-            return this.Body;
+            return Body;
         }
 
         public void SetBody(string value)
         {
-            this.Body = value;
+            Body = value;
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SecureNative.SDK.Http
+﻿namespace SecureNative.SDK.Http
 {
     public interface IHttpClient
     {

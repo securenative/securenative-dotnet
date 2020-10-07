@@ -1,5 +1,4 @@
-﻿using System;
-using SecureNative.SDK.Models;
+﻿using SecureNative.SDK.Models;
 
 namespace SecureNative.SDK.Utils
 {

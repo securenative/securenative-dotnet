@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using SecureNative.SDK.Http;
 using SecureNative.SDK.Models;
 

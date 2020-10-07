@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 
 namespace SecureNative.SDK.Utils
@@ -8,9 +7,9 @@ namespace SecureNative.SDK.Utils
     {
         public static string GetVersion()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            string version = fileVersionInfo.ProductVersion;
+            var assembly = Assembly.GetExecutingAssembly();
+            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
+            var version = fileVersionInfo.ProductVersion;
 
             if (version == null || version.Equals(""))
             {

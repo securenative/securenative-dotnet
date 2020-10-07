@@ -10,14 +10,10 @@ namespace SecureNative.SDK.Config
         private int Interval { get; set; }
         private int MaxEvents { get; set; }
         private int Timeout { get; set; }
-        private Boolean AutoSend { get; set; }
-        private Boolean Disable { get; set; }
+        private bool AutoSend { get; set; }
+        private bool Disable { get; set; }
         private string LogLevel { get; set; }
         private FailOverStrategy FailoverStrategy { get; set; }
-
-        public SecureNativeConfigurationBuilder()
-        {
-        }
 
         public static SecureNativeConfigurationBuilder DefaultConfigBuilder()
         {
@@ -33,61 +29,60 @@ namespace SecureNative.SDK.Config
                     .WithFailoverStrategy(FailOverStrategy.FAIL_OPEN);
         }
 
-        public SecureNativeConfigurationBuilder WithApiKey(String apiKey)
+        public SecureNativeConfigurationBuilder WithApiKey(string apiKey)
         {
-            this.ApiKey = apiKey;
+            ApiKey = apiKey;
             return this;
         }
 
-        public SecureNativeConfigurationBuilder WithApiUrl(String apiUrl)
+        public SecureNativeConfigurationBuilder WithApiUrl(string apiUrl)
         {
-            this.ApiUrl = apiUrl;
+            ApiUrl = apiUrl;
             return this;
         }
 
         public SecureNativeConfigurationBuilder WithInterval(int interval)
         {
-            this.Interval = interval;
+            Interval = interval;
             return this;
         }
 
         public SecureNativeConfigurationBuilder WithMaxEvents(int maxEvents)
         {
-            this.MaxEvents = maxEvents;
+            MaxEvents = maxEvents;
             return this;
         }
 
         public SecureNativeConfigurationBuilder WithTimeout(int timeout)
         {
-            this.Timeout = timeout;
+            Timeout = timeout;
             return this;
         }
 
-        public SecureNativeConfigurationBuilder WithAutoSend(Boolean autoSend)
+        public SecureNativeConfigurationBuilder WithAutoSend(bool autoSend)
         {
-            this.AutoSend = autoSend;
+            AutoSend = autoSend;
             return this;
         }
 
-        public SecureNativeConfigurationBuilder WithDisable(Boolean disable)
+        public SecureNativeConfigurationBuilder WithDisable(bool disable)
         {
-            this.Disable = disable;
+            Disable = disable;
             return this;
         }
 
         public SecureNativeConfigurationBuilder WithLogLevel(String logLevel)
         {
-            this.LogLevel = logLevel;
+            LogLevel = logLevel;
             return this;
         }
 
         public SecureNativeConfigurationBuilder WithFailoverStrategy(FailOverStrategy failoverStrategy)
         {
-            this.FailoverStrategy = failoverStrategy;
+            FailoverStrategy = failoverStrategy;
             return this;
         }
-
-
+        
         public SecureNativeOptions Build()
         {
             return new SecureNativeOptions(ApiKey, ApiUrl, Interval, MaxEvents, Timeout, AutoSend, Disable, LogLevel, FailoverStrategy);

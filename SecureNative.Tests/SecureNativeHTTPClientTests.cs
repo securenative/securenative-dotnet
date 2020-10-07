@@ -18,7 +18,7 @@ namespace SecureNative.SDK.Tests
             var mockHttp = new MockHttpMessageHandler();
 
             mockHttp.When("http://localhost/api/*").Respond(HttpStatusCode.OK, "application/json", "{'SOME_BODY': 'BODY'}");
-            SecureNativeHTTPClient client = new SecureNativeHTTPClient(options, mockHttp);
+            SecureNativeHttpClient client = new SecureNativeHttpClient(options, mockHttp);
             HttpResponse response = client.Post("track", payload);
 
             Assert.AreEqual(true, response.IsOk());

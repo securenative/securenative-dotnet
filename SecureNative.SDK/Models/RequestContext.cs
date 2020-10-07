@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace SecureNative.SDK.Models
 {
@@ -14,100 +13,96 @@ namespace SecureNative.SDK.Models
         private string Url { get; set; }
         private string Method { get; set; }
 
-        public RequestContext()
-        {
-        }
-
         public RequestContext(string cid, string vid, string fp, string ip, string remoteIp, Dictionary<string, string> headers, string url, string method)
         {
-            this.Cid = cid;
-            this.Vid = vid;
-            this.Fp = fp;
-            this.Ip = ip;
-            this.RemoteIp = remoteIp;
-            this.Headers = headers;
-            this.Url = url;
-            this.Method = method;
+            Cid = cid;
+            Vid = vid;
+            Fp = fp;
+            Ip = ip;
+            RemoteIp = remoteIp;
+            Headers = headers;
+            Url = url;
+            Method = method;
         }
 
         public string GetCid()
         {
-            return this.Cid;
+            return Cid;
         }
 
         public void SetCid(string value)
         {
-            this.Cid = value;
+            Cid = value;
         }
 
         public string GetVid()
         {
-            return this.Vid;
+            return Vid;
         }
 
         public void SetVid(string value)
         {
-            this.Vid = value;
+            Vid = value;
         }
 
         public string GetFp()
         {
-            return this.Fp;
+            return Fp;
         }
 
         public void SetFp(string value)
         {
-            this.Fp = value;
+            Fp = value;
         }
 
         public string GetIp()
         {
-            return this.Ip;
+            return Ip;
         }
 
         public void SetIp(string value)
         {
-            this.Ip = value;
+            Ip = value;
         }
 
         public string GetRemoteIp()
         {
-            return this.RemoteIp;
+            return RemoteIp;
         }
 
         public void SetRemoteIp(string value)
         {
-            this.RemoteIp = value;
+            RemoteIp = value;
         }
 
         public Dictionary<string, string> GetHeaders()
         {
-            return this.Headers;
+            return Headers;
         }
 
         public void SetHeaders(Dictionary<string, string> value)
         {
-            this.Headers = value;
+            Headers = value;
         }
 
         public string GetUrl()
         {
-            return this.Url;
+            return Url;
         }
 
         public void SetUrl(string value)
         {
-            this.Url = value;
+            Url = value;
         }
 
         public string GetMethod()
         {
-            return this.Method;
+            return Method;
         }
 
         public void SetMethod(string value)
         {
-            this.Method = value;
+            Method = value;
         }
     }
 }

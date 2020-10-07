@@ -1,33 +1,27 @@
 ﻿using System;
 using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace SecureNative.SDK.Utils
 {
-    public static class IPUtils
+    public static class IpUtils
     {
-        private static readonly string VALID_IPV4_PATTERN = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
-        private static readonly string VALID_IPV6_PATTERN = "([0-9a-f]{1,4}:){7}([0-9a-f]){1,4}";
+        private const string ValidIpv4Pattern = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
+        private const string ValidIpv6Pattern = "([0-9a-f]{1,4}:){7}([0-9a-f]){1,4}";
 
-        public static Boolean IsIpAddress(string ipAddress)
+        public static bool IsIpAddress(string ipAddress)
         {
-            var match = Regex.IsMatch(ipAddress, VALID_IPV4_PATTERN);
+            var match = Regex.IsMatch(ipAddress, ValidIpv4Pattern);
             if (match)
             {
                 return true;
             }
 
-            match = Regex.IsMatch(ipAddress, VALID_IPV6_PATTERN);
-            if (match)
-            {
-                return true;
-            }
-
-            return false;
+            match = Regex.IsMatch(ipAddress, ValidIpv6Pattern);
+            return match;
         }
 
-        public static Boolean IsValidPublicIp(string ipAddress)
+        public static bool IsValidPublicIp(string ipAddress)
         {
             try
             {
@@ -48,7 +42,7 @@ namespace SecureNative.SDK.Utils
             }
         }
 
-        public static Boolean IsLoopBack(string ipAddress)
+        public static bool IsLoopBack(string ipAddress)
         {
             try
             {
