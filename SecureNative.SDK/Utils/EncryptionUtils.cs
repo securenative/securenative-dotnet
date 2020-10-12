@@ -10,7 +10,7 @@ namespace SecureNative.SDK.Utils
         public static ClientToken Decrypt(string secret, string key)
         {
             // TODO: implement me
-            return new ClientToken("", "", "");
+            return new ClientToken(null, null, null);
         }
 
         public static string Encrypt(string text, string key)

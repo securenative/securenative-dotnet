@@ -1,16 +1,25 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace SecureNative.SDK.Models
 {
     public class RequestContext
     {
+        [JsonProperty("cid", NullValueHandling=NullValueHandling.Ignore)]
         private string Cid { get; set; }
+        [JsonProperty("vid", NullValueHandling=NullValueHandling.Ignore)]
         private string Vid { get; set; }
+        [JsonProperty("fp", NullValueHandling=NullValueHandling.Ignore)]
         private string Fp { get; set; }
+        [JsonProperty("ip", NullValueHandling=NullValueHandling.Ignore)]
         private string Ip { get; set; }
+        [JsonProperty("remoteIp", NullValueHandling=NullValueHandling.Ignore)]
         private string RemoteIp { get; set; }
+        [JsonProperty("headers", NullValueHandling=NullValueHandling.Ignore)]
         private Dictionary<string, string> Headers { get; set; }
+        [JsonProperty("url", NullValueHandling=NullValueHandling.Ignore)]
         private string Url { get; set; }
+        [JsonProperty("method", NullValueHandling=NullValueHandling.Ignore)]
         private string Method { get; set; }
 
         public RequestContext(string cid, string vid, string fp, string ip, string remoteIp, Dictionary<string, string> headers, string url, string method)

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
+using Newtonsoft.Json;
 using NLog;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Http;
 using SecureNative.SDK.Models;
-using Newtonsoft.Json;
-
 
 namespace SecureNative.SDK
 {
@@ -32,6 +31,14 @@ namespace SecureNative.SDK
             _thread = new Thread(SendEvents);
             _thread.Start();
         }
+        
+        private static string SerializeSdkEvent(IEvent e)
+        {
+            var sdk = (SdkEvent) e;
+            return JsonConvert.SerializeObject(new RequestEvent(sdk.GetRid(), e.GetEventType(), sdk.GetUserId(),
+                sdk.GetUserTraits(),
+                sdk.GetRequest(), sdk.GetTimestamp(), sdk.GetProperties()));
+        }
 
         public void SendAsync(IEvent e, string url, bool retry)
         {
@@ -42,14 +49,6 @@ namespace SecureNative.SDK
 
             var body = SerializeSdkEvent(e);
             _events.Add(new RequestOptions(url, body, retry));
-        }
-
-        private static string SerializeSdkEvent(IEvent e)
-        {
-            var sdk = (SdkEvent) e;
-            return JsonConvert.SerializeObject(new RequestEvent(sdk.GetRid(), e.GetEventType(), sdk.GetUserId(),
-                sdk.GetUserTraits(),
-                sdk.GetRequest(), sdk.GetTimestamp(), sdk.GetProperties()));
         }
 
         public HttpResponse SendSync(IEvent e, string url)

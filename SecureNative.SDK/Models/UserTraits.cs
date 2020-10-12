@@ -1,12 +1,17 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace SecureNative.SDK.Models
 {
     public class UserTraits
     {
+        [JsonProperty("name", NullValueHandling=NullValueHandling.Ignore)]
         private string Name { get; set; }
+        [JsonProperty("email", NullValueHandling=NullValueHandling.Ignore)]
         private string Email { get; set; }
+        [JsonProperty("phone", NullValueHandling=NullValueHandling.Ignore)]
         private string Phone { get; set; }
+        [JsonProperty("createdAt", NullValueHandling=NullValueHandling.Ignore)] 
         private DateTime? CreatedAt { get; set; }
 
         public UserTraits(string name)
