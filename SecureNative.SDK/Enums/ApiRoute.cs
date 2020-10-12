@@ -1,12 +1,8 @@
-﻿using System.ComponentModel;
-
-namespace SecureNative.SDK.Enums
+﻿namespace SecureNative.SDK.Enums
 {
-    public enum ApiRoute
+    public static class ApiRoute
     {
-        [Description("track")]
-        TRACK,
-        [Description("verify")]
-        VERIFY
+        public static string TRACK = "track";
+        public static string VERIFY = "verify";
     }
 }

@@ -66,7 +66,7 @@ namespace SecureNative.SDK.Config
             var builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
             var defaultOptions = builder.Build();
 
-            var failStretagey = GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_FAILOVER_STRATEGY", defaultOptions.GetFailoverStrategy());
+            var failStretagey = GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_FAILOVER_STRATEGY", defaultOptions.GetFailOverStrategy());
             var strategy = failStretagey switch
             {
                 "fail-open" => FailOverStrategy.FAIL_OPEN,
@@ -81,7 +81,7 @@ namespace SecureNative.SDK.Config
                     .WithAutoSend(bool.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_AUTO_SEND", defaultOptions.IsAutoSend())))
                     .WithDisable(bool.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_DISABLE", defaultOptions.IsDisabled())))
                     .WithLogLevel(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_LOG_LEVEL", defaultOptions.GetLogLevel()))
-                    .WithFailoverStrategy(strategy);
+                    .WithFailOverStrategy(strategy);
 
             return builder.Build();
         }

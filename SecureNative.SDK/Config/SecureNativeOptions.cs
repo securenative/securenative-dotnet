@@ -1,6 +1,4 @@
-﻿using SecureNative.SDK.Enums;
-
-namespace SecureNative.SDK.Config
+﻿namespace SecureNative.SDK.Config
 {
     public class SecureNativeOptions
     {
@@ -12,9 +10,9 @@ namespace SecureNative.SDK.Config
         private bool AutoSend { get; set; }
         private bool Disable { get; set; }
         private string LogLevel { get; set; }
-        private FailOverStrategy FailoverStrategy { get; set; }
+        private string FailOverStrategy { get; set; }
 
-        public SecureNativeOptions(string apiKey, string apiUrl, int interval, int maxEvents, int timeout, bool autoSend, bool disable, string logLevel, FailOverStrategy failoverStrategy)
+        public SecureNativeOptions(string apiKey, string apiUrl, int interval, int maxEvents, int timeout, bool autoSend, bool disable, string logLevel, string failOverStrategy)
         {
             ApiKey = apiKey;
             ApiUrl = apiUrl;
@@ -24,7 +22,7 @@ namespace SecureNative.SDK.Config
             AutoSend = autoSend;
             Disable = disable;
             LogLevel = logLevel;
-            FailoverStrategy = failoverStrategy;
+            FailOverStrategy = failOverStrategy;
         }
 
         public string GetApiKey()
@@ -107,14 +105,14 @@ namespace SecureNative.SDK.Config
             LogLevel = value;
         }
 
-        public FailOverStrategy GetFailoverStrategy()
+        public string GetFailOverStrategy()
         {
-            return FailoverStrategy;
+            return FailOverStrategy;
         }
 
-        public void SetFailoverStrategy(FailOverStrategy value)
+        public void SetFailOverStrategy(string value)
         {
-            FailoverStrategy = value;
+            FailOverStrategy = value;
         }
     }
 }

@@ -39,7 +39,7 @@ namespace SecureNative.Tests
             Assert.AreEqual(true, options.IsAutoSend());
             Assert.AreEqual(false, options.IsDisabled());
             Assert.AreEqual("fatal", options.GetLogLevel());
-            Assert.AreEqual(FailOverStrategy.FAIL_OPEN, options.GetFailoverStrategy());
+            Assert.AreEqual(FailOverStrategy.FAIL_OPEN, options.GetFailOverStrategy());
         }
 
         [TestMethod]

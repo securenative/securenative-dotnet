@@ -18,7 +18,7 @@ namespace SecureNative.Tests
             Assert.AreEqual("SOME_API_URL", options.GetApiUrl());
             Assert.AreEqual(true, options.IsAutoSend());
             Assert.AreEqual(false, options.IsDisabled());
-            Assert.AreEqual(FailOverStrategy.FAIL_CLOSED, options.GetFailoverStrategy());
+            Assert.AreEqual(FailOverStrategy.FAIL_CLOSED, options.GetFailOverStrategy());
             Assert.AreEqual(1000, options.GetInterval());
             Assert.AreEqual("fatal", options.GetLogLevel());
             Assert.AreEqual(100, options.GetMaxEvents());
@@ -49,7 +49,7 @@ namespace SecureNative.Tests
             Assert.AreEqual(true, options.IsAutoSend());
             Assert.AreEqual(false, options.IsDisabled());
             Assert.AreEqual("fatal", options.GetLogLevel());
-            Assert.AreEqual(FailOverStrategy.FAIL_OPEN, options.GetFailoverStrategy());
+            Assert.AreEqual(FailOverStrategy.FAIL_OPEN, options.GetFailOverStrategy());
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace SecureNative.Tests
             Assert.AreEqual(false, options.IsAutoSend());
             Assert.AreEqual(true, options.IsDisabled());
             Assert.AreEqual("debug", options.GetLogLevel());
-            Assert.AreEqual(FailOverStrategy.FAIL_CLOSED, options.GetFailoverStrategy());
+            Assert.AreEqual(FailOverStrategy.FAIL_CLOSED, options.GetFailOverStrategy());
 
             Environment.SetEnvironmentVariable("SECURENATIVE_API_KEY", "");
             Environment.SetEnvironmentVariable("SECURENATIVE_API_URL", "");

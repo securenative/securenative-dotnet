@@ -2,13 +2,10 @@
 
 namespace SecureNative.SDK.Enums
 {
-    public enum RiskLevel
+    public static class RiskLevel
     {
-        [Description("low")]
-        LOW,
-        [Description("medium")]
-        MEDIUM,
-        [Description("high")]
-        HIGH
+        public static string LOW = "low";
+        public static string MEDIUM = "medium";
+        public static string HIGH = "high";
     }
 }

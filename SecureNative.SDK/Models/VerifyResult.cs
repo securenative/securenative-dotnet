@@ -1,10 +1,8 @@
-﻿using SecureNative.SDK.Enums;
-
-namespace SecureNative.SDK.Models
+﻿namespace SecureNative.SDK.Models
 {
     public class VerifyResult
     {
-        private RiskLevel RiskLevel { get; set; }
+        private string RiskLevel { get; set; }
         private float Score { get; set; }
         private string[] Triggers { get; set; }
 
@@ -12,19 +10,19 @@ namespace SecureNative.SDK.Models
         {
         }
 
-        public VerifyResult(RiskLevel riskLevel, float score, string[] triggers)
+        public VerifyResult(string riskLevel, float score, string[] triggers)
         {
             RiskLevel = riskLevel;
             Score = score;
             Triggers = triggers;
         }
 
-        public RiskLevel GetRiskLevel()
+        public string GetRiskLevel()
         {
             return RiskLevel;
         }
 
-        public void SetRiskLevel(RiskLevel value)
+        public void SetRiskLevel(string value)
         {
             RiskLevel = value;
         }
@@ -51,7 +49,8 @@ namespace SecureNative.SDK.Models
 
         public override string ToString()
         {
-            return "Risk Level: " + RiskLevel + "Score: " + Score + "Trigger: " + Triggers;
+            var triggers = Triggers.ToString() ?? "[]";
+            return "Risk Level: " + RiskLevel + " Score: " + Score + " Trigger: " + triggers;
         }
     }
 }

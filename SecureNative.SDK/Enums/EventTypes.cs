@@ -2,45 +2,26 @@
 
 namespace SecureNative.SDK.Enums
 {
-    public enum EventTypes
+    public static class EventTypes
     {
-        [Description("sn.user.login")]
-        LOG_IN,
-        [Description("sn.user.login.challenge")]
-        LOG_IN_CHALLENGE,
-        [Description("sn.user.login.failure")]
-        LOG_IN_FAILURE,
-        [Description("sn.user.logout")]
-        LOG_OUT,
-        [Description("sn.user.signup")]
-        SIGN_UP,
-        [Description("sn.user.auth.challenge")]
-        AUTH_CHALLENGE,
-        [Description("sn.user.auth.challenge.success")]
-        AUTH_CHALLENGE_SUCCESS,
-        [Description("sn.user.auth.challenge.failure")]
-        AUTH_CHALLENGE_FAILURE,
-        [Description("sn.user.2fa.disable")]
-        TWO_FACTOR_DISABLE,
-        [Description("sn.user.email.update")]
-        EMAIL_UPDATE,
-        [Description("sn.user.password.reset")]
-        PASSWORD_RESET,
-        [Description("sn.user.password.reset.success")]
-        PASSWORD_RESET_SUCCESS,
-        [Description("sn.user.password.update")]
-        PASSWORD_UPDATE,
-        [Description("sn.user.password.reset.failure")]
-        PASSWORD_RESET_FAILURE,
-        [Description("sn.user.invite")]
-        USER_INVITE,
-        [Description("sn.user.role.update")]
-        ROLE_UPDATE,
-        [Description("sn.user.profile.update")]
-        PROFILE_UPDATE,
-        [Description("sn.user.page.view")]
-        PAGE_VIEW,
-        [Description("sn.verify")]
-        VERIFY
+        public static string LOG_IN = "sn.user.login";
+        public static string LOG_IN_CHALLENGE = "sn.user.login.challenge";
+        public static string LOG_IN_FAILURE = "sn.user.login.failure";
+        public static string LOG_OUT = "sn.user.logout";
+        public static string SIGN_UP = "sn.user.signup";
+        public static string AUTH_CHALLENGE = "sn.user.auth.challenge";
+        public static string AUTH_CHALLENGE_SUCCESS = "sn.user.auth.challenge.success";
+        public static string AUTH_CHALLENGE_FAILURE = "sn.user.auth.challenge.failure";
+        public static string TWO_FACTOR_DISABLE = "sn.user.2fa.disable";
+        public static string EMAIL_UPDATE = "sn.user.email.update";
+        public static string PASSWORD_RESET = "sn.user.password.reset";
+        public static string PASSWORD_RESET_SUCCESS = "sn.user.password.reset.success";
+        public static string PASSWORD_UPDATE = "sn.user.password.update";
+        public static string PASSWORD_RESET_FAILURE = "sn.user.password.reset.failure";
+        public static string USER_INVITE = "sn.user.invite";
+        public static string ROLE_UPDATE = "sn.user.role.update";
+        public static string PROFILE_UPDATE = "sn.user.profile.update";
+        public static string PAGE_VIEW = "sn.user.page.view";
+        public static string VERIFY = "sn.verify";
     }
 }

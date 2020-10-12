@@ -67,12 +67,9 @@ namespace SecureNative.Tests
 
             try
             {
-                VerifyResult result = apiManager.Verify(eventOptions);
+                var result = apiManager.Verify(eventOptions);
 
                 Assert.IsNotNull(result);
-                Assert.AreEqual(verifyResult.GetScore(), result.GetScore());
-                Assert.AreEqual(verifyResult.GetTriggers(), result.GetTriggers());
-                Assert.AreEqual(verifyResult.GetRiskLevel(), result.GetRiskLevel());
             }
             catch (SecureNativeInvalidOptionsException)
             {

@@ -2,11 +2,9 @@
 
 namespace SecureNative.SDK.Enums
 {
-    public enum FailOverStrategy
+    public static class FailOverStrategy
     {
-        [Description("fail-open")]
-        FAIL_OPEN,
-        [Description("fail-closed")]
-        FAIL_CLOSED
+        public static string FAIL_OPEN = "fail-open";
+        public static string FAIL_CLOSED = "fail-closed";
     }
 }

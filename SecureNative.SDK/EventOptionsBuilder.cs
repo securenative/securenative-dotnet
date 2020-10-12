@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using SecureNative.SDK.Context;
-using SecureNative.SDK.Enums;
 using SecureNative.SDK.Exceptions;
 using SecureNative.SDK.Models;
 
@@ -15,11 +14,6 @@ namespace SecureNative.SDK
         public static EventOptionsBuilder Builder(string eventType)
         {
             return new EventOptionsBuilder(eventType);
-        }
-
-        public static EventOptionsBuilder Builder(EventTypes eventType)
-        {
-            return new EventOptionsBuilder(eventType.ToString());
         }
 
         private EventOptionsBuilder(string eventType)

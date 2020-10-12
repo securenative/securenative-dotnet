@@ -23,7 +23,7 @@ namespace SecureNative.SDK
         {
             Logger.Info("Track event call");
             var e = new SdkEvent(eventOptions, _options);
-            _eventManager.SendAsync(e, ApiRoute.TRACK.ToString(), true);
+            _eventManager.SendAsync(e, ApiRoute.TRACK, true);
         }
 
         public VerifyResult Verify(EventOptions eventOptions)
@@ -32,13 +32,13 @@ namespace SecureNative.SDK
             var e = new SdkEvent(eventOptions, _options);
             try
             {
-                var res = _eventManager.SendSync(e, ApiRoute.VERIFY.ToString());
+                var res = _eventManager.SendSync(e, ApiRoute.VERIFY);
                 return JsonConvert.DeserializeObject<VerifyResult>(res.GetBody());
             }
             catch (Exception ex)
             {
                 Logger.Error($"Failed to call verify; {ex.Message}");
-                return _options.GetFailoverStrategy() == FailOverStrategy.FAIL_OPEN ?
+                return FailOverStrategy.FAIL_OPEN.Equals(_options.GetFailOverStrategy()) ?
                         new VerifyResult(RiskLevel.LOW, 0, new string[0])
                         : new VerifyResult(RiskLevel.HIGH, 1, new string[0]);
             }
