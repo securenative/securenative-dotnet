@@ -40,7 +40,7 @@ namespace SecureNative.SDK.Http
                 {
                     try
                     {
-                        var b = JsonConvert.SerializeObject(response);
+                        var b = response.Content.ReadAsStringAsync().Result;
                         return new HttpResponse(true, (int)response.StatusCode, b);
                     }
                     catch (Exception e)

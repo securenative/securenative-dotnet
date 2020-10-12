@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -18,7 +19,7 @@ namespace SecureNative.SDK
         private int _attempt;
         private bool _sendEnabled;
         private readonly SecureNativeHttpClient _httpClient;
-        private readonly List<RequestOptions> _events;
+        private readonly Queue<RequestOptions> _events;
         private readonly Thread _thread;
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -27,7 +28,7 @@ namespace SecureNative.SDK
         {
             _options = options;
             _httpClient = new SecureNativeHttpClient(_options, handler);
-            _events = new List<RequestOptions>();
+            _events = new Queue<RequestOptions>();
             _thread = new Thread(SendEvents);
             _thread.Start();
         }
@@ -48,7 +49,7 @@ namespace SecureNative.SDK
             }
 
             var body = SerializeSdkEvent(e);
-            _events.Add(new RequestOptions(url, body, retry));
+            _events.Enqueue(new RequestOptions(url, body, retry));
         }
 
         public HttpResponse SendSync(IEvent e, string url)
@@ -102,9 +103,10 @@ namespace SecureNative.SDK
 
         private void Flush()
         {
-            foreach (var item in _events)
+            for (var i = 0; i < _events.Count; i++)
             {
-                _httpClient.Post(item.GetUrl(), item.GetBody());
+                var item = _events.Dequeue();
+                _httpClient.Post(item.GetUrl(), item.GetBody());   
             }
         }
 
@@ -114,11 +116,11 @@ namespace SecureNative.SDK
             {
                 if (_events.Count > 0 && _sendEnabled)
                 {
-                    foreach (var item in _events)
+                    var item = _events.Dequeue();
                     {
                         try
                         {
-                            HttpResponse res = _httpClient.Post(item.GetUrl(), item.GetBody());
+                            var res = _httpClient.Post(item.GetUrl(), item.GetBody());
                             if (res.GetStatusCode() == 401)
                             {
                                 item.SetRetry(false);
@@ -126,9 +128,8 @@ namespace SecureNative.SDK
                             else if (res.GetStatusCode() != 200)
                             {
                                 item.SetRetry(true);
+                                _events.Enqueue(item);
                             }
-
-                            _events.Remove(item);
                             Logger.Debug($"Event successfully sent; {item.GetBody()}");
                         }
                         catch (Exception e)

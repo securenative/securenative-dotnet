@@ -1,10 +1,17 @@
-﻿namespace SecureNative.SDK.Models
+﻿using System;
+using System.Linq;
+using Newtonsoft.Json;
+
+namespace SecureNative.SDK.Models
 {
     public class VerifyResult
     {
-        private string RiskLevel { get; set; }
-        private float Score { get; set; }
-        private string[] Triggers { get; set; }
+        [JsonProperty("riskLevel", NullValueHandling=NullValueHandling.Ignore)]
+        public string RiskLevel { get; set; }
+        [JsonProperty("score", NullValueHandling=NullValueHandling.Ignore)]
+        public float Score { get; set; }
+        [JsonProperty("triggers", NullValueHandling=NullValueHandling.Ignore)]
+        public string[] Triggers { get; set; }
 
         public VerifyResult()
         {
@@ -49,8 +56,7 @@
 
         public override string ToString()
         {
-            var triggers = Triggers.ToString() ?? "[]";
-            return "Risk Level: " + RiskLevel + " Score: " + Score + " Trigger: " + triggers;
+            return "Risk Level: " + RiskLevel + ", Score: " + Score + ", Triggers: [" + string.Join(",", Triggers) + "]";
         }
     }
 }
