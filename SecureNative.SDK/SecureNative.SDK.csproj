@@ -13,7 +13,6 @@
     <Summary>SecureNative.SDK</Summary>
     <Description>SecureNative.SDK</Description>
     <Copyright>SecureNative</Copyright>
-    <PackageIconUrl>https://docs.securenative.com/img/logo/sn_white.png</PackageIconUrl>
     <PackageTags>SecureNative, SDK</PackageTags>
     <Title>SecureNative .Net SDK</Title>
     <NeutralLanguage>en</NeutralLanguage>
@@ -44,6 +43,7 @@
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="NLog" Version="4.7.5" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
+    <PackageReference Include="Vse.Web.Serialization.ControlledSerializationJsonConverter" Version="1.0.4" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="SecureNative.Tests\obj\Debug\netcoreapp3.1\.NETCoreApp,Version=v3.1.AssemblyAttributes.cs" />

@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecureNative.SDK.Utils;
 
-namespace SecureNative.SDK.Tests
+namespace SecureNative.Tests
 {
     [TestClass]
     public class VersionTests

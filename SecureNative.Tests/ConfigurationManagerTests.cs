@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Enums;
 
-namespace SecureNative.SDK.Tests
+namespace SecureNative.Tests
 {
     [TestClass]
     public class ConfigurationManagerTests

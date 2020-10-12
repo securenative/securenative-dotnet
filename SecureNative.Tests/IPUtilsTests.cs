@@ -1,16 +1,15 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecureNative.SDK.Utils;
 
-namespace SecureNative.SDK.Tests
+namespace SecureNative.Tests
 {
     [TestClass]
-    public class IPUtilsTests
+    public class IpUtilsTests
     {
         [TestMethod]
         public void IsIpAddressValidIpV4Test()
         {
-            string validIPv4 = "172.16.254.1";
+            const string validIPv4 = "172.16.254.1";
 
             Assert.IsTrue(IpUtils.IsIpAddress(validIPv4));
         }
@@ -18,7 +17,7 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void IsIpAddressValidIpV6Test()
         {
-            string validIPv6 = "2001:db8:1234:0000:0000:0000:0000:0000";
+            const string validIPv6 = "2001:db8:1234:0000:0000:0000:0000:0000";
 
             Assert.IsTrue(IpUtils.IsIpAddress(validIPv6));
         }
@@ -26,7 +25,7 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void IsIpAddressInvalidIpV4Test()
         {
-            string validIPv4 = "172.16.2541";
+            const string validIPv4 = "172.16.2541";
 
             Assert.IsFalse(IpUtils.IsIpAddress(validIPv4));
         }
@@ -34,7 +33,7 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void IsIpAddressInvalidIpV6Test()
         {
-            string validIPv6 = "2001:db8:1234:0000";
+            const string validIPv6 = "2001:db8:1234:0000";
 
             Assert.IsFalse(IpUtils.IsIpAddress(validIPv6));
         }
@@ -42,7 +41,7 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void IsValidPublicIpTest()
         {
-            string ip = "64.71.222.37";
+            const string ip = "64.71.222.37";
 
             Assert.IsTrue(IpUtils.IsValidPublicIp(ip));
         }
@@ -50,7 +49,7 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void IsNotValidPublicIpTest()
         {
-            string ip = "10.0.0.0";
+            const string ip = "10.0.0.0";
 
             Assert.IsFalse(IpUtils.IsValidPublicIp(ip));
         }
@@ -58,7 +57,7 @@ namespace SecureNative.SDK.Tests
         [TestMethod]
         public void IsValidLoopbackIpTest()
         {
-            string ip = "127.0.0.1";
+            const string ip = "127.0.0.1";
 
             Assert.IsTrue(IpUtils.IsLoopBack(ip));
         }

@@ -1,21 +1,20 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Enums;
 using SecureNative.SDK.Exceptions;
 using SecureNative.SDK.Models;
 
-namespace SecureNative.SDK.Tests
+namespace SecureNative.Tests
 {
     [TestClass]
-    public class SDKEventTests
+    public class SdkEventTests
     {
         [TestMethod]
         [ExpectedException(typeof(SecureNativeInvalidOptionsException), "Creating SDK event with invalid user id")]
-        public void CreateSDKEventInvalidUserIdThrowTest()
+        public void CreateSdkEventInvalidUserIdThrowTest()
         {
-            SecureNativeOptions options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
-            EventOptions e = new EventOptions(EventTypes.LOG_IN.ToString());
+            var options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
+            var e = new EventOptions(EventTypes.LOG_IN.ToString());
             e.SetUserId("");
 
             SdkEvent _ = new SdkEvent(e, options);
@@ -23,22 +22,22 @@ namespace SecureNative.SDK.Tests
 
         [TestMethod]
         [ExpectedException(typeof(SecureNativeInvalidOptionsException), "Creating SDK event without user id")]
-        public void CreateSDKEventWithoutUserIdThrowTest()
+        public void CreateSdkEventWithoutUserIdThrowTest()
         {
-            SecureNativeOptions options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
-            EventOptions e = new EventOptions(EventTypes.LOG_IN.ToString());
+            var options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
+            var e = new EventOptions(EventTypes.LOG_IN.ToString());
 
-            SdkEvent _ = new SdkEvent(e, options);
+            var _ = new SdkEvent(e, options);
         }
 
         [TestMethod]
         [ExpectedException(typeof(SecureNativeInvalidOptionsException), "Creating SDK event without event type")]
-        public void CreateSDKEventWithoutEventTypeThrowTest()
+        public void CreateSdkEventWithoutEventTypeThrowTest()
         {
-            SecureNativeOptions options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
-            EventOptions e = new EventOptions("");
+            var options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
+            var e = new EventOptions("");
 
-            SdkEvent _ = new SdkEvent(e, options);
+            var _ = new SdkEvent(e, options);
         }
     }
 }

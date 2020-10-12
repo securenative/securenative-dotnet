@@ -7,7 +7,7 @@ namespace SecureNative.SDK.Models
         private string Name { get; set; }
         private string Email { get; set; }
         private string Phone { get; set; }
-        private DateTime CreatedAt { get; set; }
+        private DateTime? CreatedAt { get; set; }
 
         public UserTraits(string name)
         {
@@ -50,12 +50,12 @@ namespace SecureNative.SDK.Models
             return Email;
         }
 
-        public void SeEmail(string value)
+        public void SetEmail(string value)
         {
             Email = value;
         }
 
-        public string GePhone()
+        public string GetPhone()
         {
             return Phone;
         }
@@ -65,7 +65,7 @@ namespace SecureNative.SDK.Models
             Phone = value;
         }
 
-        public DateTime GeCreatedAt()
+        public DateTime? GetCreatedAt()
         {
             return CreatedAt;
         }

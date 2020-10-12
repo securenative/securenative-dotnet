@@ -1,4 +1,5 @@
-﻿using SecureNative.SDK.Models;
+﻿using System.Net.NetworkInformation;
+using SecureNative.SDK.Models;
 
 namespace SecureNative.SDK.Utils
 {

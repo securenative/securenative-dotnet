@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using NLog;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Enums;
-using SecureNative.SDK.Http;
 using SecureNative.SDK.Models;
 
 namespace SecureNative.SDK
@@ -33,7 +32,7 @@ namespace SecureNative.SDK
             var e = new SdkEvent(eventOptions, _options);
             try
             {
-                HttpResponse res = _eventManager.SendSync(e, ApiRoute.VERIFY.ToString());
+                var res = _eventManager.SendSync(e, ApiRoute.VERIFY.ToString());
                 return JsonConvert.DeserializeObject<VerifyResult>(res.GetBody());
             }
             catch (Exception ex)

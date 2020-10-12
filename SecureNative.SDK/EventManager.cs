@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading;
-using Newtonsoft.Json;
 using NLog;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Http;
 using SecureNative.SDK.Models;
+using Newtonsoft.Json;
+
 
 namespace SecureNative.SDK
 {
     public class EventManager : IEventManager
     {
         private readonly SecureNativeOptions _options;
-        private readonly int[] _coefficients = { 1, 1, 2, 3, 5, 8, 13 };
+        private readonly int[] _coefficients = {1, 1, 2, 3, 5, 8, 13};
         private int _attempt;
-        private Boolean _sendEnabled;
+        private bool _sendEnabled;
         private readonly SecureNativeHttpClient _httpClient;
         private readonly List<RequestOptions> _events;
         private readonly Thread _thread;
@@ -39,8 +40,16 @@ namespace SecureNative.SDK
                 return;
             }
 
-            string body = JsonConvert.SerializeObject(e);
+            var body = SerializeSdkEvent(e);
             _events.Add(new RequestOptions(url, body, retry));
+        }
+
+        private static string SerializeSdkEvent(IEvent e)
+        {
+            var sdk = (SdkEvent) e;
+            return JsonConvert.SerializeObject(new RequestEvent(sdk.GetRid(), e.GetEventType(), sdk.GetUserId(),
+                sdk.GetUserTraits(),
+                sdk.GetRequest(), sdk.GetTimestamp(), sdk.GetProperties()));
         }
 
         public HttpResponse SendSync(IEvent e, string url)
@@ -51,14 +60,13 @@ namespace SecureNative.SDK
                 return null;
             }
 
-            var body = JsonConvert.SerializeObject(e);
+            var body = SerializeSdkEvent(e);
             Logger.Debug("Attempting to send event", body);
             var response = _httpClient.Post(url, body);
             if (response.IsOk()) return response;
             Logger.Info(
                 $"SecureNative http call failed to end point: {url}  with event type {e.GetEventType()}. adding back to queue.");
             throw new IOException(response.GetStatusCode().ToString());
-
         }
 
         public void StartEventsPersist()
@@ -89,12 +97,13 @@ namespace SecureNative.SDK
             {
                 Logger.Error($"Could not stop event scheduler; {e}");
             }
+
             Logger.Debug("Stopped event persistence");
         }
 
         private void Flush()
         {
-            foreach (RequestOptions item in _events)
+            foreach (var item in _events)
             {
                 _httpClient.Post(item.GetUrl(), item.GetBody());
             }
@@ -106,7 +115,7 @@ namespace SecureNative.SDK
             {
                 if (_events.Count > 0 && _sendEnabled)
                 {
-                    foreach (RequestOptions item in _events)
+                    foreach (var item in _events)
                     {
                         try
                         {
@@ -138,7 +147,6 @@ namespace SecureNative.SDK
                             Thread.Sleep(backOff);
                             _sendEnabled = true;
                         }
-
                     }
                 }
                 Thread.Sleep(_options.GetInterval() / 1000);

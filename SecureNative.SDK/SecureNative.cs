@@ -10,13 +10,13 @@ using SecureNative.SDK.Utils;
 
 namespace SecureNative.SDK
 {
-    public class Client : IApiManager
+    public class SecureNative : IApiManager
     {
-        private static Client _securenative;
+        private static SecureNative _securenative;
         private readonly ApiManager _apiManager;
         private readonly SecureNativeOptions _options;
 
-        public Client(SecureNativeOptions options)
+        public SecureNative(SecureNativeOptions options)
         {
             if (string.IsNullOrEmpty(options.GetApiKey()))
             {
@@ -35,14 +35,14 @@ namespace SecureNative.SDK
             SecureNativeLogger.InitLogger(logLevel);
         }
 
-        public static Client Init(SecureNativeOptions options)
+        public static SecureNative Init(SecureNativeOptions options)
         {
             if (_securenative != null) throw new SecureNativeSdkException("This SDK was already initialized");
-            _securenative = new Client(options);
+            _securenative = new SecureNative(options);
             return _securenative;
         }
 
-        public static Client Init(string apiKey)
+        public static SecureNative Init(string apiKey)
         {
             if (string.IsNullOrEmpty(apiKey))
             {
@@ -54,13 +54,13 @@ namespace SecureNative.SDK
         }
 
 
-        public static Client Init()
+        public static SecureNative Init()
         {
             SecureNativeOptions secureNativeOptions = ConfigurationManager.LoadConfig();
             return Init(secureNativeOptions);
         }
 
-        public static Client GetInstance()
+        public static SecureNative GetInstance()
         {
             if (_securenative == null)
             {

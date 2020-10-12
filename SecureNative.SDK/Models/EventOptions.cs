@@ -17,6 +17,12 @@ namespace SecureNative.SDK.Models
         {
             EventType = eventType;
         }
+        
+        public EventOptions(string eventType, string userId)
+        {
+            EventType = eventType;
+            UserId = userId;
+        }
 
         public string GetEventType()
         {

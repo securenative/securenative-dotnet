@@ -1,37 +1,35 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SecureNative.SDK.Config;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecureNative.SDK.Enums;
 using SecureNative.SDK.Exceptions;
 
-namespace SecureNative.SDK.Tests
+namespace SecureNative.Tests
 {
     [TestClass]
     public class SecureNativeTests
     {
         [TestMethod]
         [ExpectedException(typeof(SecureNativeSdkIllegalStateException), "Get SDK instance without Initialization")]
-        public void GetSDKInstanceWithoutInitThrowsTest()
+        public void GetSdkInstanceWithoutInitThrowsTest()
         {
-            Client.Flush();
-            Client.GetInstance();
+            SDK.SecureNative.Flush();
+            SDK.SecureNative.GetInstance();
         }
 
         [TestMethod]
         [ExpectedException(typeof(SecureNativeConfigException), "Initialize SDK with empty api key")]
-        public void InitSDKWithEmptyApiKeyShouldThrowTest()
+        public void InitSdkWithEmptyApiKeyShouldThrowTest()
         {
-            Client.Flush();
-            Client.Init("");
+            SDK.SecureNative.Flush();
+            SDK.SecureNative.Init("");
         }
 
         [TestMethod]
-        public void InitSDKWithApiKeyAndDefaultsTest()
+        public void InitSdkWithApiKeyAndDefaultsTest()
         {
-            Client.Flush();
-            string apiKey = "API_KEY";
-            Client client = Client.Init(apiKey);
-            SecureNativeOptions options = client.GetOptions();
+            SDK.SecureNative.Flush();
+            const string apiKey = "API_KEY";
+            var secureNative = SDK.SecureNative.Init(apiKey);
+            var options = secureNative.GetOptions();
 
             Assert.AreEqual(apiKey, options.GetApiKey());
             Assert.AreEqual("https://api.securenative.com/collector/api/v1", options.GetApiUrl());
@@ -46,34 +44,34 @@ namespace SecureNative.SDK.Tests
 
         [TestMethod]
         [ExpectedException(typeof(SecureNativeSdkException), "Initialize SDK twice")]
-        public void InitSDKTwiceWillThrowTest()
+        public void InitSdkTwiceWillThrowTest()
         {
-            Client.Flush();
-            Client.Init();
-            Client.Init();
+            SDK.SecureNative.Flush();
+            SDK.SecureNative.Init();
+            SDK.SecureNative.Init();
         }
 
         [TestMethod]
-        public void InitSDKWithApiKeyAndGetInstanceShouldMatchTest()
+        public void InitSdkWithApiKeyAndGetInstanceShouldMatchTest()
         {
-            Client.Flush();
-            string apiKey = "API_KEY";
-            Client client = Client.Init(apiKey);
+            SDK.SecureNative.Flush();
+            const string apiKey = "API_KEY";
+            SDK.SecureNative secureNative = SDK.SecureNative.Init(apiKey);
 
-            Assert.AreEqual(client, Client.GetInstance());
+            Assert.AreEqual(secureNative, SDK.SecureNative.GetInstance());
         }
 
         [TestMethod]
-        public void InitSDKWithBuilderTest()
+        public void InitSdkWithBuilderTest()
         {
-            Client.Flush();
-            Client client = Client.Init(Client.ConfigBuilder()
+            SDK.SecureNative.Flush();
+            var secureNative = SDK.SecureNative.Init(SDK.SecureNative.ConfigBuilder()
                     .WithApiKey("API_KEY")
                     .WithMaxEvents(10)
                     .WithLogLevel("error")
                     .Build());
 
-            SecureNativeOptions options = client.GetOptions();
+            var options = secureNative.GetOptions();
 
             Assert.AreEqual("API_KEY", options.GetApiKey());
             Assert.AreEqual(10, options.GetMaxEvents());
