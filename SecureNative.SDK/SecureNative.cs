@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Net;
 using System.Text;
-using NLog;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Context;
 using SecureNative.SDK.Exceptions;
@@ -31,7 +30,7 @@ namespace SecureNative.SDK
             }
             _apiManager = new ApiManager(eventManager, options);
 
-            LogLevel logLevel = SecureNativeLogger.GetLogLevel(options.GetLogLevel());
+            var logLevel = SecureNativeLogger.GetLogLevel(options.GetLogLevel());
             SecureNativeLogger.InitLogger(logLevel);
         }
 
@@ -48,15 +47,15 @@ namespace SecureNative.SDK
             {
                 throw new SecureNativeConfigException("You must pass your SecureNative api key");
             }
-            SecureNativeConfigurationBuilder builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
-            SecureNativeOptions secureNativeOptions = builder.WithApiKey(apiKey).Build();
+            var builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
+            var secureNativeOptions = builder.WithApiKey(apiKey).Build();
             return Init(secureNativeOptions);
         }
 
 
         public static SecureNative Init()
         {
-            SecureNativeOptions secureNativeOptions = ConfigurationManager.LoadConfig();
+            var secureNativeOptions = ConfigurationManager.LoadConfig();
             return Init(secureNativeOptions);
         }
 

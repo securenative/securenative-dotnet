@@ -23,11 +23,17 @@ namespace SecureNative.SDK.Config
             }
             catch (Exception)
             {
-                Logger.Warn("Could not find config file, using default options");
+                try
+                {
+                    properties = ReadResourceFile(Directory.GetParent(Environment.CurrentDirectory).FullName + @"/securenative.json");
+                }
+                catch (Exception e)
+                {
+                    Logger.Warn("Could not find config file, using default options");
+                }
             }
             
             return GetOptions(properties);
-
         }
 
         public static SecureNativeOptions LoadConfig(string path)
