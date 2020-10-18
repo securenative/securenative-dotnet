@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Dotnet Side by Side testing sample
+    name: Build
     steps:
       - name: Notify slack success
         if: success()
@@ -27,7 +27,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
-        
+        with:
+          dotnet-version: '2.2.103'
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
