@@ -29,16 +29,10 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '3.1.x'
+      - run: dotnet tool install --global Codecov.Tool
       - run: dotnet build SecureNative.Tests
       - run: dotnet test SecureNative.Tests
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          flags: unittests
-          name: codecov-umbrella
-          fail_ci_if_error: true
+      - run: codecov -f . -t ${{ secrets.CODECOV_TOKEN }}
 
       - name: Notify slack success
         if: success()
