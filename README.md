@@ -52,21 +52,30 @@ To get your *API KEY*, login to your SecureNative account and go to project sett
 SecureNative can automatically load your config from *securenative.json* file or from the file that is specified in your *SECURENATIVE_CONFIG_FILE* env variable or in your project's root folder:
 
 ```dotenv
+using SecureNative.SDK;
+
+
 SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init();
 ```
 ### Option 2: Initialize via API Key
 
 ```dotenv
-SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init("YOUR_API_KEY"YOUR_API_KEY);
+using SecureNative.SDK;
+
+
+SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init("YOUR_API_KEY");
 ```
 
 ### Option 3: Initialize via ConfigurationBuilder
 ```dotenv
+using SecureNative.SDK;
+
+
 SecureNativeOptions Options = ConfigurationManager.ConfigBuilder()
-                                                        .WithApiKey("API_KEY"))
-                                                        .WithMaxEvents(10)
-                                                        .WithLogLevel("error")
-                                                        .Build());
+                                .WithApiKey("API_KEY"))
+                                .WithMaxEvents(10)
+                                .WithLogLevel("error")
+                                .Build());
 
 SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init(Options);
 ```
@@ -74,6 +83,9 @@ SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init(
 ## Getting SecureNative instance
 Once initialized, sdk will create a singleton instance which you can get: 
 ```dotenv
+using SecureNative.SDK;
+
+
 SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.GetInstance();
 ```
 
@@ -83,6 +95,9 @@ Once the SDK has been initialized, tracking requests sent through the SDK
 instance. Make sure you build event with the EventBuilder:
 
  ```dotenv
+using SecureNative.SDK;
+
+
 //
 // GET: /events/track
 public void Track()
@@ -110,6 +125,9 @@ public void Track()
 You can also create request context from HttpServletRequest:
 
 ```dotenv
+using SecureNative.SDK;
+
+
 //
 // GET: /events/track
 public void Track()
@@ -134,6 +152,9 @@ public void Track()
 **Example**
 
 ```dotenv
+using SecureNative.SDK;
+
+
 //
 // GET: /events/verify
 public void Verify()
@@ -161,6 +182,9 @@ public void Verify()
 Apply our filter to verify the request is from us, example in spring:
 
 ```dotenv
+using SecureNative.SDK;
+
+
 //
 // GET: /webhook
 public void WebhookEndpoint()
