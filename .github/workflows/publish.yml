@@ -1,0 +1,65 @@
+name: Publish
+
+on:
+  release:
+    types: [created]
+      
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Starting
+        if: success()
+        id: slack # IMPORTANT: reference this step ID value in future Slack steps
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1.1.1
+        with:
+          channel: github-actions
+          status: STARTING
+          color: warning
+      
+      - uses: actions/checkout@v2
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_PASSWORD
+      
+      - name: Build
+        run: mvn -B package --file pom.xml
+  
+      - name: Run Tests
+        run: mvn test
+
+      - name: Release Maven package
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          gpg_private_key: ${{ secrets.gpg_private_key }}
+          gpg_passphrase: ${{ secrets.gpg_passphrase }}
+          nexus_username: ${{ secrets.nexus_username }}
+          nexus_password: ${{ secrets.nexus_password }}
+
+      - name: Notify slack success
+        if: success()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1.1.1
+        with:
+          message_id: ${{ steps.slack.outputs.message_id }}
+          channel: github-actions
+          status: SUCCESS
+          color: good
+
+      - name: Notify slack fail
+        if: failure()
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1.1.1
+        with:
+          message_id: ${{ steps.slack.outputs.message_id }}
+          channel: github-actions
+          status: FAILED
+          color: danger
