@@ -7,18 +7,8 @@ namespace SecureNative.Tests
     public class EncryptionUtilsTests
     {
         private const string SecretKey = "B00C42DAD33EAC6F6572DA756EA4915349C0A4F6";
-        private const string Payload = "{\"cid\":\"198a41ff-a10f-4cda-a2f3-a9ca80c0703b\",\"vi\":\"148a42ff-b40f-4cda-a2f3-a8ca80c0703b\",\"fp\":\"6d8cabd95987f8318b1fe01593d5c2a5.24700f9f1986800ab4fcc880530dd0ed\"}";
         private const string Cid = "198a41ff-a10f-4cda-a2f3-a9ca80c0703b";
         private const string Fp = "6d8cabd95987f8318b1fe01593d5c2a5.24700f9f1986800ab4fcc880530dd0ed";
-
-        [TestMethod]
-        public void EncryptTest()
-        {
-            var result = EncryptionUtils.Encrypt(Payload, SecretKey);
-
-            Assert.IsNotNull(result);
-            Assert.IsTrue(result.Length > Payload.Length);
-        }
 
         [TestMethod]
         public void DecryptTest()
