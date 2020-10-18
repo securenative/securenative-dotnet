@@ -28,6 +28,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '2.0.0'
+    - run: dotnet build SecureNative.Tests
+    - run: dotnet test SecureNative.Tests
     
     - name: Notify slack success
       if: success()
