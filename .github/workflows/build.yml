@@ -11,49 +11,49 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-      strategy:
-        matrix:
-          os: [ ubuntu-latest, windows-latest, macOS-latest ]
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, windows-latest, macOS-latest ]
     steps:
-      - name: Notify slack success
-        if: success()
-        id: slack # IMPORTANT: reference this step ID value in future Slack steps
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1.1.1
-        with:
-          channel: github-actions
-          status: STARTING
-          color: warning
+    - name: Notify slack success
+      if: success()
+      id: slack # IMPORTANT: reference this step ID value in future Slack steps
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1.1.1
+      with:
+        channel: github-actions
+        status: STARTING
+        color: warning
 
-      - uses: actions/checkout@v2
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.x'
-      - run: dotnet tool install --global Codecov.Tool
-      - run: dotnet build SecureNative.Tests
-      - run: dotnet test SecureNative.Tests
-      - run: codecov -f . -t ${{ secrets.CODECOV_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Setup dotnet
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+    - run: dotnet tool install --global Codecov.Tool
+    - run: dotnet build SecureNative.Tests
+    - run: dotnet test SecureNative.Tests
+    - run: codecov -f . -t ${{ secrets.CODECOV_TOKEN }}
 
-      - name: Notify slack success
-        if: success()
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1.1.1
-        with:
-          message_id: ${{ steps.slack.outputs.message_id }}
-          channel: github-actions
-          status: SUCCESS
-          color: good
+    - name: Notify slack success
+      if: success()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1.1.1
+      with:
+        message_id: ${{ steps.slack.outputs.message_id }}
+        channel: github-actions
+        status: SUCCESS
+        color: good
 
-      - name: Notify slack fail
-        if: failure()
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-        uses: voxmedia/github-action-slack-notify-build@v1.1.1
-        with:
-          message_id: ${{ steps.slack.outputs.message_id }}
-          channel: github-actions
-          status: FAILED
-          color: danger
+    - name: Notify slack fail
+      if: failure()
+      env:
+        SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      uses: voxmedia/github-action-slack-notify-build@v1.1.1
+      with:
+        message_id: ${{ steps.slack.outputs.message_id }}
+        channel: github-actions
+        status: FAILED
+        color: danger
