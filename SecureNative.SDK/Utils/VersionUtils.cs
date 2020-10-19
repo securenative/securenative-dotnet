@@ -1,5 +1,6 @@
-﻿using System.Diagnostics;
-using System.Reflection;
+﻿using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SecureNative.SDK.Utils
 {
@@ -7,16 +8,8 @@ namespace SecureNative.SDK.Utils
     {
         public static string GetVersion()
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
-            var version = fileVersionInfo.ProductVersion;
-
-            if (version == null || version.Equals(""))
-            {
-                return "unknown";
-            }
-
-            return version;
+            // TODO: parse version correctly
+            return "2.0.0";
         }
     }
 }

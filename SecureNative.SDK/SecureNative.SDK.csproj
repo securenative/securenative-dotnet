@@ -6,6 +6,7 @@
     <AssemblyName>SecureNative.SDK</AssemblyName>
     <ProjectGuid>{F7AAD3F9-6BFA-4C68-AA26-90D5DA609012}</ProjectGuid>
     <PackageVersion>2.0.0</PackageVersion>
+    <PackageName></PackageName>
     <Authors>SecureNative</Authors>
     <Owners>SecureNative</Owners>
     <PackageProjectUrl>https://github.com/securenative/securenative-dotnet</PackageProjectUrl>
@@ -44,6 +45,7 @@
     <PackageReference Include="NLog" Version="4.7.5" />
     <PackageReference Include="RichardSzalay.MockHttp" Version="6.0.0" />
     <PackageReference Include="Vse.Web.Serialization.ControlledSerializationJsonConverter" Version="1.0.4" />
+    <PackageReference Include="XPlat.ApplicationModel" Version="1.7.20109.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="SecureNative.Tests\obj\Debug\netcoreapp3.1\.NETCoreApp,Version=v3.1.AssemblyAttributes.cs" />

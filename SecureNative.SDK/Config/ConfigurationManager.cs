@@ -72,8 +72,8 @@ namespace SecureNative.SDK.Config
             var builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
             var defaultOptions = builder.Build();
 
-            var failStretagey = GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_FAILOVER_STRATEGY", defaultOptions.GetFailOverStrategy());
-            var strategy = failStretagey switch
+            var failStrategy = GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_FAILOVER_STRATEGY", defaultOptions.GetFailOverStrategy());
+            var strategy = failStrategy switch
             {
                 "fail-open" => FailOverStrategy.FAIL_OPEN,
                 "fail-closed" => FailOverStrategy.FAIL_CLOSED,
