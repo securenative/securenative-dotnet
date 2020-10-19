@@ -8,6 +8,8 @@ namespace SecureNative.Tests
     [TestClass]
     public class ConfigurationManagerTests
     {
+
+#if IS_LINUX
         [TestMethod]
         public void ParseConfigFileCorrectlyTest()
         {
@@ -24,6 +26,7 @@ namespace SecureNative.Tests
             Assert.AreEqual(100, options.GetMaxEvents());
             Assert.AreEqual(1500, options.GetTimeout());
         }
+#endif
 
         [TestMethod]
         public void IgnoreUnknownConfigInPropertiesFileTest()
