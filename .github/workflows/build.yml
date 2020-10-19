@@ -10,8 +10,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    name: Build
+    runs-on: ${{ matrix.os }}
+      strategy:
+        matrix:
+          os: [ ubuntu-latest, windows ]
     steps:
       - name: Notify slack success
         if: success()
