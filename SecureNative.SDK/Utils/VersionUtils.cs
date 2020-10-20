@@ -1,8 +1,4 @@
-﻿using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-namespace SecureNative.SDK.Utils
+﻿namespace SecureNative.SDK.Utils
 {
     public static class VersionUtils
     {
