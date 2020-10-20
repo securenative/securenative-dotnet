@@ -18,29 +18,50 @@ jobs:
           channel: github-actions
           status: STARTING
           color: warning
-      
-      - uses: actions/checkout@v2
-      - name: Set up Maven Central Repository
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
-          server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
-      
-      - name: Build
-        run: mvn -B package --file pom.xml
-  
-      - name: Run Tests
-        run: mvn test
 
-      - name: Release Maven package
-        uses: samuelmeuli/action-maven-publish@v1
+      - uses: actions/checkout@v2
+      - name: Setup dotnet
+         uses: actions/setup-dotnet@v1
+         with:
+           dotnet-version: '3.1.x'
+         - run: dotnet build SecureNative.Tests
+         - run: dotnet test SecureNative.Tests
+
+      # Publish
+      - name: publish on version change
+        id: publish_nuget
+        uses: rohith/publish-nuget@v2
         with:
-          gpg_private_key: ${{ secrets.gpg_private_key }}
-          gpg_passphrase: ${{ secrets.gpg_passphrase }}
-          nexus_username: ${{ secrets.nexus_username }}
-          nexus_password: ${{ secrets.nexus_password }}
+          # Filepath of the project to be packaged, relative to root of repository
+          PROJECT_FILE_PATH: SecureNative.SDK/SecureNative.SDK.csproj
+
+          # NuGet package id, used for version detection & defaults to project name
+          PACKAGE_NAME: SecureNative
+
+          # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
+          # VERSION_FILE_PATH: Directory.Build.props
+
+          # Regex pattern to extract version info in a capturing group
+          # VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
+
+          # Useful with external providers like Nerdbank.GitVersioning, ignores VERSION_FILE_PATH & VERSION_REGEX
+          # VERSION_STATIC: 1.0.0
+
+          # Flag to toggle git tagging, enabled by default
+          # TAG_COMMIT: true
+
+          # Format of the git tag, [*] gets replaced with actual version
+          # TAG_FORMAT: v*
+
+          # API key to authenticate with NuGet server
+          NUGET_KEY: ${{ secrets.NUGET_API_KEY }}
+
+          # NuGet server uri hosting the packages, defaults to https://api.nuget.org
+          # NUGET_SOURCE: https://api.nuget.org
+
+          # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
+          # INCLUDE_SYMBOLS: false
+
 
       - name: Notify slack success
         if: success()
