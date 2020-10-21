@@ -66,6 +66,12 @@ namespace SecureNative.SDK.Config
             object res = properties.GetValue(key);
             return res == null ? GetEnvOrDefault(key, defaultValue).ToString() : res.ToString();
         }
+        
+        private static string[] GetPropertyListOrEnvOrDefault(JObject properties, string key, object defaultValue)
+        {
+            object res = properties.GetValue(key);
+            return res == null ? new []{ GetEnvOrDefault(key, defaultValue).ToString() } : new []{ res.ToString() };
+        }
 
         private static SecureNativeOptions GetOptions(JObject properties)
         {
@@ -87,6 +93,7 @@ namespace SecureNative.SDK.Config
                     .WithAutoSend(bool.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_AUTO_SEND", defaultOptions.IsAutoSend())))
                     .WithDisable(bool.Parse(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_DISABLE", defaultOptions.IsDisabled())))
                     .WithLogLevel(GetPropertyOrEnvOrDefault(properties, "SECURENATIVE_LOG_LEVEL", defaultOptions.GetLogLevel()))
+                    .WithProxyHeaders(GetPropertyListOrEnvOrDefault(properties, "SECURENATIVE_PROXY_HEADERS", defaultOptions.GetProxyHeaders()))
                     .WithFailOverStrategy(strategy);
 
             return builder.Build();

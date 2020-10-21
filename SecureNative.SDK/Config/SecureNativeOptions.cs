@@ -11,8 +11,9 @@
         private bool Disable { get; set; }
         private string LogLevel { get; set; }
         private string FailOverStrategy { get; set; }
+        private string[] ProxyHeaders { get; set; }
 
-        public SecureNativeOptions(string apiKey, string apiUrl, int interval, int maxEvents, int timeout, bool autoSend, bool disable, string logLevel, string failOverStrategy)
+        public SecureNativeOptions(string apiKey, string apiUrl, int interval, int maxEvents, int timeout, bool autoSend, bool disable, string logLevel, string failOverStrategy, string[] proxyHeaders)
         {
             ApiKey = apiKey;
             ApiUrl = apiUrl;
@@ -23,6 +24,7 @@
             Disable = disable;
             LogLevel = logLevel;
             FailOverStrategy = failOverStrategy;
+            ProxyHeaders = proxyHeaders;
         }
 
         public string GetApiKey()
@@ -113,6 +115,16 @@
         public void SetFailOverStrategy(string value)
         {
             FailOverStrategy = value;
+        }
+        
+        public string[] GetProxyHeaders()
+        {
+            return ProxyHeaders;
+        }
+
+        public void SetProxyHeaders(string[] value)
+        {
+            ProxyHeaders = value;
         }
     }
 }

@@ -13,6 +13,7 @@ namespace SecureNative.SDK.Config
         private bool Disable { get; set; }
         private string LogLevel { get; set; }
         private string FailOverStrategy { get; set; }
+        private string[] ProxyHeaders { get; set; }
 
         public static SecureNativeConfigurationBuilder DefaultConfigBuilder()
         {
@@ -25,7 +26,8 @@ namespace SecureNative.SDK.Config
                     .WithAutoSend(true)
                     .WithDisable(false)
                     .WithLogLevel("fatal")
-                    .WithFailOverStrategy(Enums.FailOverStrategy.FAIL_OPEN);
+                    .WithFailOverStrategy(Enums.FailOverStrategy.FAIL_OPEN)
+                    .WithProxyHeaders(null);
         }
 
         public SecureNativeConfigurationBuilder WithApiKey(string apiKey)
@@ -82,9 +84,15 @@ namespace SecureNative.SDK.Config
             return this;
         }
         
+        public SecureNativeConfigurationBuilder WithProxyHeaders(string[] proxyHeaders)
+        {
+            ProxyHeaders = proxyHeaders;
+            return this;
+        }
+        
         public SecureNativeOptions Build()
         {
-            return new SecureNativeOptions(ApiKey, ApiUrl, Interval, MaxEvents, Timeout, AutoSend, Disable, LogLevel, FailOverStrategy);
+            return new SecureNativeOptions(ApiKey, ApiUrl, Interval, MaxEvents, Timeout, AutoSend, Disable, LogLevel, FailOverStrategy, ProxyHeaders);
         }
     }
 }

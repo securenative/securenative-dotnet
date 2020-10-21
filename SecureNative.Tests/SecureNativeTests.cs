@@ -47,8 +47,8 @@ namespace SecureNative.Tests
         public void InitSdkTwiceWillThrowTest()
         {
             SDK.SecureNative.Flush();
-            SDK.SecureNative.Init();
-            SDK.SecureNative.Init();
+            SDK.SecureNative.Init("SecureNative.Tests/securenative.json");
+            SDK.SecureNative.Init("SecureNative.Tests/securenative.json");
         }
 
         [TestMethod]
