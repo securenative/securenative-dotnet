@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using SecureNative.SDK.Config;
 using SecureNative.SDK.Utils;
 
 namespace SecureNative.SDK.Context
@@ -76,7 +77,7 @@ namespace SecureNative.SDK.Context
                 .WithBody(null);
         }
         
-        public static SecureNativeContextBuilder FromHttpRequest(HttpWebRequest request)
+        public static SecureNativeContextBuilder FromHttpRequest(HttpWebRequest request, SecureNativeOptions options)
         {
             var headers = RequestUtils.GetHeadersFromRequest(request);
 
@@ -91,7 +92,7 @@ namespace SecureNative.SDK.Context
                 .WithMethod(request.Method)
                 .WithHeaders(headers)
                 .WithClientToken(clientToken)
-                .WithIp(RequestUtils.GetClientIpFromRequest(request))
+                .WithIp(RequestUtils.GetClientIpFromRequest(request, options))
                 .WithRemoteIp(RequestUtils.GetRemoteIpFromRequest(request))
                 .WithBody(null);
         }

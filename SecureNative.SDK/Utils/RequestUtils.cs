@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using SecureNative.SDK.Config;
 
 namespace SecureNative.SDK.Utils
 {
@@ -50,8 +51,19 @@ namespace SecureNative.SDK.Utils
             return cookie;
         }
 
-        public static string GetClientIpFromRequest(HttpWebRequest request)
+        public static string GetClientIpFromRequest(HttpWebRequest request, SecureNativeOptions options)
         {
+            if (options?.GetProxyHeaders() != null)
+            {
+                foreach (var header in options.GetProxyHeaders())
+                {
+                    if (request.Headers.Get(header) != null)
+                    {
+                        return request.Headers.Get(header);
+                    }
+                }
+            }
+            
             try
             {
                 foreach (var header in IpHeaders.Where(header => request.Headers.Get(header) != null))

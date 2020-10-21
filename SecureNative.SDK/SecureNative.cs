@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Context;
@@ -13,7 +14,7 @@ namespace SecureNative.SDK
     {
         private static SecureNative _securenative;
         private readonly ApiManager _apiManager;
-        private readonly SecureNativeOptions _options;
+        private static SecureNativeOptions _options;
 
         public SecureNative(SecureNativeOptions options)
         {
@@ -47,6 +48,11 @@ namespace SecureNative.SDK
         {
             if (value.Contains("/") || value.Contains("\""))
             {
+                var secureNativeOptions = ConfigurationManager.LoadConfig(value);
+                return Init(secureNativeOptions);
+            }
+            else
+            {
                 if (string.IsNullOrEmpty(value))
                 {
                     throw new SecureNativeConfigException("You must pass your SecureNative api key");
@@ -54,11 +60,6 @@ namespace SecureNative.SDK
 
                 var builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
                 var secureNativeOptions = builder.WithApiKey(value).Build();
-                return Init(secureNativeOptions);
-            }
-            else
-            {
-                var secureNativeOptions = ConfigurationManager.LoadConfig(value);
                 return Init(secureNativeOptions);
             }
         }
@@ -96,6 +97,11 @@ namespace SecureNative.SDK
         public VerifyResult Verify(EventOptions eventOptions)
         {
             return _apiManager.Verify(eventOptions);
+        }
+
+        public static SecureNativeContextBuilder FromHttpRequest(HttpWebRequest request)
+        {
+            return SecureNativeContextBuilder.FromHttpRequest(request, _options);
         }
 
         public bool VerifyRequestPayload(HttpWebRequest request)

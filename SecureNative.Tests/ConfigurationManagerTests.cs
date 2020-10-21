@@ -31,7 +31,7 @@ namespace SecureNative.Tests
         [TestMethod]
         public void IgnoreUnknownConfigInPropertiesFileTest()
         {
-            SecureNativeOptions options = ConfigurationManager.LoadConfig();
+            var options = ConfigurationManager.LoadConfig();
 
             Assert.IsNotNull(options);
             Assert.AreEqual(1500, options.GetTimeout());
@@ -40,8 +40,7 @@ namespace SecureNative.Tests
         [TestMethod]
         public void LoadDefaultConfigTest()
         {
-
-            SecureNativeOptions options = ConfigurationManager.LoadConfig("some/path");
+            var options = ConfigurationManager.LoadConfig("some/path");
 
             Assert.AreEqual("", options.GetApiKey());
             Assert.AreEqual("https://api.securenative.com/collector/api/v1", options.GetApiUrl());
@@ -68,17 +67,17 @@ namespace SecureNative.Tests
             Environment.SetEnvironmentVariable("SECURENATIVE_LOG_LEVEL", "debug");
             Environment.SetEnvironmentVariable("SECURENATIVE_FAILOVER_STRATEGY", "fail-closed");
 
-            SecureNativeOptions options = ConfigurationManager.LoadConfig("some/path");
+            var options = ConfigurationManager.LoadConfig("some/path");
 
-            Assert.AreEqual("SOME_ENV_API_KEY", options.GetApiKey());
-            Assert.AreEqual("SOME_API_URL", options.GetApiUrl());
-            Assert.AreEqual(6000, options.GetInterval());
-            Assert.AreEqual(1700, options.GetTimeout());
-            Assert.AreEqual(700, options.GetMaxEvents());
-            Assert.AreEqual(false, options.IsAutoSend());
-            Assert.AreEqual(true, options.IsDisabled());
-            Assert.AreEqual("debug", options.GetLogLevel());
-            Assert.AreEqual(FailOverStrategy.FAIL_CLOSED, options.GetFailOverStrategy());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_API_KEY"), options.GetApiKey());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_API_URL"), options.GetApiUrl());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_INTERVAL"), options.GetInterval());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_TIMEOUT"), options.GetTimeout());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_MAX_EVENTS"), options.GetMaxEvents());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_AUTO_SEND"), options.IsAutoSend());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_DISABLE"), options.IsDisabled());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_LOG_LEVEL"), options.GetLogLevel());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_FAILOVER_STRATEGY"), options.GetFailOverStrategy());
 
             Environment.SetEnvironmentVariable("SECURENATIVE_API_KEY", "");
             Environment.SetEnvironmentVariable("SECURENATIVE_API_URL", "");

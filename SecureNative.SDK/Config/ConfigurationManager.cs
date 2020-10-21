@@ -51,8 +51,8 @@ namespace SecureNative.SDK.Config
 
         private static JObject ReadResourceFile(string path)
         {
-            using StreamReader file = File.OpenText(path);
-            using JsonTextReader reader = new JsonTextReader(file);
+            using var file = File.OpenText(path);
+            using var reader = new JsonTextReader(file);
             return (JObject)JToken.ReadFrom(reader);
         }
 
@@ -70,7 +70,7 @@ namespace SecureNative.SDK.Config
         private static string[] GetPropertyListOrEnvOrDefault(JObject properties, string key, object defaultValue)
         {
             object res = properties.GetValue(key);
-            return res == null ? new []{ GetEnvOrDefault(key, defaultValue).ToString() } : new []{ res.ToString() };
+            return res == null ? new[] {GetEnvOrDefault(key, defaultValue).ToString()} : new []{ res.ToString() };
         }
 
         private static SecureNativeOptions GetOptions(JObject properties)
@@ -102,7 +102,7 @@ namespace SecureNative.SDK.Config
         private static object GetEnvOrDefault(string envName, object defaultValue)
         {
             var envValue = Environment.GetEnvironmentVariable(envName);
-            return envValue ?? defaultValue;
+            return envValue != null ? envName : defaultValue;
         }
     }
 }

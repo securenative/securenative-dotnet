@@ -27,7 +27,7 @@ namespace SecureNative.SDK.Config
                     .WithDisable(false)
                     .WithLogLevel("fatal")
                     .WithFailOverStrategy(Enums.FailOverStrategy.FAIL_OPEN)
-                    .WithProxyHeaders(null);
+                    .WithProxyHeaders(new string[]{});
         }
 
         public SecureNativeConfigurationBuilder WithApiKey(string apiKey)
