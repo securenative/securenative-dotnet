@@ -62,8 +62,8 @@ namespace SecureNative.Tests
             Environment.SetEnvironmentVariable("SECURENATIVE_INTERVAL", "6000");
             Environment.SetEnvironmentVariable("SECURENATIVE_MAX_EVENTS", "700");
             Environment.SetEnvironmentVariable("SECURENATIVE_TIMEOUT", "1700");
-            Environment.SetEnvironmentVariable("SECURENATIVE_AUTO_SEND", "false");
-            Environment.SetEnvironmentVariable("SECURENATIVE_DISABLE", "true");
+            Environment.SetEnvironmentVariable("SECURENATIVE_AUTO_SEND", "False");
+            Environment.SetEnvironmentVariable("SECURENATIVE_DISABLE", "True");
             Environment.SetEnvironmentVariable("SECURENATIVE_LOG_LEVEL", "debug");
             Environment.SetEnvironmentVariable("SECURENATIVE_FAILOVER_STRATEGY", "fail-closed");
 
@@ -71,11 +71,11 @@ namespace SecureNative.Tests
 
             Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_API_KEY"), options.GetApiKey());
             Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_API_URL"), options.GetApiUrl());
-            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_INTERVAL"), options.GetInterval());
-            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_TIMEOUT"), options.GetTimeout());
-            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_MAX_EVENTS"), options.GetMaxEvents());
-            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_AUTO_SEND"), options.IsAutoSend());
-            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_DISABLE"), options.IsDisabled());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_INTERVAL"), options.GetInterval().ToString());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_TIMEOUT"), options.GetTimeout().ToString());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_MAX_EVENTS"), options.GetMaxEvents().ToString());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_AUTO_SEND"), options.IsAutoSend().ToString());
+            Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_DISABLE"), options.IsDisabled().ToString());
             Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_LOG_LEVEL"), options.GetLogLevel());
             Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_FAILOVER_STRATEGY"), options.GetFailOverStrategy());
 

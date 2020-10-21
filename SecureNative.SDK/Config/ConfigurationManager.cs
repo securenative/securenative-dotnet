@@ -102,7 +102,7 @@ namespace SecureNative.SDK.Config
         private static object GetEnvOrDefault(string envName, object defaultValue)
         {
             var envValue = Environment.GetEnvironmentVariable(envName);
-            return envValue != null ? envName : defaultValue;
+            return envValue ?? defaultValue;
         }
     }
 }
