@@ -55,7 +55,7 @@ SecureNative can automatically load your config from *securenative.json* file or
 using SecureNative.SDK;
 
 
-SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init();
+SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init("path/to/securenative.json");
 ```
 ### Option 2: Initialize via API Key
 

@@ -21,6 +21,7 @@ namespace SecureNative.SDK
             {
                 throw new SecureNativeSdkException("You must pass your SecureNative api key");
             }
+
             _options = options;
 
             var eventManager = new EventManager(options);
@@ -28,6 +29,7 @@ namespace SecureNative.SDK
             {
                 eventManager.StartEventsPersist();
             }
+
             _apiManager = new ApiManager(eventManager, options);
 
             var logLevel = SecureNativeLogger.GetLogLevel(options.GetLogLevel());
@@ -41,30 +43,33 @@ namespace SecureNative.SDK
             return _securenative;
         }
 
-        public static SecureNative Init(string apiKey)
+        public static SecureNative Init(string value)
         {
-            if (string.IsNullOrEmpty(apiKey))
+            if (value.Contains("/") || value.Contains("\""))
             {
-                throw new SecureNativeConfigException("You must pass your SecureNative api key");
+                if (string.IsNullOrEmpty(value))
+                {
+                    throw new SecureNativeConfigException("You must pass your SecureNative api key");
+                }
+
+                var builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
+                var secureNativeOptions = builder.WithApiKey(value).Build();
+                return Init(secureNativeOptions);
             }
-            var builder = SecureNativeConfigurationBuilder.DefaultConfigBuilder();
-            var secureNativeOptions = builder.WithApiKey(apiKey).Build();
-            return Init(secureNativeOptions);
+            else
+            {
+                var secureNativeOptions = ConfigurationManager.LoadConfig(value);
+                return Init(secureNativeOptions);
+            }
         }
-
-
-        public static SecureNative Init()
-        {
-            var secureNativeOptions = ConfigurationManager.LoadConfig();
-            return Init(secureNativeOptions);
-        }
-
+        
         public static SecureNative GetInstance()
         {
             if (_securenative == null)
             {
                 throw new SecureNativeSdkIllegalStateException();
             }
+
             return _securenative;
         }
 
@@ -98,7 +103,7 @@ namespace SecureNative.SDK
             if (request.Headers[SignatureUtils.SignatureHeader] == null) return false;
             var requestSignature = request.Headers.GetValues(SignatureUtils.SignatureHeader)?.ToString();
 
-            var res = (HttpWebResponse)request.GetResponse();
+            var res = (HttpWebResponse) request.GetResponse();
             var sr = new StreamReader(res.GetResponseStream()!, Encoding.Default);
             var body = sr.ReadToEnd();
             sr.Close();
