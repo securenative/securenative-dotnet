@@ -49,8 +49,7 @@ namespace SecureNative.Tests
                 eventManager.StopEventsPersist();
             }
         }
-
-
+        
         [TestMethod]
         public void ShouldCallVerifyEventTest()
         {

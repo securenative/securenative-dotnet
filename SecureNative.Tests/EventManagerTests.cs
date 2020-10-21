@@ -19,7 +19,6 @@ namespace SecureNative.Tests
         private static readonly EventOptions EOptions = new EventOptions(EventTypes.LOG_IN.ToString(), "12345");
         private readonly SdkEvent _e = new SdkEvent(EOptions, Options);
 
-
         [TestMethod]
         public void ShouldSuccessfullySendSyncEventWithStatusCode200Test()
         {   
@@ -40,8 +39,7 @@ namespace SecureNative.Tests
                 eventManager.StopEventsPersist();
             }
         }
-
-
+        
         [TestMethod]
         public void ShouldSendSyncEventAndFailWhenStatusCode401Test()
         {
