@@ -41,7 +41,13 @@ namespace SecureNative.SDK.Utils
             var cookie = "";
             try
             {
-                cookie = request.Headers.GetValues(cookieName)?[0];
+                cookie = request.Headers[cookieName];
+
+                if (cookie != null && cookie.Equals(""))
+                {
+                    var cookies = request.Headers["Cookie"];
+                    cookie = ParseCookie(cookies, cookieName);
+                }
             }
             catch (Exception)
             {
@@ -49,6 +55,20 @@ namespace SecureNative.SDK.Utils
             }
 
             return cookie;
+        }
+
+        private static string ParseCookie(string cookieString, string cookieName)
+        {
+            var cookies = cookieString.Split(";");
+            foreach (var cookie in cookies)
+            {
+                if (cookie.Contains(cookieName))
+                {
+                    return cookie.Replace("_sn=", "");
+                }
+            }
+
+            return "";
         }
 
         public static string GetClientIpFromRequest(HttpWebRequest request, SecureNativeOptions options)

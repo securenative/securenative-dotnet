@@ -55,7 +55,7 @@ SecureNative can automatically load your config from *securenative.json* file or
 using SecureNative.SDK;
 
 
-SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init("path/to/securenative.json");
+SecureNative.SDK.Client securenative = SecureNative.SDK.SecureNative.Init("path/to/securenative.json");
 ```
 ### Option 2: Initialize via API Key
 
@@ -63,7 +63,7 @@ SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init(
 using SecureNative.SDK;
 
 
-SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init("YOUR_API_KEY");
+SecureNative.SDK.Client securenative = SecureNative.SDK.SecureNative.Init("YOUR_API_KEY");
 ```
 
 ### Option 3: Initialize via ConfigurationBuilder
@@ -77,7 +77,7 @@ SecureNativeOptions Options = ConfigurationManager.ConfigBuilder()
                                 .WithLogLevel("error")
                                 .Build());
 
-SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.Init(Options);
+SecureNative.SDK.Client securenative = SecureNative.SDK.SecureNative.Init(Options);
 ```
 
 ## Getting SecureNative instance
@@ -86,7 +86,7 @@ Once initialized, sdk will create a singleton instance which you can get:
 using SecureNative.SDK;
 
 
-SecureNative.SDK.SecureNative securenative = SecureNative.SDK.SecureNative.GetInstance();
+SecureNative.SDK.Client securenative = SecureNative.SDK.SecureNative.GetInstance();
 ```
 
 ## Tracking events
@@ -102,9 +102,9 @@ using SecureNative.SDK;
 // GET: /events/track
 public void Track()
 {
-    var securenative = SecureNative.SDK.SecureNative.GetInstance();
+    var securenative = SecureNative.SDK.Client.GetInstance();
 
-    var context = SecureNative.SDK.SecureNative.ContextBuilder()
+    var context = SecureNative.SDK.Client.ContextBuilder()
          .WithIp("127.0.0.1")
          .WithClientToken("SECURENATIVE_CLIENT_TOKEN")
          .WithHeaders(new Dictionary<string, string> { { "user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36" } })
@@ -132,8 +132,8 @@ using SecureNative.SDK;
 // GET: /events/track
 public void Track()
 {
-    var securenative = SecureNative.SDK.SecureNative.GetInstance();
-    var context = SecureNativeContextBuilder.FromHttpRequest(Request).Build();
+    var securenative = SecureNative.SDK.Client.GetInstance();
+    var context = SecureNative.SDK.Client.FromHttpRequest(Request).Build();
 
     var eventOptions = EventOptionsBuilder.Builder(EventTypes.LOG_IN)
         .WithUserId("1234")
@@ -159,8 +159,8 @@ using SecureNative.SDK;
 // GET: /events/verify
 public void Verify()
 {
-    var securenative = SecureNative.SDK.SecureNative.GetInstance();
-    var context = SecureNativeContextBuilder.FromHttpRequest(Request).Build();
+    var securenative = SecureNative.SDK.Client.GetInstance();
+    var context = SecureNative.SDK.Client.FromHttpRequest(Request).Build();
 
     var eventOptions = EventOptionsBuilder.Builder(EventTypes.LOG_IN)
         .WithUserId("1234")
@@ -189,7 +189,7 @@ using SecureNative.SDK;
 // GET: /webhook
 public void WebhookEndpoint()
 {
-    var securenative = SecureNative.SDK.SecureNative.GetInstance();
+    var securenative = SecureNative.SDK.Client.GetInstance();
     
     // Checks if request is verified
     var isVerified = securenative.VerifyRequestPayload(Request);

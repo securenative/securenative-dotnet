@@ -5,7 +5,7 @@
     <RootNamespace>SecureNative.SDK</RootNamespace>
     <AssemblyName>SecureNative.SDK</AssemblyName>
     <ProjectGuid>{F7AAD3F9-6BFA-4C68-AA26-90D5DA609012}</ProjectGuid>
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>2.0.1</PackageVersion>
     <PackageName></PackageName>
     <Authors>SecureNative</Authors>
     <Owners>SecureNative</Owners>

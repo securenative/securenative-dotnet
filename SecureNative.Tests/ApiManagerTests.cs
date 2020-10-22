@@ -18,7 +18,7 @@ namespace SecureNative.Tests
                     .WithAutoSend(true)
                     .WithInterval(10).Build();
 
-        private readonly SecureNativeContext _context = SDK.SecureNative.ContextBuilder()
+        private readonly SecureNativeContext _context = SDK.Client.ContextBuilder()
             .WithIp("127.0.0.1")
             .WithClientToken("SECURED_CLIENT_TOKEN")
             .WithHeaders(new Dictionary<string, string>() { { "user-agent", "Mozilla/5.0 (iPad; U; CPU OS 3_2_1 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Mobile/7B405" } })
