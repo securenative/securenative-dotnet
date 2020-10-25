@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using SecureNative.SDK.Config;
 using SecureNative.SDK.Context;
 using SecureNative.SDK.Exceptions;
@@ -22,8 +23,6 @@ namespace SecureNative.SDK
                 throw new SecureNativeSdkException("You must pass your SecureNative api key");
             }
 
-            _options = options;
-
             var eventManager = new EventManager(options);
             if (options.IsAutoSend())
             {
@@ -40,6 +39,7 @@ namespace SecureNative.SDK
         {
             if (_securenative != null) throw new SecureNativeSdkException("This SDK was already initialized");
             _securenative = new Client(options);
+            _options = options;
             return _securenative;
         }
 
@@ -73,7 +73,7 @@ namespace SecureNative.SDK
             return _securenative;
         }
 
-        public SecureNativeOptions GetOptions()
+        public static SecureNativeOptions GetOptions()
         {
             return _options;
         }
@@ -99,6 +99,11 @@ namespace SecureNative.SDK
         }
 
         public static SecureNativeContextBuilder FromHttpRequest(HttpWebRequest request)
+        {
+            return SecureNativeContextBuilder.FromHttpRequest(request, _options);
+        }
+        
+        public static SecureNativeContextBuilder FromHttpRequest(HttpRequest request)
         {
             return SecureNativeContextBuilder.FromHttpRequest(request, _options);
         }

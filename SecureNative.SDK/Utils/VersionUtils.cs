@@ -5,7 +5,7 @@
         public static string GetVersion()
         {
             // TODO: parse version correctly
-            return "2.0.0";
+            return "2.0.2";
         }
     }
 }

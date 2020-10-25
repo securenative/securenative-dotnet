@@ -41,7 +41,14 @@ namespace SecureNative.SDK.Utils
             var cookie = "";
             try
             {
-                cookie = request.Headers[cookieName];
+                try
+                {
+                    cookie = request.Headers[cookieName];
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
 
                 if (cookie != null && cookie.Equals(""))
                 {
@@ -62,9 +69,9 @@ namespace SecureNative.SDK.Utils
             var cookies = cookieString.Split(";");
             foreach (var cookie in cookies)
             {
-                if (cookie.Contains(cookieName))
+                if (cookie.Contains(cookieName) && !cookie.Contains("_sncid="))
                 {
-                    return cookie.Replace("_sn=", "");
+                    return cookie.Replace(cookieName + "=", "");
                 }
             }
 
@@ -154,7 +161,20 @@ namespace SecureNative.SDK.Utils
             var cookie = "";
             try
             {
-                cookie = request.Headers[cookieName][0];
+                try
+                {
+                    cookie = request.Headers[cookieName][0];
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+
+                if (cookie != null && cookie.Equals(""))
+                {
+                    var cookies = request.Headers["Cookie"];
+                    cookie = ParseCookie(cookies, cookieName);
+                }
             }
             catch (Exception)
             {
@@ -164,8 +184,19 @@ namespace SecureNative.SDK.Utils
             return cookie;
         }
 
-        public static string GetClientIpFromRequest(HttpRequest request)
+        public static string GetClientIpFromRequest(HttpRequest request, SecureNativeOptions options)
         {
+            if (options?.GetProxyHeaders() != null)
+            {
+                foreach (var header in options.GetProxyHeaders())
+                {
+                    if (request.Headers[header][0] != null)
+                    {
+                        return request.Headers[header][0];
+                    }
+                }
+            }
+            
             try
             {
                 foreach (var header in IpHeaders.Where(header => request.Headers[header].Count > 0))

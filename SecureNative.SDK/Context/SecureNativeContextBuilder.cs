@@ -57,7 +57,7 @@ namespace SecureNative.SDK.Context
             return this;
         }
 
-        public static SecureNativeContextBuilder FromHttpRequest(HttpRequest request)
+        public static SecureNativeContextBuilder FromHttpRequest(HttpRequest request, SecureNativeOptions options)
         {
             var headers = RequestUtils.GetHeadersFromRequest(request);
 
@@ -72,7 +72,7 @@ namespace SecureNative.SDK.Context
                 .WithMethod(request.Method)
                 .WithHeaders(headers)
                 .WithClientToken(clientToken)
-                .WithIp(RequestUtils.GetClientIpFromRequest(request))
+                .WithIp(RequestUtils.GetClientIpFromRequest(request, options))
                 .WithRemoteIp(RequestUtils.GetRemoteIpFromRequest(request))
                 .WithBody(null);
         }
