@@ -70,12 +70,12 @@ namespace SecureNative.SDK.Config
         private static string[] GetPropertyListOrEnvOrDefault(JObject properties, string key, object defaultValue)
         {
             object res = properties.GetValue(key);
-            var data = "";
-            if (res != null)
+            var data = string.Empty;
+            if (!string.IsNullOrEmpty(res?.ToString()))
             {
                 data = res.ToString();
             }
-            else if(GetEnvOrDefault(key, defaultValue) != null)
+            else if(!string.IsNullOrEmpty(GetEnvOrDefault(key, defaultValue).ToString()))
             {
                 data = GetEnvOrDefault(key, defaultValue).ToString();
             }

@@ -75,7 +75,7 @@ namespace SecureNative.SDK.Utils
                 }
             }
 
-            return "";
+            return string.Empty;
         }
 
         public static string GetClientIpFromRequest(HttpWebRequest request, SecureNativeOptions options)
@@ -84,10 +84,13 @@ namespace SecureNative.SDK.Utils
             {
                 foreach (var header in options.GetProxyHeaders())
                 {
-                    if (request.Headers.Get(header) == null) continue;
+                    if (string.IsNullOrEmpty(request.Headers.Get(header)))
+                    {
+                        continue;
+                    }
                     var ips = request.Headers.Get(header).Split(",");
                     var extracted = GetValidIp(ips);
-                    if (extracted != "")
+                    if (!string.IsNullOrEmpty(extracted))
                     {
                         return extracted;
                     }
@@ -100,7 +103,7 @@ namespace SecureNative.SDK.Utils
                 {
                     var ips = request.Headers.Get(header).Split(",");
                     var extracted = GetValidIp(ips);
-                    if (extracted != "")
+                    if (!string.IsNullOrEmpty(extracted))
                     {
                         return extracted;
                     }
@@ -108,10 +111,10 @@ namespace SecureNative.SDK.Utils
             }
             catch (Exception)
             {
-                return "";
+                return string.Empty;
             }
 
-            return "";
+            return string.Empty;
         }
 
         public static string GetRemoteIpFromRequest(HttpWebRequest request)
@@ -122,7 +125,7 @@ namespace SecureNative.SDK.Utils
                 {
                     var ips = request.Headers.Get(header).Split(",");
                     var extracted = GetValidIp(ips);
-                    if (extracted != "")
+                    if (!string.IsNullOrEmpty(extracted))
                     {
                         return extracted;
                     }
@@ -131,10 +134,10 @@ namespace SecureNative.SDK.Utils
             }
             catch (Exception)
             {
-                return "";
+                return string.Empty;
             }
 
-            return "";
+            return string.Empty;
         }
 
         public static Dictionary<string, string> GetHeadersFromRequest(HttpRequest request)
@@ -206,7 +209,7 @@ namespace SecureNative.SDK.Utils
                 {
                     if (request.Headers[header].ToArray() == null) continue;
                     var extracted = GetValidIp(request.Headers[header].ToArray());
-                    if (extracted != "")
+                    if (!string.IsNullOrEmpty(extracted))
                     {
                         return extracted;
                     }
@@ -218,7 +221,7 @@ namespace SecureNative.SDK.Utils
                 foreach (var header in IpHeaders.Where(header => request.Headers[header].Count > 0))
                 {
                     var extracted = GetValidIp(request.Headers[header].ToArray());
-                    if (extracted != "")
+                    if (!string.IsNullOrEmpty(extracted))
                     {
                         return extracted;
                     }
@@ -231,10 +234,10 @@ namespace SecureNative.SDK.Utils
             }
             catch (Exception)
             {
-                return "";
+                return string.Empty;
             }
 
-            return "";
+            return string.Empty;
         }
 
         public static string GetRemoteIpFromRequest(HttpRequest request)
@@ -244,7 +247,7 @@ namespace SecureNative.SDK.Utils
                 foreach (var header in IpHeaders.Where(header => request.Headers[header].Count > 0))
                 {
                     var extracted = GetValidIp(request.Headers[header].ToArray());
-                    if (extracted != "")
+                    if (!string.IsNullOrEmpty(extracted))
                     {
                         return extracted;
                     }
@@ -257,10 +260,10 @@ namespace SecureNative.SDK.Utils
             }
             catch (Exception)
             {
-                return "";
+                return string.Empty;
             }
 
-            return "";
+            return string.Empty;
         }
         
         private static string GetValidIp(IEnumerable<string> ipAddresses) {
@@ -284,7 +287,7 @@ namespace SecureNative.SDK.Utils
                 }
             }
 
-            return "";
+            return string.Empty;
         }
     }
 }
