@@ -71,7 +71,7 @@ namespace SecureNative.SDK.Utils
             {
                 if (cookie.Contains(cookieName) && !cookie.Contains("_sncid="))
                 {
-                    return cookie.Replace(cookieName + "=", "");
+                    return cookie.Replace(cookieName + "=", "").Trim();
                 }
             }
 
@@ -84,9 +84,12 @@ namespace SecureNative.SDK.Utils
             {
                 foreach (var header in options.GetProxyHeaders())
                 {
-                    if (request.Headers.Get(header) != null)
+                    if (request.Headers.Get(header) == null) continue;
+                    var ips = request.Headers.Get(header).Split(",");
+                    var extracted = GetValidIp(ips);
+                    if (extracted != "")
                     {
-                        return request.Headers.Get(header);
+                        return extracted;
                     }
                 }
             }
@@ -95,7 +98,12 @@ namespace SecureNative.SDK.Utils
             {
                 foreach (var header in IpHeaders.Where(header => request.Headers.Get(header) != null))
                 {
-                    return request.Headers.Get(header);
+                    var ips = request.Headers.Get(header).Split(",");
+                    var extracted = GetValidIp(ips);
+                    if (extracted != "")
+                    {
+                        return extracted;
+                    }
                 }
             }
             catch (Exception)
@@ -112,7 +120,13 @@ namespace SecureNative.SDK.Utils
             {
                 foreach (var header in IpHeaders.Where(header => request.Headers.Get(header) != null))
                 {
-                    return request.Headers.Get(header);
+                    var ips = request.Headers.Get(header).Split(",");
+                    var extracted = GetValidIp(ips);
+                    if (extracted != "")
+                    {
+                        return extracted;
+                    }
+                    
                 }
             }
             catch (Exception)
@@ -190,9 +204,11 @@ namespace SecureNative.SDK.Utils
             {
                 foreach (var header in options.GetProxyHeaders())
                 {
-                    if (request.Headers[header][0] != null)
+                    if (request.Headers[header].ToArray() == null) continue;
+                    var extracted = GetValidIp(request.Headers[header].ToArray());
+                    if (extracted != "")
                     {
-                        return request.Headers[header][0];
+                        return extracted;
                     }
                 }
             }
@@ -201,7 +217,11 @@ namespace SecureNative.SDK.Utils
             {
                 foreach (var header in IpHeaders.Where(header => request.Headers[header].Count > 0))
                 {
-                    return request.Headers[header][0];
+                    var extracted = GetValidIp(request.Headers[header].ToArray());
+                    if (extracted != "")
+                    {
+                        return extracted;
+                    }
                 }
 
                 if (request.HttpContext.Connection.LocalIpAddress != null)
@@ -223,7 +243,11 @@ namespace SecureNative.SDK.Utils
             {
                 foreach (var header in IpHeaders.Where(header => request.Headers[header].Count > 0))
                 {
-                    return request.Headers[header][0];
+                    var extracted = GetValidIp(request.Headers[header].ToArray());
+                    if (extracted != "")
+                    {
+                        return extracted;
+                    }
                 }
                 
                 if (request.HttpContext.Connection.RemoteIpAddress != null)
@@ -234,6 +258,30 @@ namespace SecureNative.SDK.Utils
             catch (Exception)
             {
                 return "";
+            }
+
+            return "";
+        }
+        
+        private static string GetValidIp(IEnumerable<string> ipAddresses) {
+            foreach (var extracted in ipAddresses)
+            {
+                var ips = extracted.Split(",");
+                foreach (var ip in ips)
+                {
+                    if (IpUtils.IsValidPublicIp(ip.Trim()))
+                    {
+                        return ip.Trim();
+                    }
+                }
+                            
+                foreach (var ip in ips)
+                {
+                    if (!IpUtils.IsLoopBack(ip.Trim()))
+                    {
+                        return ip.Trim();
+                    }
+                }
             }
 
             return "";

@@ -25,6 +25,7 @@ namespace SecureNative.Tests
             Assert.AreEqual("fatal", options.GetLogLevel());
             Assert.AreEqual(100, options.GetMaxEvents());
             Assert.AreEqual(1500, options.GetTimeout());
+            Assert.AreEqual(1, options.GetProxyHeaders().Length);
         }
 #endif
 
@@ -35,6 +36,7 @@ namespace SecureNative.Tests
 
             Assert.IsNotNull(options);
             Assert.AreEqual(1500, options.GetTimeout());
+            Assert.AreEqual(1, options.GetProxyHeaders().Length);
         }
 
         [TestMethod]
@@ -52,6 +54,7 @@ namespace SecureNative.Tests
             Assert.AreEqual(false, options.IsDisabled());
             Assert.AreEqual("fatal", options.GetLogLevel());
             Assert.AreEqual(FailOverStrategy.FAIL_OPEN, options.GetFailOverStrategy());
+            Assert.AreEqual(1, options.GetProxyHeaders().Length);
         }
 
         [TestMethod]
@@ -66,6 +69,7 @@ namespace SecureNative.Tests
             Environment.SetEnvironmentVariable("SECURENATIVE_DISABLE", "True");
             Environment.SetEnvironmentVariable("SECURENATIVE_LOG_LEVEL", "debug");
             Environment.SetEnvironmentVariable("SECURENATIVE_FAILOVER_STRATEGY", "fail-closed");
+            Environment.SetEnvironmentVariable("SECURENATIVE_PROXY_HEADERS", "CF-Connecting-Ip,Some-Random-Ip");
 
             var options = ConfigurationManager.LoadConfig("some/path");
 
@@ -78,6 +82,8 @@ namespace SecureNative.Tests
             Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_DISABLE"), options.IsDisabled().ToString());
             Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_LOG_LEVEL"), options.GetLogLevel());
             Assert.AreEqual(Environment.GetEnvironmentVariable("SECURENATIVE_FAILOVER_STRATEGY"), options.GetFailOverStrategy());
+            Assert.AreEqual(options.GetProxyHeaders()[0], "CF-Connecting-Ip");
+            Assert.AreEqual(options.GetProxyHeaders()[1], "Some-Random-Ip");
 
             Environment.SetEnvironmentVariable("SECURENATIVE_API_KEY", "");
             Environment.SetEnvironmentVariable("SECURENATIVE_API_URL", "");
@@ -88,6 +94,7 @@ namespace SecureNative.Tests
             Environment.SetEnvironmentVariable("SECURENATIVE_DISABLE", "");
             Environment.SetEnvironmentVariable("SECURENATIVE_LOG_LEVEL", "");
             Environment.SetEnvironmentVariable("SECURENATIVE_FAILOVER_STRATEGY", "");
+            Environment.SetEnvironmentVariable("SECURENATIVE_PROXY_HEADERS", "");
         }
     }
 }
