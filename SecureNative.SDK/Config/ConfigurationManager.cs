@@ -70,7 +70,17 @@ namespace SecureNative.SDK.Config
         private static string[] GetPropertyListOrEnvOrDefault(JObject properties, string key, object defaultValue)
         {
             object res = properties.GetValue(key);
-            return res == null ? new[] {GetEnvOrDefault(key, defaultValue).ToString()} : new []{ res.ToString() };
+            var data = string.Empty;
+            if (!string.IsNullOrEmpty(res?.ToString()))
+            {
+                data = res.ToString();
+            }
+            else if(!string.IsNullOrEmpty(GetEnvOrDefault(key, defaultValue).ToString()))
+            {
+                data = GetEnvOrDefault(key, defaultValue).ToString();
+            }
+            
+            return data.Split(",");
         }
 
         private static SecureNativeOptions GetOptions(JObject properties)

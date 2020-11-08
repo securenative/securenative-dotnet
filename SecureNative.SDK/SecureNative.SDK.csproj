@@ -5,7 +5,7 @@
     <RootNamespace>SecureNative.SDK</RootNamespace>
     <AssemblyName>SecureNative.SDK</AssemblyName>
     <ProjectGuid>{F7AAD3F9-6BFA-4C68-AA26-90D5DA609012}</ProjectGuid>
-    <PackageVersion>2.0.2</PackageVersion>
+    <PackageVersion>2.0.3</PackageVersion>
     <PackageName></PackageName>
     <Authors>SecureNative</Authors>
     <Owners>SecureNative</Owners>
@@ -16,7 +16,7 @@
     <PackageTags>SecureNative, SDK</PackageTags>
     <Title>SecureNative .Net SDK</Title>
     <NeutralLanguage>en</NeutralLanguage>
-    <ReleaseVersion>2.0.0</ReleaseVersion>
+    <ReleaseVersion>2.0.4</ReleaseVersion>
     <PackageId>SecureNative</PackageId>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -27,10 +27,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>1</WarningLevel>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType></DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
