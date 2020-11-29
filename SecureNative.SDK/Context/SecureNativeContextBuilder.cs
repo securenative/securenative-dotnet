@@ -59,7 +59,7 @@ namespace SecureNative.SDK.Context
 
         public static SecureNativeContextBuilder FromHttpRequest(HttpRequest request, SecureNativeOptions options)
         {
-            var headers = RequestUtils.GetHeadersFromRequest(request);
+            var headers = RequestUtils.GetHeadersFromRequest(request, options);
 
             var clientToken = RequestUtils.GetCookieValueFromRequest(request, RequestUtils.SecurenativeCookie);
             if (string.IsNullOrEmpty(clientToken))
@@ -79,7 +79,7 @@ namespace SecureNative.SDK.Context
         
         public static SecureNativeContextBuilder FromHttpRequest(HttpWebRequest request, SecureNativeOptions options)
         {
-            var headers = RequestUtils.GetHeadersFromRequest(request);
+            var headers = RequestUtils.GetHeadersFromRequest(request, options);
 
             var clientToken = RequestUtils.GetCookieValueFromRequest(request, RequestUtils.SecurenativeCookie);
             if (string.IsNullOrEmpty(clientToken))

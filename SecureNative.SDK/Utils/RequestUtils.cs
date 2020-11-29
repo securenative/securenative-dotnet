@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using SecureNative.SDK.Config;
 
@@ -17,20 +18,65 @@ namespace SecureNative.SDK.Utils
             "x-forwarded-for", "x-client-ip", "x-real-ip", "x-forwarded", "x-cluster-client-ip", "forwarded-for",
             "forwarded", "via"
         };
+        private static readonly List<string> PiiHeaders = new List<string>
+        {
+            "authorization", "access_token", "apikey", "password", "passwd", "secret", "api_key"
+        };
 
-        public static Dictionary<string, string> GetHeadersFromRequest(HttpWebRequest request)
+        public static Dictionary<string, string> GetHeadersFromRequest(HttpWebRequest request, SecureNativeOptions options)
         {
             var headers = new Dictionary<string, string>();
-            try
+            if (options?.GetPiiHeaders().Length > 0)
             {
-                foreach (var key in request.Headers.AllKeys)
+                try
                 {
-                    headers.Add(key, request.Headers[key]);
+                    foreach (var key in request.Headers.AllKeys)
+                    {
+                        if (!options.GetPiiHeaders().Contains(key))
+                        {
+                            headers.Add(key, request.Headers[key]);   
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            } else if (options != null && options.GetPiiRegexPattern() != "")
+            {
+                try
+                {
+                    var pattern = new Regex(options.GetPiiRegexPattern());
+
+                    foreach (var key in request.Headers.AllKeys)
+                    {
+                        if (!pattern.Match(key).Success)
+                        {
+                            headers.Add(key, request.Headers[key]);   
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
                 }
             }
-            catch (Exception)
+            else
             {
-                // ignored
+                try
+                {
+                    foreach (var key in request.Headers.AllKeys)
+                    {
+                        if (!PiiHeaders.Contains(key))
+                        {
+                            headers.Add(key, request.Headers[key]);   
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }   
             }
 
             return headers;
@@ -80,7 +126,7 @@ namespace SecureNative.SDK.Utils
 
         public static string GetClientIpFromRequest(HttpWebRequest request, SecureNativeOptions options)
         {
-            if (options?.GetProxyHeaders() != null)
+            if (options?.GetProxyHeaders().Length > 0)
             {
                 foreach (var header in options.GetProxyHeaders())
                 {
@@ -140,19 +186,60 @@ namespace SecureNative.SDK.Utils
             return string.Empty;
         }
 
-        public static Dictionary<string, string> GetHeadersFromRequest(HttpRequest request)
+        public static Dictionary<string, string> GetHeadersFromRequest(HttpRequest request, SecureNativeOptions options)
         {
             var headers = new Dictionary<string, string>();
-            try
+            if (options?.GetPiiHeaders().Length > 0)
             {
-                foreach (var key in request.Headers.Keys)
+                try
                 {
-                    headers.Add(key, request.Headers[key]);
+                    foreach (var key in request.Headers.Keys)
+                    {
+                        if (!options.GetPiiHeaders().Contains(key))
+                        {
+                            headers.Add(key, request.Headers[key]);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }
+            } else if (options != null && options.GetPiiRegexPattern() != "")
+            {
+                try
+                {
+                    var pattern = new Regex(options.GetPiiRegexPattern());
+
+                    foreach (var key in request.Headers.Keys)
+                    {
+                        if (!pattern.Match(key).Success)
+                        {
+                            headers.Add(key, request.Headers[key]); 
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
                 }
             }
-            catch (Exception)
+            else
             {
-                // ignored
+                try
+                {
+                    foreach (var key in request.Headers.Keys)
+                    {
+                        if (!PiiHeaders.Contains(key))
+                        {
+                            headers.Add(key, request.Headers[key]);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    // ignored
+                }   
             }
 
             return headers;
@@ -203,7 +290,7 @@ namespace SecureNative.SDK.Utils
 
         public static string GetClientIpFromRequest(HttpRequest request, SecureNativeOptions options)
         {
-            if (options?.GetProxyHeaders() != null)
+            if (options?.GetProxyHeaders().Length > 0)
             {
                 foreach (var header in options.GetProxyHeaders())
                 {

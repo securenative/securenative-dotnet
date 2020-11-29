@@ -17,7 +17,7 @@ namespace SecureNative.Tests
             var e = new EventOptions(EventTypes.LOG_IN.ToString());
             e.SetUserId("");
 
-            SdkEvent _ = new SdkEvent(e, options);
+            var _ = new SdkEvent(e, options);
         }
 
         [TestMethod]
