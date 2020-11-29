@@ -14,20 +14,24 @@ namespace SecureNative.SDK.Config
         private string LogLevel { get; set; }
         private string FailOverStrategy { get; set; }
         private string[] ProxyHeaders { get; set; }
+        private string[] PiiHeaders { get; set; }
+        private string PiiRegexPattern { get; set; }
 
         public static SecureNativeConfigurationBuilder DefaultConfigBuilder()
         {
             return new SecureNativeConfigurationBuilder()
-                    .WithApiKey("")
-                    .WithApiUrl("https://api.securenative.com/collector/api/v1")
-                    .WithInterval(1000)
-                    .WithTimeout(1500)
-                    .WithMaxEvents(1000)
-                    .WithAutoSend(true)
-                    .WithDisable(false)
-                    .WithLogLevel("fatal")
-                    .WithFailOverStrategy(Enums.FailOverStrategy.FAIL_OPEN)
-                    .WithProxyHeaders(new string[]{});
+                .WithApiKey("")
+                .WithApiUrl("https://api.securenative.com/collector/api/v1")
+                .WithInterval(1000)
+                .WithTimeout(1500)
+                .WithMaxEvents(1000)
+                .WithAutoSend(true)
+                .WithDisable(false)
+                .WithLogLevel("fatal")
+                .WithFailOverStrategy(Enums.FailOverStrategy.FAIL_OPEN)
+                .WithProxyHeaders(new string[] { })
+                .WithPiiHeaders(new string[] { })
+                .WithPiiRegexPattern("");
         }
 
         public SecureNativeConfigurationBuilder WithApiKey(string apiKey)
@@ -90,9 +94,21 @@ namespace SecureNative.SDK.Config
             return this;
         }
         
+        public SecureNativeConfigurationBuilder WithPiiHeaders(string[] piiHeaders)
+        {
+            PiiHeaders = piiHeaders;
+            return this;
+        }
+        
+        public SecureNativeConfigurationBuilder WithPiiRegexPattern(string piiRegexPattern)
+        {
+            PiiRegexPattern = piiRegexPattern;
+            return this;
+        }
+        
         public SecureNativeOptions Build()
         {
-            return new SecureNativeOptions(ApiKey, ApiUrl, Interval, MaxEvents, Timeout, AutoSend, Disable, LogLevel, FailOverStrategy, ProxyHeaders);
+            return new SecureNativeOptions(ApiKey, ApiUrl, Interval, MaxEvents, Timeout, AutoSend, Disable, LogLevel, FailOverStrategy, ProxyHeaders, PiiHeaders, PiiRegexPattern);
         }
     }
 }

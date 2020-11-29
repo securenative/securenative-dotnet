@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Net;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SecureNative.SDK.Config;
@@ -412,6 +413,130 @@ namespace SecureNative.Tests
             var clientIp = RequestUtils.GetClientIpFromRequest((HttpWebRequest)request, options);
             
             Assert.AreEqual("203.0.113.1", clientIp);
+        }
+
+        [TestMethod]
+        public void ExtractPiiDataFromHeaders()
+        {
+            var headers = new WebHeaderCollection
+            {
+                {"Host", "net.example.com"},
+                {"User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)"},
+                {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"},
+                {"Accept-Language", "en-us,en;q=0.5"},
+                {"Accept-Encoding", "gzip,deflate"},
+                {"Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7"},
+                {"Keep-Alive", "300"},
+                {"Connection", "keep-alive"},
+                {"Cookie", "PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120"},
+                {"Pragma", "no-cache"},
+                {"Cache-Control", "no-cache"},
+                {"authorization", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"access_token", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"apikey", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"password", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"passwd", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"secret", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"api_key", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},  
+            };
+            
+            var uri = new Uri("http://www.securenative.com/login");
+            var request = WebRequest.Create(uri);
+            request.Headers = headers;
+            
+            var h = RequestUtils.GetHeadersFromRequest((HttpWebRequest)request, null);
+
+            Assert.IsFalse(h.Keys.Contains("authorization"));
+            Assert.IsFalse(h.Keys.Contains("access_token"));
+            Assert.IsFalse(h.Keys.Contains("apikey"));
+            Assert.IsFalse(h.Keys.Contains("password"));
+            Assert.IsFalse(h.Keys.Contains("passwd"));
+            Assert.IsFalse(h.Keys.Contains("secret"));
+            Assert.IsFalse(h.Keys.Contains("api_key"));
+        }
+        
+        [TestMethod]
+        public void ExtractPiiDataFromCustomHeaders()
+        {
+            var headers = new WebHeaderCollection
+            {
+                {"Host", "net.example.com"},
+                {"User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)"},
+                {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"},
+                {"Accept-Language", "en-us,en;q=0.5"},
+                {"Accept-Encoding", "gzip,deflate"},
+                {"Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7"},
+                {"Keep-Alive", "300"},
+                {"Connection", "keep-alive"},
+                {"Cookie", "PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120"},
+                {"Pragma", "no-cache"},
+                {"Cache-Control", "no-cache"},
+                {"authorization", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"access_token", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"apikey", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"password", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"passwd", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"secret", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"api_key", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},  
+            };
+            
+            var uri = new Uri("http://www.securenative.com/login");
+            var request = WebRequest.Create(uri);
+            request.Headers = headers;
+            
+            var options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
+            options.SetPiiHeaders(new[] {"authorization", "access_token", "apikey", "password", "passwd", "secret", "api_key"});
+            var h = RequestUtils.GetHeadersFromRequest((HttpWebRequest)request, options);
+
+            Assert.IsFalse(h.Keys.Contains("authorization"));
+            Assert.IsFalse(h.Keys.Contains("access_token"));
+            Assert.IsFalse(h.Keys.Contains("apikey"));
+            Assert.IsFalse(h.Keys.Contains("password"));
+            Assert.IsFalse(h.Keys.Contains("passwd"));
+            Assert.IsFalse(h.Keys.Contains("secret"));
+            Assert.IsFalse(h.Keys.Contains("api_key"));
+        }
+        
+        [TestMethod]
+        public void ExtractPiiDataFromRegexPattern()
+        {
+            var headers = new WebHeaderCollection
+            {
+                {"Host", "net.example.com"},
+                {"User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.1.5) Gecko/20091102 Firefox/3.5.5 (.NET CLR 3.5.30729)"},
+                {"Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"},
+                {"Accept-Language", "en-us,en;q=0.5"},
+                {"Accept-Encoding", "gzip,deflate"},
+                {"Accept-Charset", "ISO-8859-1,utf-8;q=0.7,*;q=0.7"},
+                {"Keep-Alive", "300"},
+                {"Connection", "keep-alive"},
+                {"Cookie", "PHPSESSID=r2t5uvjq435r4q7ib3vtdjq120"},
+                {"Pragma", "no-cache"},
+                {"Cache-Control", "no-cache"},
+                {"http_auth_authorization", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"http_auth_access_token", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"http_auth_apikey", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"http_auth_password", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"http_auth_passwd", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"http_auth_secret", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},
+                {"http_auth_api_key", "ylSkZIjbdWybfs4fUQe9BqP0LH5Z"},  
+            };
+            
+            var uri = new Uri("http://www.securenative.com/login");
+            var request = WebRequest.Create(uri);
+            request.Headers = headers;
+            
+            var options = SecureNativeConfigurationBuilder.DefaultConfigBuilder().Build();
+            options.SetPiiRegexPattern(@"((?i)(http_auth_)(\w+)?)");
+            var h = RequestUtils.GetHeadersFromRequest((HttpWebRequest)request, options);
+
+            Assert.IsFalse(h.Keys.Contains("http_auth_authorization"));
+            Assert.IsFalse(h.Keys.Contains("http_auth_access_token"));
+            Assert.IsFalse(h.Keys.Contains("http_auth_apikey"));
+            Assert.IsFalse(h.Keys.Contains("http_auth_password"));
+            Assert.IsFalse(h.Keys.Contains("http_auth_passwd"));
+            Assert.IsFalse(h.Keys.Contains("http_auth_secret"));
+            Assert.IsFalse(h.Keys.Contains("http_auth_api_key"));
         }
     }
 }

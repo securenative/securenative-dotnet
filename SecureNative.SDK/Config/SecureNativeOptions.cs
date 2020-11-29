@@ -12,8 +12,10 @@
         private string LogLevel { get; set; }
         private string FailOverStrategy { get; set; }
         private string[] ProxyHeaders { get; set; }
+        private string[] PiiHeaders { get; set; }
+        private string PiiRegexPattern { get; set; }
 
-        public SecureNativeOptions(string apiKey, string apiUrl, int interval, int maxEvents, int timeout, bool autoSend, bool disable, string logLevel, string failOverStrategy, string[] proxyHeaders)
+        public SecureNativeOptions(string apiKey, string apiUrl, int interval, int maxEvents, int timeout, bool autoSend, bool disable, string logLevel, string failOverStrategy, string[] proxyHeaders, string[] piiHeaders, string piiRegexPattern)
         {
             ApiKey = apiKey;
             ApiUrl = apiUrl;
@@ -25,6 +27,8 @@
             LogLevel = logLevel;
             FailOverStrategy = failOverStrategy;
             ProxyHeaders = proxyHeaders;
+            PiiHeaders = piiHeaders;
+            PiiRegexPattern = piiRegexPattern;
         }
 
         public string GetApiKey()
@@ -125,6 +129,26 @@
         public void SetProxyHeaders(string[] value)
         {
             ProxyHeaders = value;
+        }
+        
+        public string[] GetPiiHeaders()
+        {
+            return PiiHeaders;
+        }
+
+        public void SetPiiHeaders(string[] value)
+        {
+            PiiHeaders = value;
+        }
+        
+        public string GetPiiRegexPattern()
+        {
+            return PiiRegexPattern;
+        }
+
+        public void SetPiiRegexPattern(string value)
+        {
+            PiiRegexPattern = value;
         }
     }
 }
