@@ -225,17 +225,6 @@ SecureNativeOptions Options = ConfigurationManager.ConfigBuilder()
 var securenative = Client.Init(Options);
 ```
 
-```go
-options := config.DefaultSecureNativeOptions()
-options.ApiKey = "YOUR_API_KEY"
-options.ProxyHeaders = []string{"CF-Connecting-IP"}
-    
-sn, err := sdk.InitSDK(options)
-if err != nil {
-     log.Fatal("Do some error handling")
-}
-```
-
 ## Remove PII Data From Headers
 
 By default, SecureNative SDK remove any known pii headers from the received request.
