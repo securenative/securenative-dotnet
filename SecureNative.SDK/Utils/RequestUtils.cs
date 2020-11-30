@@ -32,7 +32,7 @@ namespace SecureNative.SDK.Utils
                 {
                     foreach (var key in request.Headers.AllKeys)
                     {
-                        if (!options.GetPiiHeaders().Contains(key))
+                        if (!options.GetPiiHeaders().Contains(key.ToLower()) && !options.GetPiiHeaders().Contains(key.ToUpper()))
                         {
                             headers.Add(key, request.Headers[key]);   
                         }
@@ -67,7 +67,7 @@ namespace SecureNative.SDK.Utils
                 {
                     foreach (var key in request.Headers.AllKeys)
                     {
-                        if (!PiiHeaders.Contains(key))
+                        if (!PiiHeaders.Contains(key.ToLower()) && !PiiHeaders.Contains(key.ToUpper()))
                         {
                             headers.Add(key, request.Headers[key]);   
                         }
@@ -195,7 +195,7 @@ namespace SecureNative.SDK.Utils
                 {
                     foreach (var key in request.Headers.Keys)
                     {
-                        if (!options.GetPiiHeaders().Contains(key))
+                        if (!options.GetPiiHeaders().Contains(key.ToLower()) && !options.GetPiiHeaders().Contains(key.ToUpper()))
                         {
                             headers.Add(key, request.Headers[key]);
                         }
@@ -230,7 +230,7 @@ namespace SecureNative.SDK.Utils
                 {
                     foreach (var key in request.Headers.Keys)
                     {
-                        if (!PiiHeaders.Contains(key))
+                        if (!PiiHeaders.Contains(key.ToUpper()) && !PiiHeaders.Contains(key.ToLower()))
                         {
                             headers.Add(key, request.Headers[key]);
                         }
